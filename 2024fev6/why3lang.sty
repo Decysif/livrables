@@ -1,0 +1,56 @@
+
+\RequirePackage{listings}
+\RequirePackage{amssymb}
+
+\lstdefinelanguage{why3}
+{
+morekeywords=[1]{predicate,goal,type,use,import,theory,end,in,%
+mutable,invariant,model,raises,returns,reads,writes,meta,coercion,%
+variant,let,val,while,for,do,done,loop,abstract,private,any,assume,check,%
+rec,clone,if,then,else,label,%
+module,exception,try,raise,%
+export,match,with,not,inductive,coinductive,
+syntax},%
+keywordstyle=[1]{\color{blue}},%
+morekeywords=[2]{requires,ensures,result,axiom,ghost,old,function,assert,%
+constant,forall,exists,lemma,forall,exists,self,alias,by,so},%
+keywordstyle=[2]{\color{blue}},%
+otherkeywords={},%
+commentstyle=\itshape\color[rgb]{0,0.5,0},%
+columns=[l]fullflexible,%
+sensitive=true,%
+morecomment=[s]{(*}{*)},%
+morestring=[b]",%
+stringstyle=\color{red},%
+escapeinside={*?}{?*},%
+keepspaces=true,
+literate=%
+%{'a}{$\alpha$}{1}%
+%{'b}{$\beta$}{1}%
+{<}{$<$}{1}%
+{<<}{<{}<}{1}%
+{>}{$>$}{1}%
+{<=}{$\le$}{1}%
+{>=}{$\ge$}{1}%
+{<>}{$\ne$}{1}%
+{/\\}{$\land$}{1}%
+{\\/}{$\lor$}{3}%
+{\ or(}{$\lor$(}{3}%
+% {not\ }{$\lnot$ }{1}%
+% {not(}{$\lnot$(}{1}%
+{+->}{\texttt{+->}}{2}%
+% {+->}{$\mapsto$}{2}%
+{-->}{\texttt{-\relax->}}{2}%
+%{-->}{$\longrightarrow$}{2}%
+{->}{$\rightarrow$}{2}%
+{<-}{$\leftarrow$}{2}%
+{<->}{$\leftrightarrow$}{2}%
+%
+%
+}
+
+\lstnewenvironment{why3}{\lstset{language=why3,xleftmargin=2em}}{}
+\lstnewenvironment{why3num}{\lstset{language=why3,xleftmargin=4em,%
+numbers=left,numberstyle=\tiny}}{}
+
+\newcommand{\w}[1]{\lstinline[language=why3,basicstyle=\ttfamily]{#1}}
