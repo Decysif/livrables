@@ -149,11 +149,17 @@
   \end{block}
 
 
-  \begin{block}{Why3 bench}
+  \begin{block}{\texttt{why3 bench}}
     \begin{itemize}
     \item Execution d'un ensemble de prouveurs sur un jeu de tests
       (en \why{.mlw} ou en \why{.sexp})
     \item Execution interruptible en cas de gros jeu de données
+    \end{itemize}
+
+  \end{block}
+
+  \begin{block}{\texttt{why3 session info -{}-stats -{}-graph}}
+    \begin{itemize}
     \item Statistiques sur les résultats, graphiques
     \end{itemize}
 
@@ -162,10 +168,10 @@
 \end{frame}
 
 
-\begin{frame}[fragile]{Exemple: Z3 \texttt{--nombqi}}
+\begin{frame}[fragile]{Exemple: Z3 option \texttt{-{}-nombqi}}
 
 \begin{lstlisting}
-> ~/why3/bin/why3 session info --provers-stats bench_z3_nombqi/sessions/*/*.xml bench_z3_nombqi/sessions/*/*/*.xml
+> why3 session info --provers-stats sessions/*/*.xml sessions/*/*/*.xml
 381 session(s) read, with a total of 40898 proof goals.
 == Statistics per prover: number of proof attempts, successful ones, time (minimum/maximum/average) in seconds ==
   Z3 4.12.2                     : 40898 30776   0.00   4.81   0.07
@@ -175,7 +181,7 @@
 \end{frame}
 
 
-\begin{frame}{Exemple: Z3 \texttt{--nombqi} avec \texttt{--graph=hist}}
+\begin{frame}{Exemple: Z3 \texttt{-{}-nombqi} avec \texttt{-{}-graph=hist}}
 
   \begin{center}
     \includegraphics[width=\textwidth]{z3_nombqi.jpg}
@@ -191,14 +197,13 @@
 
 \end{frame}
 
-\begin{frame}{Why3 bench: future work}
+\begin{frame}{Why3 bench/session: future work}
 
   \begin{itemize}
-  \item Meilleurs statistiques, par exemple
+  \item Meilleures statistiques, par exemple
     \begin{itemize}
     \item Temps médian plutôt que temps moyen
     \item Afficher infos de \why{--graph=hist} aussi avec \why{--provers-stats}
-    \item Suggestions bienvenues (sous forme de ticket Why3, svp)
   \end{itemize}
 
 \item Pouvoir comparer des modèles WhyML différents
@@ -206,6 +211,11 @@
 \item Avoir des statistiques pour les contre-exemples
 
 %\item Constituer plus jeux de tests, tester plus de configurations de prouveurs!
+
+  \begin{block}{Suggestions bienvenues}
+    (sous forme de ticket Why3, svp)
+  \end{block}
+
 \end{itemize}
 
 \end{frame}
