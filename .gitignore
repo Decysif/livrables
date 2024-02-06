@@ -5,4 +5,12 @@
 *.snm
 *.toc
 *.vrb
+*.bbl
+*.blg
+*.lof
 *~
+
+
+/2024fev6/*.pdf
+
+/L3.1/*.pdf

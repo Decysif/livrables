@@ -1,0 +1,195 @@
+\documentclass[a4paper,twoside]{article}
+
+% fonts
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage[scaled=0.8]{beramono}
+
+% geometry
+\usepackage[a4paper,centering]{geometry}
+\setlength{\marginparwidth}{2cm}
+
+% Inria research report
+\usepackage{RR}
+
+% extra packages
+
+\usepackage{hyperref}
+\usepackage{xspace}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+
+\usepackage[color=yellow!45!white,linecolor=black,textsize=footnotesize]{todonotes}
+
+\usepackage{why3lang}
+
+% placement of figures
+\renewcommand\floatpagefraction{0.99}
+\renewcommand{\textfraction}{0.01}
+\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{0.99}
+\setcounter{topnumber}{4}
+% \setcounter{bottomnumber}{4}
+% \setcounter{totalnumber}{8}
+
+
+\newcommand{\ie}{\textit{i.e.\/}\xspace}
+\newcommand{\eg}{\textit{e.g.\/}\xspace}
+
+
+\RRNo{XXXX}    % TODO
+% \RTNo{XXXX}
+%%
+%% date de publication du rapport
+\RRdate{xxx 2024}
+%%
+%% Cas d'une version deux
+%% \RRversion{2}
+%% date de publication de la version 2
+%% \RRdater{November 2008}
+%%
+\RRauthor{% les auteurs
+  Claude Marché\thanks[toccata]{Université Paris-Saclay, CNRS, ENS Paris-Saclay, Inria,
+    LMF, 91190, Gif-sur-Yvette, France}
+}
+%% Ceci apparait sur chaque page paire.
+\authorhead{Marché}
+%% titre francais long
+\RRtitle{Un état de l'art des modèles mémoires pour les programmes à pointeurs\thanks{Ces recherches ont été partiellement financées par Décysif TODO....}}
+%% English title
+\RRetitle{A state-of-the-art of memory models for pointer programs\thanks{This work has been partially supported by Décysif... TODO}}
+%%
+\titlehead{Memory Models for Pointer Programs}
+%%
+% \RRnote{This is a note}
+% \RRnote{This is a second note}
+%%
+\RRresume{A FAIRE}
+
+\RRabstract{TO DO}
+
+%%
+\RRmotcle{Vérification déductive, Programmes à pointeurs, Modèles mémoire}
+%
+\RRkeyword{Deductive Verification, Pointer programs, Memory models}
+%%
+\RRprojet{Toccata}  % cas d'un seul projet
+% \RRprojets{Apics and Op\'era and Marelle}
+%%
+%% \URLorraine % pour ceux qui sont \`a l'est
+%% \URRennes  % pour ceux qui sont \`a l'ouest
+%% \URRhoneAlpes % pour ceux qui sont dans les montagnes
+%% \URRocq % pour ceux qui sont au centre de la France
+%% \URFuturs % pour ceux qui sont dans le virtuel
+%% \URSophia % pour ceux qui sont au Sud.
+%%
+%% \RCBordeaux % centre de recherche Bordeaux - Sud Ouest
+%% \RCLille % centre de recherche Lille Nord Europe
+%% \RCParis % Paris Rocquencourt
+\RCSaclay % Saclay \^Ile de France
+%% \RCGrenoble % Grenoble - Rh\^one-Alpes
+%% \RCNancy % Nancy - Grand Est
+%% \RCRennes % Rennes - Bretagne Atlantique
+%% \RCSophia % Sophia Antipolis M\'editerran\'ee
+
+
+% \maketitle
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{theorem}[definition]{Theorem}
+
+
+\begin{document}
+\sloppy\hbadness=9999
+%%
+\makeRR   % cas d'un rapport de recherche
+% \makeRT % cas d'un rapport technique.
+%% a partir d'ici, chacun fait comme il le souhaite
+
+
+\tableofcontents
+\clearpage
+
+\listoffigures
+
+\clearpage
+
+\section{Introduction}
+
+What is deductive verification, what is the challenge with pointer programs, aliasing,
+what are memory models.
+
+The case of Décysif project: the case of tools Why3, SPARK, J3 and Creusot.
+
+Generalities about memory models
+
+Overview of the document.
+
+\section{The memory model of Why3}
+
+The region-based aliasing analysis of Why3~\cite{gondelman16reg}.
+
+Common current issues. E.g. with specification, with proof automation, with
+counterexamples.
+
+\section{The memory model of Spark}
+
+Complete absence of pointers at first, then partial support of pointers, aliased
+controlled using a borrow checker~\cite{dross20cav,jaloyan20icfem}.
+
+How the translation to Why3 works.
+
+Common current issues. E.g. with specification, with proof automation, with
+counterexamples.
+
+\section{The memory model of J3}
+
+Aims at supporting low-level C code, with arbitrary pointer casts. Inspired by
+CompCert V2~\cite{leroy12rr}. Not yet supported but future work: static analysis
+of separation similar to the old plugin
+Jessie~\cite{hubert2008these,hubert07hav}.
+
+How the translation to Why3 works.
+
+\section{The memory model of Creusot}
+
+Relies on Rust's borrow checker to propose a translation to Why3. mutable
+borrows are translated to pairs of current value and future final value
+(prophecy).\cite{denis23phd,denis22icfem,matsushita22pldi}.
+
+\section{Conclusions and Future Work}
+
+Future work
+\begin{itemize}
+\item New intermediate language in Why3, continuation-based. On going thesis of
+  Paul Patault.
+\item Separation analysis for J3.
+\item Support for concurrency in Creusot, Support for ghost aliasing, on-going
+  thesis of Arnaud Golfouse.
+\item Better support for counterexamples, needs to makes memory models more
+  concrete, more ``executable-like''
+\end{itemize}
+
+\bibliographystyle{plainurl}
+%\bibliography{abbrevs,demons,demons2,demons3,team,crossrefs}
+\bibliography{generated,extra}
+
+%\clearpage
+
+
+\end{document}
+
+% Local Variables:
+% mode: latex
+% TeX-master: t
+% TeX-PDF-mode: t
+% mode: flyspell
+% ispell-local-dictionary: "british"
+% fill-column: 80
+% End:
