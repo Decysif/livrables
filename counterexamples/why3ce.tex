@@ -1,0 +1,348 @@
+\documentclass[a4paper,twoside]{article}
+
+% fonts
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage[scaled=0.8]{beramono}
+
+% geometry
+\usepackage[a4paper,centering]{geometry}
+\setlength{\marginparwidth}{2cm}
+
+% Inria research report
+\usepackage{RR}
+
+% extra packages
+
+\usepackage{hyperref}
+\usepackage{xspace}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+
+\usepackage[color=yellow!45!white,linecolor=black,textsize=footnotesize]{todonotes}
+
+\usepackage{why3lang}
+
+% placement of figures
+\renewcommand\floatpagefraction{0.99}
+\renewcommand{\textfraction}{0.01}
+\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{0.99}
+\setcounter{topnumber}{4}
+% \setcounter{bottomnumber}{4}
+% \setcounter{totalnumber}{8}
+
+
+\newcommand{\ie}{\textit{i.e.\/}\xspace}
+\newcommand{\eg}{\textit{e.g.\/}\xspace}
+
+
+\RRNo{XXXX}    % TODO
+% \RTNo{XXXX}
+%%
+%% date de publication du rapport
+\RRdate{xxx 2024}
+%%
+%% Cas d'une version deux
+%% \RRversion{2}
+%% date de publication de la version 2
+%% \RRdater{November 2008}
+%%
+\RRauthor{% les auteurs
+  Claude Marché\thanks[toccata]{Université Paris-Saclay, CNRS, ENS Paris-Saclay, Inria,
+    LMF, 91190, Gif-sur-Yvette, France}
+}
+%% Ceci apparait sur chaque page paire.
+\authorhead{Marché}
+%% titre francais long
+\RRtitle{Format des contre-exemples\thanks{Ces recherches ont été partiellement financées par Décysif TODO....}}
+%% English title
+\RRetitle{Counterexamples formats\thanks{This work has been partially supported by Décysif... TODO}}
+%%
+\titlehead{Counterexamples Formats}
+%%
+% \RRnote{This is a note}
+% \RRnote{This is a second note}
+%%
+\RRresume{A FAIRE}
+
+\RRabstract{TO DO}
+
+%%
+\RRmotcle{Vérification déductive, Solveurs SMT, contre-exemples}
+%
+\RRkeyword{Deductive Verification, SMT solvers, counterexamples}
+%%
+\RRprojet{Toccata}  % cas d'un seul projet
+% \RRprojets{Apics and Op\'era and Marelle}
+%%
+%% \URLorraine % pour ceux qui sont \`a l'est
+%% \URRennes  % pour ceux qui sont \`a l'ouest
+%% \URRhoneAlpes % pour ceux qui sont dans les montagnes
+%% \URRocq % pour ceux qui sont au centre de la France
+%% \URFuturs % pour ceux qui sont dans le virtuel
+%% \URSophia % pour ceux qui sont au Sud.
+%%
+%% \RCBordeaux % centre de recherche Bordeaux - Sud Ouest
+%% \RCLille % centre de recherche Lille Nord Europe
+%% \RCParis % Paris Rocquencourt
+\RCSaclay % Saclay \^Ile de France
+%% \RCGrenoble % Grenoble - Rh\^one-Alpes
+%% \RCNancy % Nancy - Grand Est
+%% \RCRennes % Rennes - Bretagne Atlantique
+%% \RCSophia % Sophia Antipolis M\'editerran\'ee
+
+
+% \maketitle
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{theorem}[definition]{Theorem}
+
+
+\begin{document}
+\sloppy\hbadness=9999
+%%
+\makeRR   % cas d'un rapport de recherche
+% \makeRT % cas d'un rapport technique.
+%% a partir d'ici, chacun fait comme il le souhaite
+
+
+\tableofcontents
+\clearpage
+
+\listoffigures
+
+\clearpage
+
+\section{Introduction}
+
+What is deductive verification, how SMT solvers are used, how counterexamples are produced
+
+Overview of the document.
+
+\section{Counterexamples pour les buts logiques}
+
+
+Pour un but logique:
+\begin{lstlisting}
+constant g1 : t    (* constante globale non-interpretee *)
+
+constant g2 : t    (* constante globale non-interpretee *)
+
+function f y1 ... yn : t   (* function logique non-interpretee *)
+
+predicate p z1 .. zm     (* predicat non-interprete *)
+
+goal g : forall x1 ... xk. F
+\end{lstlisting}
+
+un contre-example doit proposer:
+\begin{itemize}
+\item une valeur pour chaque constante non-interprétée
+\item une valeur fonctionnelle pour chaque fonction non-interpretée
+\item une valeur fonctionnelle pour chaque prédicat non-interpreté
+\item une valeur pour les variables universellement quantifiées en tete du but
+\end{itemize}
+Les valeurs des objets du contexte doivent etre données aussi pour les objets
+qui viennent de modules importés.
+
+
+La validation d'un tel contre-exemple doit procéder en construisant la tache ``instanciée''
+\begin{lstlisting}
+constant g1 : t = ... (* valeur proposee pour g1 *)
+
+constant g2 : t = ...  (* valeur proposee pour g2 *)
+
+function f y1 ... yn : t = ... (* definition proposee pour f *)
+
+predicate p z1 .. zm = ...  (* definition proposee pour p *)
+
+constant x1 = ... (* valeur proposee pour x1 *)
+
+...
+
+constant xk = ... (* valeur proposee pour xk *)
+
+goal g : not F
+\end{lstlisting}
+si cette tache est prouvée, alors le CE est validé
+
+Note: si le modele proposé par le solveur est incomplet, on peut générer une
+tache similaire, où les valeurs inconnues restent des déclarations non
+interprétées. Si la tache instanciée est prouvée, le CE est validé aussi.
+
+Note: un ``one-liner'' contre-exemple serait la restriction des valeurs aux
+seuls variables liées $z_1,..,x_k$.
+
+Si la tache instanciée n'est pas prouvée, on peut tenter de tester la meme tache
+mais avec le but sans negation. Si cette seconde tache est prouvée, le CE est
+forcement invalide et doit etre rejeté. Si aucune des taches avec F ou not F
+n'est prouvée, on peut dire a l'utilisateur que le cCE n'a pas pu etre validé,
+et lui proposer le CE sans garantie.
+
+
+\section{Contrexemple pour des VCs d'un programme: Cas d'un code sans conditionnelle, sans boucle et sans appel de fonction}
+
+Ce cas peut se résumer à la forme
+
+\begin{lstlisting}
+<contexte global, avec objets non-interpretes>
+
+let f x1 .. xk : t
+  requires { P }
+  ensures { Q }
+= ... (* assignments, local vars with let .. in *)
+  assert { A }
+  ...;
+  e
+\end{lstlisting}
+Les parametres peuvent etre des references mutables, de meme que les variables
+locales peuvent etre mutables aussi.
+
+pour la VC qui concerne l'assertion $A$, un contre-exemple doit proposer
+\begin{itemize}
+\item Des valeurs pour chaque objet logique non-interprété du contexte
+\item des valeurs pour les parametres $x_1,..x_k$, valeurs ``initiales'' si ce
+  sont des references mutables.
+\end{itemize}
+
+La validation d'un CE proposé consiste alors à executer le code depuis l'entrée
+de la fonction $f$ avec les valeurs initiales de $x_1,..,x_k$. Lorsque l'execution atteint l'assertion, avec un environnement d'execution $E$ qui donne des valeurs courantes pour les $x_1...,x_k$ ainsi que les variables locales, la formule $A$ doit etre testée avec une tache de la forme
+\begin{lstlisting}
+(* definitions proposees pour les objets logiques globaux *)
+
+constant x1 = ... (* valeur courante pour x1 calculee par l'execution *)
+
+...
+
+constant xk = ... (* valeur courante pour xk calculee par l'execution *)
+
+
+constant l1 = ... (* valeurs courantes pour les variables locales, calculees par l'execution *)
+
+goal g : not A
+\end{lstlisting}
+si la tache est prouvée, le contre-exemple est validée.
+
+Le ``one-liner'' CE consiste en les valeurs courantes de $x_1,..x_k,l1,...$
+
+\subsection{cas de plusieurs assertions}
+
+Lorsque l'execution atteint une assertion A' qui n'est pas encore l'assertion
+cible de la VC, il faut verifier que la tache instanciée sans negation sur A'
+est prouvée. Si oui on peut avancer. Dans le cas contraire, on peut tester la
+tache avec negation, si celle-ci est prouvée on peut rapporter une assertion
+fausse sur A'. Sinon on peut continuer l'execution mais au final indiquer que le
+contre-exemple n'a pas eté entierement validé.
+
+
+\subsection{cas de la post-condition}
+
+Le meme procédé permet de tester un CE pour la preuve de la post-condition. le
+modele du solveur doit alors indiquer la valeur v renvoyée par la fonction. La
+tache instanciée doit alors definir result comme egal a cette valeur.
+
+\section{Cas des conditionnelles}
+
+L'execution a partir du debut de la fonction evalue les conditions et par
+consequent decide quelle branche de la conditionnelle est prise. Le CE doit
+alors, en plus des valeurs précitées, indiquer quel branche de chaque
+conditionnelle a été prise avant d'atteindre l'assertion testée.
+
+\subsection{Resumé : execution sous oracle}
+
+Les procédés decrits précédemment utilisent donc une forme d'execution sous oracle,
+qui demarre en entre de fonction, defini un environnement d'execution initial
+avec les definitions logiques pour les objects logiques non-interpretés, et des
+valeurs initiales pour les parametres. L'execution peut alors se derouler, en
+ajoutant les variavbles locales au fur et a mesure, en enregistrant les branches
+choisies dans les conditionnelles, et pour chaque assertion A traversée, si A ou
+not A etait prouvée, et ce dans quel contexte courant (d'ou sera extrait le
+``one-liner'').
+
+Note technique pour cette execution: pour chaque assertion une tache de preuve
+doit etre construite pour appeler un prouveur. On remarque que chacune de ces
+taches possede un contexte commun formé des valeurs proposées pour les objets
+logiques globaux. Pour une efficacité de cette execution, il est souhaitable que
+ce repfixe de tache soit calculé une fois pour toute et reutilisé. Ceci n'est
+pas le cas dans l'implementation actuelle du RAC dans Why3: see discussion in
+\url{https://gitlab.inria.fr/why3/why3/-/issues/829}.
+
+Note additionelle: la tache contexte en question pourrait aussi accumuler en
+hypotheses la connaissance des assertions prouvées, car cela peut aider les
+prouveurs ensuite. Mais attention ces assertions sont dans un environnement
+d'execution anterieur. Cela voudrait donc dire accumuler des definitions pour
+les valeurs successives des variables, ce que l'on ne veut pas forcement faire.
+
+
+\section{Cas des appels de fonctions}
+
+
+Dans le cas d'un appel de fonction, on souhaite utiliser un ``pas de geant'':
+evaluer la precondition, a traiter comme une assertion, puis obtenir des valeurs
+modifiées pour les variables ecrites par la fonction appelee, ainsi que la
+valeur de retour, et dans un tel nouvel envionnement, evaluer la post-condition
+comme une assertion.
+
+\section{Cas des boucles}
+
+Pour une boucle, l'execution doit commencer pour tester si l'invariant est
+initialement vrai, comme pour une assertion. Ensuite, on doit consulter l'oracle
+pour obtenir des valeurs pour les variables modifiées par la boucle. Celles-ci
+doivent donc etre present dans le modele proposés par le solveur. Il s'agit la
+des valeurs des variables modifiées avant une prochaine itération (eventuelle) de
+la boucle. Avec ces valeurs, on teste la condition de boucle.
+
+Si la condition est vraie, on mémorise, comme pour une conditionnelle, que l'on
+va effectivement entrer dans la boucle. On continue l'execution en executant le
+corps de la boucle. Si l'execution atteint alors une assertion fausse, on a
+finit, mais si on atteint la fin du corps de boucle sans assertion fausse, alors
+on enregistre que l'execution est ``stuck'' car cela n'a pas de sens de
+continuer.
+
+Si la condition de boucle est fausse, on poursuit l'execution avec ce qui suit
+le corps de boucle.
+
+La trace d'execution doit contenir l'information indiquant si on est entré dans
+le corps de boucle ou bien si on a sauté a la fin, de facon similaire a une
+conditionnelle.
+
+
+\section{Cas des exceptions}
+
+En cas de rencontre d'un raise, il faut considérer que l'evaluation produit
+l'exception associée, et propager jusqu'a rencontrer un try..with..
+
+Noter que dans le cas ou une exception est levee dans un corps de boucle, par
+exemple avec break, alors on peut se retrouver a executer ce qui suit la boucle
+alors meme que l'on était entré dans la boucle. La bonne facon d'implementer
+cela est avec les regles données dans le rapport~\cite{becker21rr}
+
+Les exceptions peuvent etre levées par un appel de fonction, auquel cas on doit
+tester la post-condition exceptionnelle associée, et continuer l'execution comme
+si l'on avait rencontré un raise.
+
+
+\bibliographystyle{plainurl}
+\bibliography{abbrevs,demons,demons2,demons3,team,crossrefs}
+%\bibliography{generated,extra}
+
+%\clearpage
+
+
+\end{document}
+
+% Local Variables:
+% mode: latex
+% TeX-master: t
+% TeX-PDF-mode: t
+% mode: flyspell
+% ispell-local-dictionary: "british"
+% fill-column: 80
+% End:
