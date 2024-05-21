@@ -60,7 +60,7 @@
 %% titre francais long
 \RRtitle{Un état de l'art des modèles mémoires pour les programmes à pointeurs\thanks{Ces recherches ont été partiellement financées par Décysif TODO....}}
 %% English title
-\RRetitle{A state-of-the-art of memory models for pointer programs\thanks{This work has been partially supported by Décysif... TODO}}
+\RRetitle{A state of the art of memory models for pointer programs\thanks{This work has been partially supported by Décysif... TODO}}
 %%
 \titlehead{Memory Models for Pointer Programs}
 %%
@@ -122,14 +122,42 @@
 
 \section{Introduction}
 
-What is deductive verification, what is the challenge with pointer programs, aliasing,
-what are memory models.
+The term \emph{Deductive Verification} denotes the methodology for verifying
+that a computer programs is conforming to a specification of its intended
+behaviour, with the use of techniques based of automated theorem proving. In
+this context, the specification is written in some formal mathematical language,
+and the conformity of the code with respect to the specification is
+automatically reduced into a set of mathematical formulas than must proved
+valid. When the computer programs considered are expressed in programming
+language making use of pointers to access their memory heap, the interpretation
+of programs into mathematical formulas must rely on a logical description of
+such pointers and memory heap: the so-called \emph{memory model}.
 
-The case of Décysif project: the case of tools Why3, SPARK, J3 and Creusot.
+Such a memory model cannot be described uniformly among different programming
+languages. On the contrary, a specific memory model must be defined for each
+programming languages considered. It is even possible to consider several memory
+models for different supported of some programming language. \todo{cite
+  Frama-C/WP ?}
 
-Generalities about memory models
+When reasoning mathematically on pointer programs, the suitability of the memory
+model is crucial. One major challenge is the potential \emph{aliasing} of memory
+contents: when using pointers, the same memory cell cannot be denoted by
+different ``names'',or ``access path''. Modification of the memory content
+through one of these names should be taken into account when accessing the same
+memory cell via another name. More generally, blocks of memory cells can be read
+of written through access path, and these blocks may overlap. The property of
+non-overlapping for memory blocks is called their \emph{separation}. Separation
+assumptions play an important role when reasoning about pointer
+programs~\cite{bornat00mpc}.
 
-Overview of the document.
+The Décysif project gathers partners involved in the design of several programming language involving different approaches for memory access. They develop tools that each contains different approaches for delaing with separation: the tool Why3 for WhyML programs, the SPARK environment for Ada code, the J3 analyzer for C and C++ code, and the Creusot tool for Rust code.
+
+The purpose of this document is to summarise the different memory models
+implemented in these tools.
+
+% Generalities about memory models ?
+
+TODO: Overview of the document.
 
 \section{The memory model of Why3}
 
