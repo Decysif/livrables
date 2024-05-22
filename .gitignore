@@ -8,9 +8,11 @@
 *.bbl
 *.blg
 *.lof
+*.rel
 *~
 
 
 /2024fev6/*.pdf
 
 /L3.1/*.pdf
+/counterexamples/*.pdf

@@ -178,7 +178,7 @@ tache similaire, où les valeurs inconnues restent des déclarations non
 interprétées. Si la tache instanciée est prouvée, le CE est validé aussi.
 
 Note: un ``one-liner'' contre-exemple serait la restriction des valeurs aux
-seules variables liées $x_1,..,x_k$.
+seuls variables liées $z_1,..,x_k$.
 
 Si la tache instanciée n'est pas prouvée, on peut tenter de tester la meme tache
 mais avec le but sans negation. Si cette seconde tache est prouvée, le CE est
@@ -187,8 +187,13 @@ n'est prouvée, on peut dire a l'utilisateur que le cCE n'a pas pu etre validé,
 et lui proposer le CE sans garantie.
 
 
-\section{Contre-exemple pour des VCs d'un programme: Cas d'un code sans
-  conditionnelle, sans boucle et sans appel de fonction}
+\begin{example}
+Exemple ajouté comme test de référence pour Decysif:
+
+\lstinputlisting{../../benchmarks/why3_ce/tests_for_log/log-logic.mlw}
+\end{example}
+
+\section{Contrexemple pour des VCs d'un programme: Cas d'un code sans conditionnelle, sans boucle et sans appel de fonction}
 
 Ce cas peut se résumer à la forme
 
@@ -233,6 +238,14 @@ si la tache est prouvée, le contre-exemple est validée.
 
 Le ``one-liner'' CE consiste en les valeurs courantes de $x_1,..x_k,l1,...$
 
+
+
+\begin{example}
+Exemple ajouté comme test de référence pour Decysif:
+
+\lstinputlisting{../../benchmarks/why3_ce/tests_for_log/log-simple.mlw}
+\end{example}
+
 \subsection{cas de plusieurs assertions}
 
 Lorsque l'execution atteint une assertion A' qui n'est pas encore l'assertion
@@ -271,7 +284,7 @@ Note technique pour cette execution: pour chaque assertion une tache de preuve
 doit etre construite pour appeler un prouveur. On remarque que chacune de ces
 taches possede un contexte commun formé des valeurs proposées pour les objets
 logiques globaux. Pour une efficacité de cette execution, il est souhaitable que
-ce prefixe de tache soit calculé une fois pour toute et reutilisé. Ceci n'est
+ce repfixe de tache soit calculé une fois pour toute et reutilisé. Ceci n'est
 pas le cas dans l'implementation actuelle du RAC dans Why3: see discussion in
 \url{https://gitlab.inria.fr/why3/why3/-/issues/829}.
 
@@ -322,58 +335,13 @@ l'exception associée, et propager jusqu'a rencontrer un try..with..
 
 Noter que dans le cas ou une exception est levee dans un corps de boucle, par
 exemple avec break, alors on peut se retrouver a executer ce qui suit la boucle
-alors meme que l'on était entré dans la boucle. Le rapport~\cite{becker21rr} ne
-traite pas les exceptions, mais il y a certainement une bonne facon de le faire
-en introduisant la notion de retour exceptionnel d'une instruction.
+alors meme que l'on était entré dans la boucle. La bonne facon d'implementer
+cela est avec les regles données dans le rapport~\cite{becker21rr}
 
 Les exceptions peuvent etre levées par un appel de fonction, auquel cas on doit
 tester la post-condition exceptionnelle associée, et continuer l'execution comme
 si l'on avait rencontré un raise.
 
-\section{Format}
-
-\begin{lstlisting}
-type ce = {
-  ce_log_ctx : logic_env;
-  ce_entry_point : entry_point;
-}
-
-type logic_env = map lsymbol term
-
-type entry_point =
-| Goal prsymbol * logic_env (* quantified variables *)
-| Rs rsymbol * param_env * trace_event list
-
-type param_env = map pvar pvalue
-
-trace_event =
-| Check_formula id * logic_env * status
-| Branching id * int (* num of the branch taken *)
-| Havoc id * rsymbol * param_env * param_env * pvalue (* param, written vars, return value *)
-                        add also: status of pre and post
-| Loop id * logic_env * status (* invariant before loop *)
-          * bool (* value of condition at beginning of last iteration *)
-          * param_env (* written values at beginnig of last iteration *)
-          * status (* invariant at beginning of last iteration *)
-\end{lstlisting}
-
-Examples
-
-\begin{lstlisting}
-constant g : int
-function f int : int
-
-goal G : forall x. x >= g + f x
-
-cex = {
-  ce_log_ctx = { g -> 1, f = fun z -> 0 }
-  ce_entry_point = Goal ("G", { x -> 0});
-  }
-\end{lstlisting}
-
-jlamp
-
-underspec
 
 \bibliographystyle{plainurl}
 \bibliography{abbrevs,demons,demons2,demons3,team,crossrefs}
