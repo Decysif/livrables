@@ -58,7 +58,8 @@
 %% Ceci apparait sur chaque page paire.
 \authorhead{Marché}
 %% titre francais long
-\RRtitle{Format des contre-exemples\thanks{Ces recherches ont été partiellement financées par Décysif TODO....}}
+\RRtitle{Format des contre-exemples\thanks{Ces recherches sont effectuées dans le cadre du projet Décysif financé par la Région et par le gouvernement dans le cadre du
+Plan France 2030}}
 %% English title
 \RRetitle{Counterexamples formats\thanks{This work has been partially supported by Décysif... TODO}}
 %%
@@ -246,6 +247,10 @@ Exemple ajouté comme test de référence pour Decysif:
 \lstinputlisting{../../benchmarks/why3_ce/tests_for_log/log-simple.mlw}
 \end{example}
 
+Note: le one-liner au sens de SPARK, sur l'exemple ci-dessus, doit montrer aussi
+bien les variables mutable $b$ et $y$ que les constantes logiques comme $a$ et
+les parametres non-mutables comme $x$.q
+
 \subsection{cas de plusieurs assertions}
 
 Lorsque l'execution atteint une assertion A' qui n'est pas encore l'assertion
@@ -255,6 +260,11 @@ tache avec negation, si celle-ci est prouvée on peut rapporter une assertion
 fausse sur A'. Sinon on peut continuer l'execution mais au final indiquer que le
 contre-exemple n'a pas eté entierement validé.
 
+\begin{example}
+Exemple ajouté comme test de référence pour Decysif:
+
+\lstinputlisting{../../benchmarks/why3_ce/tests_for_log/log-asserts.mlw}
+\end{example}
 
 \subsection{cas de la post-condition}
 
@@ -262,12 +272,30 @@ Le meme procédé permet de tester un CE pour la preuve de la post-condition. le
 modele du solveur doit alors indiquer la valeur v renvoyée par la fonction. La
 tache instanciée doit alors definir result comme egal a cette valeur.
 
+\begin{example}
+Exemple ajouté comme test de référence pour Decysif:
+
+\lstinputlisting{../../benchmarks/why3_ce/tests_for_log/log-post.mlw}
+\end{example}
+
+
 \section{Cas des conditionnelles}
 
 L'execution a partir du debut de la fonction evalue les conditions et par
 consequent decide quelle branche de la conditionnelle est prise. Le CE doit
 alors, en plus des valeurs précitées, indiquer quel branche de chaque
 conditionnelle a été prise avant d'atteindre l'assertion testée.
+
+\begin{example}
+Exemple ajouté comme test de référence pour Decysif:
+
+\lstinputlisting{../../benchmarks/why3_ce/tests_for_log/log-cond.mlw}
+\end{example}
+
+
+Note: l'identifiant de l'instruction 'if' concernée est celui de chaque `expr`
+de WhyML, dans le champ `e\_id`. A verifier: quel attribut permet a l'utilisateur
+de le donner explicitement. (Est-ce documenté?)
 
 \subsection{Resumé : execution sous oracle}
 
@@ -295,14 +323,31 @@ d'execution anterieur. Cela voudrait donc dire accumuler des definitions pour
 les valeurs successives des variables, ce que l'on ne veut pas forcement faire.
 
 
+
+
 \section{Cas des appels de fonctions}
 
 
-Dans le cas d'un appel de fonction, on souhaite utiliser un ``pas de geant'':
-evaluer la precondition, a traiter comme une assertion, puis obtenir des valeurs
-modifiées pour les variables ecrites par la fonction appelee, ainsi que la
-valeur de retour, et dans un tel nouvel envionnement, evaluer la post-condition
-comme une assertion.
+Dans le cas d'un appel de fonction, on souhaite utiliser deux modes différents
+d'execution: un mode ``normal'', dit encore ``à petits pas'', qui va executer le
+corps de la fonction ; et un mode ``pas de geant'': evaluer la precondition, a
+traiter comme une assertion, puis obtenir des valeurs modifiées pour les
+variables ecrites par la fonction appelee, ainsi que la valeur de retour, et
+dans un tel nouvel envionnement, evaluer la post-condition comme une assertion.
+
+Les resultats obtenus entre les deux modes permettent de catégoriser le
+CE~\cite{becker21rr}. Mais quoi qu'il en soit, on estime souhaitable que le log
+soit quasiment de la meme forme, cad que le log de l'appel se resume a indiquer
+les valeurs de parametres, les valeurs initiales et finales modifiées, et les
+valeurs de retour.
+
+
+\begin{example}
+Exemple ajouté comme test de référence pour Decysif:
+
+\lstinputlisting{../../benchmarks/why3_ce/tests_for_log/log-call-nc.mlw}
+\end{example}
+
 
 \section{Cas des boucles}
 
