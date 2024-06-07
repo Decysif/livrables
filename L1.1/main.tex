@@ -13,6 +13,9 @@
 
 \lstset{basicstyle={\ttfamily}}
 
+\usepackage{tikz}
+\usepackage{pgf-pie}
+
 \begin{document}
 
 
@@ -34,14 +37,6 @@ générer des exploits.
 \end{center}
 
 
-\fbox{\Huge
-  \begin{tabular}{l}
-  LA SUITE EST UNE COPIE DU RAPPORT \\
-    POUR LA PREUVE AUTOMATIQUE, \\
-    IL FAUT TOUT REVOIR
-  \end{tabular}
-}
-
 Ce livrable est constituée d'une base de tests qui se trouve dans le dépot
 \href{https://github.com/Decysif/benchmarks}{'benchmarks'} du projet Décysif.
 
@@ -49,7 +44,14 @@ Objectifs du livrable :
 
 \begin{itemize}
 \item Repérer les faiblesses du prouveur Alt-Ergo
-\item Repérer les problèmes de traduction (ou repérer des problèmes au niveau de l'écriture des théories, par exemple le modèle mémoire de J3) pour tous les prouveurs cvc5, CVC4, Z3, Alt-Ergo.
+\item Repérer les problèmes de traduction (ou repérer des problèmes au
+  niveau de l'écriture des théories, par exemple le modèle mémoire de
+  J3) pour tous les prouveurs cvc5, CVC4, Z3, Alt-Ergo.
+\item Identifier des faiblesses lors de la reconstruction d'un
+  contre-exemple par Why3 depuis les modeles des solveurs
+  SMT~\cite{dailler18jlamp}
+\item Identifier les faiblesses des procédures de vérification et
+  catégorisation des contre-exemples~\cite{becker21rr,becker21fide}
 \end{itemize}
 
 % Une section par répertoire d'exemples avec une description du contenu
@@ -58,92 +60,168 @@ Objectifs du livrable :
 
 % Mettre les statistiques qu'on a quand elles existent.
 
-\section{Examples issus de Why3}
+\section{Contre-Exemples générés sur du code  WhyML}
 
-Le sous-répertoire \url{why3_examples} contient le jeu d'exemples
-extrait du bench complet de Why3, formé de code source dans le langage
-WhyML. La documentation de référence est dans le fichier \url{README.md} de ce répertoire.
-Pour installer et configurer ce jeu de tests, la commande
+Le jeu de tests sur les contre-exemples en Why3 s'appuie sur
+l'installation locale de Why3 qui est déjà décrite dans le livrable
+1.2. Donc si ce n'est pas déjà fait, il faut installer et configurer Why3 en allant dans le répertoire \url{why3_exemple} et exécuter
 \begin{lstlisting}
 > ./import_suite.sh
 \end{lstlisting}
-doit être exécutée au préalable. Ceci récupère une version de
-référence de Why3 (1er mars 2024) et compile les commandes nécessaires. Ensuite la commande
+
+\subsection{Suite de tests issues de Why3}
+
+La suite de tests pour les contre-exemples se trouvent dans le
+répertoire \url{why3_ce}. Il faut initialiser la suite de tests en
+allant dans ce répertoire et exécuter
+\begin{lstlisting}
+> ./import_suite.sh
+\end{lstlisting}
+(il s'agit d'un autre script que le précédent)
+
+Les tests peuvent ensutie être exécutés par la commande
 \begin{lstlisting}
 > ./run_bench.sh
 \end{lstlisting}
-pour être lancée pour executer les tests proprement dit. Les prouveurs
-utilisés pour ces tests sont indiqués dans le fichier
-\url{run_bench.sh} lui-même.
-
-Une exécution de référence de ces tests a été lancée le 15 avril 2024
-sur le serveur de calcul ``moloch'' de l'équipe Inria Toccata. Ce
-serveur dispose de 16 c{\oe}urs ``Intel(R) Xeon(R) CPU E5-2450 v2 @
-2.50GHz'' et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
-ont été utilisés. Sur chaque fichier source, on demande à Why3 de
-générer l'obligation de preuve de chaque fonction, de découper la
-formule générée en plusieurs sous-formules, puis on appelle un jeu de
-prouveur sur chacune des sous-formules. Un temps limite de 5 secondes est donné à chaque exécution de prouveurs. Pour l'exécution de référence,
-les prouveurs Alt-Ergo 2.5.2, CVC4 1.8, cvc5 1.0.5 et Z3 4.12.2 ont
-été utilisés. Les résultats sont enregistrés dans des fichiers de
-session de preuve de Why3, pouvant donner lieu à diverses
-statistiques. Voici des statistiques globales pour l'exécution de
-référence, le nombre total d'obligation de preuve est de 41389:
-\begin{center}
+Les resultats des tests sont stockés dans le sous-répertoire
+\url{tests}. Des statistiques peuvent être calculées pour synthétiser
+les résultats de ce tests. Une exécution de ces tests a été effectuée
+le 22 avril 2024, avec les prouveurs Alt-Ergo 2.5.2, CVC4 1.8, CVC5
+1.0.5 et Z3 4.8.10. les résultats globaux sont donnés par la table ci-dessous.
+  \begin{center}
   \rowcolors{2}{gray!25}{white}
-  \begin{tabular}{|l|r|r|r|r|r|}
-  \rowcolor{gray!50} Prouveur
-  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de but prouvés }
-  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts}
-  & \multicolumn{1}{p{0.13\textwidth}|}{temps minimal}
-  & \multicolumn{1}{p{0.13\textwidth}|}{temps maximal}
-  & \multicolumn{1}{p{0.13\textwidth}|}{temps moyen}
+  \begin{tabular}{|l|r|r|}
+  \rowcolor{gray!50} Verdict
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+  & \multicolumn{1}{p{0.13\textwidth}|}{pourcentage}
   \\
-  Alt-Ergo 2.5.2                & 41389 & 32170 &  0.00  & 4.98 &  0.12 \\
-  CVC4 1.8                      & 41389 & 33650 &  0.01  & 4.81 &  0.17 \\
-  CVC5 1.0.5                    & 41389 & 32904 &  0.01  & 4.92 &  0.17 \\
-  Z3 4.12.2                     & 41389 & 30713 &  0.01  & 4.96 &  0.07
+Non-Conformity         & 721 & 61,36 \% \\
+Specification Weakness & 93 & 7,91 \% \\
+    NC or SW  	       & 6 & 0,51 \% \\
+Bad Counterexampl & 195 & 16,60 \% \\
+    Validation Incompleteness & 160 & 13,62 \%
+  \end{tabular}
+\end{center}
+Ces statistiques sont également visualisées par le diagramme
+  suivant.
+  \begin{center}
+\begin{tikzpicture}
+    \pie{61.36/NC, 7.91/SW, 0.51/NCSW, 16.60/BAD, 13.62/INC}
+\end{tikzpicture}
+\end{center}
+La première ligne (Non-Conformity) désigne les cas où une erreur de
+code à été effectivement identifiée, plus précisément un cas où le
+code n'est pas conforme à la spécification, et où un contre-exemple
+explicite est produit pour générer l'exploit correspondant. La seconde
+ligne (Specification Weakness) concerne les cas où un contre-exemple
+est généré mais qui ne révèle pas un exploit mais une insuffisance
+dans les spécifications (manque d'invariant de boucle où
+sous-spécification d'une fonction auxiliaire) qui emphe de faire une
+preuve. Ces deux cas sont des cas favorables, et on va chercher à
+augmenter leurs fréquences. Le cas ``NC or SW'' est un cas où l'on
+n'arrive pas à décider si le contre-exemple est un exploit où bien si
+c'est une faiblesse de spécification. C'est aussi une situation
+favorable mais si plus imprécise. le cas Bad Counterexample est
+défavorable: le contre-exemple proposé par le solveur n'est en fait
+pas un bon contre-exemple, et ce fait a été détecté comme tel par la
+procédure de validation. On souhaite diminuer le pourcentage de ces
+cas, et la seule façon que l'on a pour réduire ce pourcentage est de
+modifier les tâches de preuve que l'on soumet au solveur, afin que
+celui-ci soit plus performant. Le dernier cas Validation
+Incompleteness est aussi défavorable et on va chercher à le
+diminuer. Pour cela, il faut jourer sur la méthodologie actuelle pour
+valider les contre-exemples, telle qu'implémentée dans Why3.  Le taux
+de cas favorables est de l'ordre de 70 \%, et l'augmentation de ce
+taux est donc un objectif général.
+
+Pour le dernier cas ``Validation Incompleteness'', on peut donner des
+statistiques plus détaillées. Voici ces statistiques pour la partie de
+validation dite ``à petits pas''
+  \begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+  \rowcolor{gray!50} Réponse
+  & \multicolumn{1}{p{0.65\textwidth}|}{explication}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+    \\
+INCOMPLETE & cannot decide	& 127 \\
+INCOMPLETE & missing return value & 11 \\
+INCOMPLETE & uncaught exception	& 8 \\
+INCOMPLETE & (terminated because mlmpfr wrapper is not implemented) & 6 \\
+INCOMPLETE & many args for exec	& 2 \\
+INCOMPLETE & (terminated because index is out of bounds) & 1 \\
+INCOMPLETE & (terminated because missing value for global `get`) & 1 \\
 \end{tabular}
 \end{center}
+Les deux premières lignes correspondent à des améliorations à apporter
+à la méthodologie. Les autres lignes correspondent a priori tout
+simplement à des bugs qu'il faut corriger.
 
-\begin{figure}
-  \centering
-  \includegraphics[width=0.9\textwidth]{AE-vs-CVC4.png}
-  \caption{Comparaison d'Alt-Ergo et CVC4. Globalement, CVC4 prouve
-    plus de buts qu'Alt-Ergo, mais Alt-Ergo est plus rapide. On
-    indique aussi que 2515 buts sont prouvés par Alt-Ergo mais pas par
-    CVC4, alors que 3995 sont prouvés par CVC4 mais pas par Alt-Ergo.}
-  \label{fig:AEvsCVC4}
-\end{figure}
+Les statistiques pour la
+partie de validation dite ``à pas de géant'' sont les suivantes.
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+  \rowcolor{gray!50} Réponse
+  & \multicolumn{1}{p{0.65\textwidth}|}{explication}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+    \\
+INCOMPLETE & cannot decide	& 129 \\
+INCOMPLETE & missing return value  &	15 \\
+INCOMPLETE & uncaught exception	& 8 \\
+INCOMPLETE &  (terminated because mlmpfr wrapper is not implemented) &	6 \\
+INCOMPLETE & (terminated because index is out of bounds) &	1 \\
+    INCOMPLETE & (terminated because missing value for global `get`) &	1 \\
+  \end{tabular}
+\end{center}
+Les conclusions sont les mêmes que pour la partie petits pas: deux
+pistes d'amélioration, et des bugs à corriger.
 
-Des statistiques plus fines peuvent être calculées à la demande sur
-les fichiers de sessions. Par exemple, la figure~\ref{fig:AEvsCVC4}
-une représentation graphique qui compare les performances de Alt-Ergo
-et de CVC4 sur le jeu de test.
 
-En fin de projet, une exécution similaire des outils améliorés seront
-rejoués sur les même exemples, et on évaluera les améliorations
-apportées en terme de pourcentage de preuve automatique réussies.
+\subsection{Suite de tests construits à la main}
 
+Une autre base de tests est construite manuellement dans l'objectif
+d'améliorer la façon de présenter un contre-exemple. Cette restitution
+est importante pour un utilisateur de Why3 mais aussi pour les
+différents front-end pour le C ou pour Ada. Ce jeu de tests est donné
+dans le sous-répertoire \url{tests_for_log} du répertoire
+\url{why3_ce}. Pour ces tests on ne mesure pas leur succès par des
+statistiques mais par une proximité avec un résultat attendu. Les
+résultats attendus pour ces tests seront décrits dans un livrable
+annexe à celui-ci. % actuellement dans le sous-repertoire
+                   % counterexamples du depot
 
-\section{Examples issus de J3}
+\section{Contre-Exemples issus de J3}
 
 TODO [Guillaume]
 
-Méthodologie pour extraire des statistique à décrire:
-* Nombre de buts prouvés/Nombre de buts au total
-TODO: Fixer la version d'alt-ergo
+Méthodologie pour extraire des statistique à décrire
 
-\section{Examples issus de SPARK}
+\section{Contre-Exemples issus de SPARK}
 
 TODO [Yannick]
 
-\section{Examples issus de Creusot}
-
-TODO [Claude]
 
 \section{Travail futur}
 
 Quelles autres statistiques peut-on vouloir?
 
+Creer une infrastrcture de contre-exemples pour Creusot
+
+\clearpage
+
+\bibliographystyle{plainurl}
+\bibliography{generated,main}
+%\bibliography{abbrevs,demons,demons2,demons3,team,crossrefs}
+
 \end{document}
+
+
+% Local Variables:
+% mode: latex
+% mode: flyspell
+% TeX-master: t
+% TeX-PDF-mode: t
+% ispell-local-dictionary: "francais"
+% fill-column: 80
+% End:
