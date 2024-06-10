@@ -64,7 +64,7 @@ Objectifs du livrable :
 
 Le jeu de tests sur les contre-exemples en Why3 s'appuie sur
 l'installation locale de Why3 qui est déjà décrite dans le livrable
-1.2. Donc si ce n'est pas déjà fait, il faut installer et configurer Why3 en allant dans le répertoire \url{why3_exemple} et exécuter
+2.1. Donc si ce n'est pas déjà fait, il faut installer et configurer Why3 en allant dans le répertoire \url{why3_exemple} et exécuter
 \begin{lstlisting}
 > ./import_suite.sh
 \end{lstlisting}
@@ -83,9 +83,9 @@ Les tests peuvent ensuite être exécutés par la commande
 \begin{lstlisting}
 > ./run_bench.sh
 \end{lstlisting}
-Les resultats des tests sont stockés dans le sous-répertoire
+Les résultats des tests sont stockés dans le sous-répertoire
 \url{tests}. Des statistiques peuvent être calculées pour synthétiser
-les résultats de ce tests, avec le script
+les résultats de ces tests, avec le script
 \begin{lstlisting}
 > ./ce-stats.py
 \end{lstlisting}
@@ -122,13 +122,13 @@ explicite est produit pour générer l'exploit correspondant. La seconde
 ligne (Specification Weakness) concerne les cas où un contre-exemple
 est généré mais qui ne révèle pas un exploit mais une insuffisance
 dans les spécifications (manque d'invariant de boucle où
-sous-spécification d'une fonction auxiliaire) qui emphe de faire une
+sous-spécification d'une fonction auxiliaire) qui empêche de faire une
 preuve. Ces deux cas sont des cas favorables, et on va chercher à
 augmenter leurs fréquences. Le cas ``NC or SW'' est un cas où l'on
 n'arrive pas à décider si le contre-exemple est un exploit où bien si
 c'est une faiblesse de spécification. C'est aussi une situation
-favorable mais si plus imprécise. le cas Bad Counterexample est
-défavorable: le contre-exemple proposé par le solveur n'est en fait
+favorable mais plus imprécise. le cas Bad Counterexample est
+défavorable : le contre-exemple proposé par le solveur n'est en fait
 pas un bon contre-exemple, et ce fait a été détecté comme tel par la
 procédure de validation. On souhaite diminuer le pourcentage de ces
 cas, et la seule façon que l'on a pour réduire ce pourcentage est de
@@ -190,7 +190,7 @@ Une autre base de tests est construite manuellement dans l'objectif d'améliorer
 la façon de présenter un contre-exemple. Cette restitution est importante pour
 un utilisateur de Why3 mais aussi pour les différents front-end pour le C ou
 pour Ada. Ce jeu de tests est donné dans le sous-répertoire \url{tests_for_log}
-du répertoire \url{why3_ce}. Pour ces tests on ne mesure pas leur succès par des
+du répertoire \url{why3_ce}. Pour ces tests, on ne mesure pas leur succès par des
 statistiques mais par une proximité avec un résultat attendu. Les résultats
 attendus pour ces tests seront décrits dans un livrable annexe à celui-ci d'ici
 la fin 2024 au plus tard.  \footnote{Les sources de cette annexe sont
