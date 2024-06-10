@@ -138,7 +138,62 @@ TODO: Fixer la version d'alt-ergo
 
 \section{Exemples issus de SPARK}
 
-TODO [Yannick]
+\subsection{Jeu d'exemples de programmes écrits en SPARK et extraits vers WhyML}
+
+Le sous-répertoire \url{spark_examples} contient le jeu d'exemples extrait du
+bench d'exemples de la distribution de SPARK, formé de code source dans le
+langage SPARK. La documentation de référence est dans le fichier
+\url{README.md} de ce répertoire.
+
+Le code archivé correspond au code Why3 extrait du code SPARK par l'exécution
+de gnatprove. Pour installer et configurer ce jeu de tests, les commandes
+\begin{lstlisting}
+> unzip spark_sexp.zip
+> export PATH=$PWD/../why3_examples/why3-88dc033/bin:$PATH  
+> ./build_environment.sh
+> make
+\end{lstlisting}
+doivent être exécutées au préalable. Cela suppose que le setup dans \url{why3_examples}
+a été effectué au préalable afin de récupèrer une version de
+référence de Why3 (1er mars 2024) et de compiler les commandes nécessaires. Ensuite la commande
+\begin{lstlisting}
+> ./run_bench.sh
+\end{lstlisting}
+doit être lancée pour exécuter les tests proprement dit. Les prouveurs
+utilisés pour ces tests sont indiqués dans le fichier
+\url{run_bench.sh} lui-même.
+
+TODO Résultats de référence à ajouter [Matteo]
+
+\subsection{Jeu d'exemples de VC écrites en SMT-LIB2}
+
+Le sous-répertoire \url{spark_handcrafted} contient le jeu d'exemples de VC
+écrites directement au format SMT-LIB2 à partir de VC provenant de la suite de
+tests SPARK, représentatives des difficultés observées pour prouver des
+propriétés arithmétiques. La documentation de référence est dans le fichier
+\url{README.md} de ce répertoire.
+
+Les scripts nécessaires pour comparer les résultats de différents prouveurs sur
+ces VC sont disponibles dans le sous-répertoire \url{spark_scripts}. Le détail
+des commandes est indiqué dans le fichier \url{README.md}. Les résultats sont
+enregistrés dans le sous-répertoire \url{results}.  Pour l'exécution de
+référence, les prouveurs Alt-Ergo 2.4.0, cvc5 1.0.5 et Z3 4.12.4 et Colibri
+2020.9 ont été utilisés.
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|r|}
+  \rowcolor{gray!50} Prouveur
+  & \multicolumn{1}{p{0.13\textwidth}|}{arithmétique entière (51 VC)}
+  & \multicolumn{1}{p{0.13\textwidth}|}{arithmétique de bit-vecteurs (20 VC)}
+  & \multicolumn{1}{p{0.13\textwidth}|}{arithmétique mixte entière et bit-vecteurs (8 VC)}
+  \\
+  Alt-Ergo 2.4.0                &  8 &  0 & 0  \\
+  CVC5 1.0.5                    & 38 &  1 & 0 \\
+  Z3 4.12.4                     & 43 &  1 & 3 \\
+  Colibri 2020.9                & 23 & 11 & 1
+\end{tabular}
+\end{center}
 
 \section{Exemples issus de Creusot}
 
