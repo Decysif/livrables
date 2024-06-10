@@ -79,13 +79,19 @@ allant dans ce répertoire et exécuter
 \end{lstlisting}
 (il s'agit d'un autre script que le précédent)
 
-Les tests peuvent ensutie être exécutés par la commande
+Les tests peuvent ensuite être exécutés par la commande
 \begin{lstlisting}
 > ./run_bench.sh
 \end{lstlisting}
 Les resultats des tests sont stockés dans le sous-répertoire
 \url{tests}. Des statistiques peuvent être calculées pour synthétiser
-les résultats de ce tests. Une exécution de ces tests a été effectuée
+les résultats de ce tests, avec le script
+\begin{lstlisting}
+> ./ce-stats.py
+\end{lstlisting}
+qui génère des fichiers de statistiques au format CSV.
+
+Une exécution de ces tests a été effectuée
 le 22 avril 2024, avec les prouveurs Alt-Ergo 2.5.2, CVC4 1.8, CVC5
 1.0.5 et Z3 4.8.10. les résultats globaux sont donnés par la table ci-dessous.
   \begin{center}
@@ -98,7 +104,7 @@ le 22 avril 2024, avec les prouveurs Alt-Ergo 2.5.2, CVC4 1.8, CVC5
 Non-Conformity         & 721 & 61,36 \% \\
 Specification Weakness & 93 & 7,91 \% \\
     NC or SW  	       & 6 & 0,51 \% \\
-Bad Counterexampl & 195 & 16,60 \% \\
+Bad Counterexample & 195 & 16,60 \% \\
     Validation Incompleteness & 160 & 13,62 \%
   \end{tabular}
 \end{center}
@@ -180,16 +186,16 @@ pistes d'amélioration, et des bugs à corriger.
 
 \subsection{Suite de tests construits à la main}
 
-Une autre base de tests est construite manuellement dans l'objectif
-d'améliorer la façon de présenter un contre-exemple. Cette restitution
-est importante pour un utilisateur de Why3 mais aussi pour les
-différents front-end pour le C ou pour Ada. Ce jeu de tests est donné
-dans le sous-répertoire \url{tests_for_log} du répertoire
-\url{why3_ce}. Pour ces tests on ne mesure pas leur succès par des
-statistiques mais par une proximité avec un résultat attendu. Les
-résultats attendus pour ces tests seront décrits dans un livrable
-annexe à celui-ci. % actuellement dans le sous-repertoire
-                   % counterexamples du depot
+Une autre base de tests est construite manuellement dans l'objectif d'améliorer
+la façon de présenter un contre-exemple. Cette restitution est importante pour
+un utilisateur de Why3 mais aussi pour les différents front-end pour le C ou
+pour Ada. Ce jeu de tests est donné dans le sous-répertoire \url{tests_for_log}
+du répertoire \url{why3_ce}. Pour ces tests on ne mesure pas leur succès par des
+statistiques mais par une proximité avec un résultat attendu. Les résultats
+attendus pour ces tests seront décrits dans un livrable annexe à celui-ci d'ici
+la fin 2024 au plus tard.  \footnote{Les sources de cette annexe sont
+  actuellement dans le sous-repertoire \url{counterexamples} du dépôt
+  \url{livrables}}
 
 \section{Contre-Exemples issus de J3}
 
