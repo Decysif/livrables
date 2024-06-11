@@ -205,8 +205,128 @@ Méthodologie pour extraire des statistique à décrire
 
 \section{Contre-Exemples issus de SPARK}
 
-TODO [Yannick]
+\subsection{Résultats sur la suite complète de tests de SPARK}
 
+Comme indiqué dans le fichier \url{README.md} du répertoire \url{spark_ce}, il est
+possible en utilisant l'environnement de tests d'AdaCore de générer des
+informations sur la qualité des contre-exemples générés pour la suite complète
+des tests de SPARK. Comme pour Why3, nous pouvons générer des fichiers de
+statistiques au format CSV.
+
+Une exécution de ces tests a été effectuée le 5 juin 2024, avec le prouveur cvc5
+1.0.5 pour générer des contre-exemples. Les résultats globaux sont donnés par la
+table ci-dessous.
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+  \rowcolor{gray!50} Verdict
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+  & \multicolumn{1}{p{0.13\textwidth}|}{pourcentage}
+  \\
+Non-Conformity            & 1199 & 23 \% \\
+Specification Weakness    &  153 &  3 \% \\
+NC or SW  	          &  819 & 16 \% \\
+Bad Counterexample        &  592 & 11 \% \\
+Validation Incompleteness & 2465 & 47 \%
+  \end{tabular}
+\end{center}
+Ces statistiques sont également visualisées par le diagramme
+suivant.
+  \begin{center}
+\begin{tikzpicture}
+    \pie{23/NC, 3/SW, 16/NCSW, 11/BAD, 47/INC}
+\end{tikzpicture}
+\end{center}
+
+Par rapport aux résultats rapportés pour Why3, les cas favorables
+(Non-Conformity + Specification Weakness + NC or SW) représentent une plus
+faible proportion du nombre total des contre-exemples générés de seulement 42
+\%, que l'on cherche donc à augmenter.
+
+Pour le dernier cas ``Validation Incompleteness'', on peut donner des
+statistiques plus détaillées. Voici ces statistiques pour la partie de
+validation dite ``à petits pas'' :
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+  \rowcolor{gray!50} Réponse
+  & \multicolumn{1}{p{0.65\textwidth}|}{explication}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+    \\
+INCOMPLETE & unsupported                             & 1231 \\
+INCOMPLETE & no body                                 &  455 \\
+INCOMPLETE & missing parameter value                 &  402 \\
+INCOMPLETE & normal                                  &  251 \\
+INCOMPLETE & no subprogram body	                     &   38 \\
+INCOMPLETE & no VC                                   &   36 \\
+INCOMPLETE & out of fuel                             &   36 \\
+INCOMPLETE & expr with private type                  &   10 \\
+INCOMPLETE & protected component or part of variable &    4 \\
+INCOMPLETE & no reason                               &    2 
+\end{tabular}
+\end{center}
+
+La première ligne, qui représente la moitié des cas d'incomplétude, correspond à
+tous les cas qui ne sont pas encore traités dans la validation à petits
+pas. C'est un axe important d'amélioration pour le futur.
+
+Les lignes ``no body'' et ``no subprogram body'' représentent les cas où
+l'implémentation d'un sous-programme n'est soit pas disponible (à cause de la
+façon dont l'outil de validation aggrège le code) ou bien pas en SPARK (ce qui
+empêche aujourd'hui la validation). La ligne ``missing parameter value''
+représente les cas où aucune valeur n'est disponible pour une variable du
+programme.
+
+La ligne ``normal'' correspond aux cas où la validation à petits pas s'exécute
+sans erreur alors que la validation dite ``à pas de géant'' est incomplète. Il faut
+dans ce cas examiner les raisons de cette autre source d'incomplétude.
+
+Nous ne détaillons pas plus les cas correspondants aux lignes restantes qui
+concernent beaucoup moins de contre-exemples.
+
+Les statistiques pour la
+partie de validation dite ``à pas de géant'' sont les suivantes.
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+  \rowcolor{gray!50} Réponse
+  & \multicolumn{1}{p{0.65\textwidth}|}{explication}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+    \\
+INCOMPLETE & cannot decide	   & 1754 \\
+INCOMPLETE & no reason             &  259 \\
+INCOMPLETE & missing return value  &  151
+  \end{tabular}
+\end{center}
+Les conclusions sont les mêmes que pour la validation des contre-exemples en
+Why3 avec deux pistes d'amélioration, et des cas (``no reason'') pour laquelle
+une investigation plus poussée est nécessaire.
+  
+\subsection{Suite de tests issue de SPARK}
+
+La suite de tests réduite pour les contre-exemples se trouvent dans l'archive
+\url{spark_sexp.zip} du répertoire \url{spark_ce}.  Le code archivé correspond
+au code Why3 extrait par l'exécution de gnatprove sur le code SPARK d'une liste de
+26 tests spécialement sélectionnés pour leur valeur pour les contre-exemples
+(listés dans le fichier \url{MANIFEST.bench}). Pour installer et configurer ce
+jeu de tests, les commandes
+\begin{lstlisting}
+> unzip spark_sexp.zip
+> export PATH=$PWD/../why3_examples/why3-88dc033/bin:$PATH  
+> ./build_environment.sh
+> make
+\end{lstlisting}
+doivent être exécutées au préalable. Cela suppose que le setup dans \url{why3_examples}
+a été effectué au préalable afin de récupèrer une version de
+référence de Why3 (1er mars 2024) et de compiler les commandes nécessaires. Ensuite la commande
+\begin{lstlisting}
+> ./run_bench.sh
+\end{lstlisting}
+doit être lancée pour exécuter les tests proprement dit.
+
+TODO Résultats de référence à ajouter [Matteo]
 
 \section{Travail futur}
 
