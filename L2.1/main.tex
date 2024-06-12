@@ -87,8 +87,8 @@ référence, le nombre total d'obligation de preuve est de 41389:
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|r|r|r|}
   \rowcolor{gray!50} Prouveur
-  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de but prouvés }
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts prouvés}
   & \multicolumn{1}{p{0.13\textwidth}|}{temps minimal}
   & \multicolumn{1}{p{0.13\textwidth}|}{temps maximal}
   & \multicolumn{1}{p{0.13\textwidth}|}{temps moyen}
@@ -163,7 +163,35 @@ doit être lancée pour exécuter les tests proprement dit. Les prouveurs
 utilisés pour ces tests sont indiqués dans le fichier
 \url{run_bench.sh} lui-même.
 
-TODO Résultats de référence à ajouter [Matteo]
+Une exécution de référence de ces tests a été lancée le 11 juin 2024
+sur le serveur de calcul ``moloch'' de l'équipe Inria Toccata. Ce
+serveur dispose de 16 c{\oe}urs ``Intel(R) Xeon(R) CPU E5-2450 v2 @
+2.50GHz'' et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
+ont été utilisés. Sur chaque fichier source, on demande à Why3 de
+générer l'obligation de preuve de chaque fonction, de découper la
+formule générée en plusieurs sous-formules, puis on appelle un jeu de
+prouveur sur chacune des sous-formules. Un temps limite de 5 secondes est donné à chaque exécution de prouveurs. Pour l'exécution de référence,
+les prouveurs Alt-Ergo 2.4.0, cvc5 1.0.5 et Z3 4.12.4 ont
+été utilisés, avec les drivers propres à GNATprove.
+Les résultats sont enregistrés dans des fichiers de
+session de preuve de Why3, pouvant donner lieu à diverses
+statistiques. Voici des statistiques globales pour l'exécution de
+référence, le nombre total d'obligation de preuve est de 135036:
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|r|r|r|}
+  \rowcolor{gray!50} Prouveur
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts prouvés}
+  & \multicolumn{1}{p{0.13\textwidth}|}{temps minimal}
+  & \multicolumn{1}{p{0.13\textwidth}|}{temps maximal}
+  & \multicolumn{1}{p{0.13\textwidth}|}{temps moyen}
+  \\
+  Alt-Ergo 2.4.0                & 135036 &  98822 &  0.00  & 4.96 &  0.09 \\
+  CVC5 1.0.5                    & 135036 & 100560 &  0.01  & 4.98 &  0.11 \\
+  Z3 4.12.4                     & 135036 & 101915 &  0.00  & 4.89 &  0.04
+\end{tabular}
+\end{center}
 
 \subsection{Jeu d'exemples de VC écrites en SMT-LIB2}
 
