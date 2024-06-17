@@ -16,6 +16,8 @@
 \usepackage{tikz}
 \usepackage{pgf-pie}
 
+\usepackage{todonotes}
+
 \begin{document}
 
 
@@ -25,17 +27,27 @@
   \includegraphics[width=0.1\textwidth]{../images/Logo-France-2030-rouge-bleu.png}}
 \end{picture}
 
-\begin{center}\bfseries
+\begin{center}
 
-  \Huge
-  Projet Décysif --- Livrable 1.1
+{  \Huge\bfseries
+  Projet Décysif --- Livrable 1.1 }
 
-  \Large
+{  \Large\bfseries
   Constitution d’une base de fichiers d’entrée
 représentatifs des difficultés rencontrées pour
 générer des exploits.
+}
+
+\bigskip
+\bigskip
+
+
+\large Guillaume Cluzel (TrustInSoft), Matteo Manighetti (Inria), Claude Marché
+(Inria), Yannick Moy (AdaCore)
+
 \end{center}
 
+\bigskip
 
 Ce livrable est constituée d'une base de tests qui se trouve dans le dépot
 \href{https://github.com/Decysif/benchmarks}{'benchmarks'} du projet Décysif.
@@ -97,56 +109,56 @@ le 22 avril 2024, avec les prouveurs Alt-Ergo 2.5.2, CVC4 1.8, CVC5
   \begin{center}
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|}
+    \hline
   \rowcolor{gray!50} Verdict
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
   & \multicolumn{1}{p{0.13\textwidth}|}{pourcentage}
   \\
-Non-Conformity         & 721 & 61,36 \% \\
-Specification Weakness & 93 & 7,91 \% \\
-    NC or SW  	       & 6 & 0,51 \% \\
-Bad Counterexample & 195 & 16,60 \% \\
-    Validation Incompleteness & 160 & 13,62 \%
+Non-Conformity (NC)         & 721 & 61,36 \% \\
+Specification Weakness (SW) & 93 & 7,91 \% \\
+NC or SW  	       & 6 & 0,51 \% \\
+Bad Counterexample (BAD) & 195 & 16,60 \% \\
+    Validation Incompleteness (INC) & 160 & 13,62 \% \\
+    \hline
   \end{tabular}
 \end{center}
 Ces statistiques sont également visualisées par le diagramme
   suivant.
   \begin{center}
 \begin{tikzpicture}
-    \pie{61.36/NC, 7.91/SW, 0.51/NCSW, 16.60/BAD, 13.62/INC}
+    \pie[explode={0.1,0.2,0.5},sum=auto]{721/NC, 93/SW, 6/NCSW, 195/BAD, 160/INC}
 \end{tikzpicture}
 \end{center}
-La première ligne (Non-Conformity) désigne les cas où une erreur de
-code à été effectivement identifiée, plus précisément un cas où le
-code n'est pas conforme à la spécification, et où un contre-exemple
-explicite est produit pour générer l'exploit correspondant. La seconde
-ligne (Specification Weakness) concerne les cas où un contre-exemple
-est généré mais qui ne révèle pas un exploit mais une insuffisance
-dans les spécifications (manque d'invariant de boucle où
-sous-spécification d'une fonction auxiliaire) qui empêche de faire une
-preuve. Ces deux cas sont des cas favorables, et on va chercher à
-augmenter leurs fréquences. Le cas ``NC or SW'' est un cas où l'on
-n'arrive pas à décider si le contre-exemple est un exploit où bien si
-c'est une faiblesse de spécification. C'est aussi une situation
-favorable mais plus imprécise. le cas Bad Counterexample est
-défavorable : le contre-exemple proposé par le solveur n'est en fait
-pas un bon contre-exemple, et ce fait a été détecté comme tel par la
-procédure de validation. On souhaite diminuer le pourcentage de ces
-cas, et la seule façon que l'on a pour réduire ce pourcentage est de
-modifier les tâches de preuve que l'on soumet au solveur, afin que
-celui-ci soit plus performant. Le dernier cas Validation
-Incompleteness est aussi défavorable et on va chercher à le
-diminuer. Pour cela, il faut jourer sur la méthodologie actuelle pour
-valider les contre-exemples, telle qu'implémentée dans Why3.  Le taux
-de cas favorables est de l'ordre de 70 \%, et l'augmentation de ce
-taux est donc un objectif général.
+La première ligne «~Non-Conformity~» (en abrégé NC) désigne les cas où une
+erreur de code à été effectivement identifiée, plus précisément un cas où le
+code n'est pas conforme à la spécification, et où un contre-exemple explicite
+est produit pour générer l'exploit correspondant. La seconde ligne
+«~Specification Weakness~» (SW) concerne les cas où un contre-exemple est généré
+mais qui ne révèle pas un exploit mais une insuffisance dans les spécifications
+(manque d'invariant de boucle où sous-spécification d'une fonction auxiliaire)
+qui empêche de faire une preuve. Ces deux cas sont des cas favorables, et on va
+chercher à augmenter leurs fréquences. Le cas «~NC or SW~» désigne les cas où l'on
+n'arrive pas à décider si le contre-exemple est un exploit ou bien si c'est une
+faiblesse de spécification. C'est aussi une situation favorable mais plus
+imprécise. le cas «~Bad Counterexample~» (BAD) est défavorable : le contre-exemple
+proposé par le solveur n'est en fait pas un bon contre-exemple, et ce fait a été
+détecté comme tel par la procédure de validation. On souhaite diminuer le
+pourcentage de ces cas, et la seule façon que l'on a pour réduire ce pourcentage
+est de modifier les tâches de preuve que l'on soumet au solveur, afin que
+celui-ci soit plus performant. Le dernier cas «~Validation Incompleteness~»
+(INC) est aussi défavorable et on va chercher à le diminuer. Pour cela, il faut
+jouer sur la méthodologie actuelle pour valider les contre-exemples, telle
+qu'implémentée dans Why3.  Le taux de cas favorables est de l'ordre de 70\%, et
+l'augmentation de ce taux est donc un objectif général.
 
-Pour le dernier cas ``Validation Incompleteness'', on peut donner des
+Pour le dernier cas «~Validation Incompleteness~», on peut donner des
 statistiques plus détaillées. Voici ces statistiques pour la partie de
-validation dite ``à petits pas''
+validation dite «~à petits pas~» (cf~\cite{becker21fide})
   \begin{center}
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|}
-  \rowcolor{gray!50} Réponse
+    \hline
+    \rowcolor{gray!50} Réponse
   & \multicolumn{1}{p{0.65\textwidth}|}{explication}
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
     \\
@@ -156,7 +168,8 @@ INCOMPLETE & uncaught exception	& 8 \\
 INCOMPLETE & (terminated because mlmpfr wrapper is not implemented) & 6 \\
 INCOMPLETE & many args for exec	& 2 \\
 INCOMPLETE & (terminated because index is out of bounds) & 1 \\
-INCOMPLETE & (terminated because missing value for global `get`) & 1 \\
+    INCOMPLETE & (terminated because missing value for global `get`) & 1 \\
+    \hline
 \end{tabular}
 \end{center}
 Les deux premières lignes correspondent à des améliorations à apporter
@@ -164,10 +177,11 @@ Les deux premières lignes correspondent à des améliorations à apporter
 simplement à des bugs qu'il faut corriger.
 
 Les statistiques pour la
-partie de validation dite ``à pas de géant'' sont les suivantes.
+partie de validation dite «~à pas de géant~»~\cite{becker21rr} sont les suivantes.
 \begin{center}
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|}
+    \hline
   \rowcolor{gray!50} Réponse
   & \multicolumn{1}{p{0.65\textwidth}|}{explication}
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
@@ -178,6 +192,7 @@ INCOMPLETE & uncaught exception	& 8 \\
 INCOMPLETE &  (terminated because mlmpfr wrapper is not implemented) &	6 \\
 INCOMPLETE & (terminated because index is out of bounds) &	1 \\
     INCOMPLETE & (terminated because missing value for global `get`) &	1 \\
+    \hline
   \end{tabular}
 \end{center}
 Les conclusions sont les mêmes que pour la partie petits pas: deux
@@ -194,7 +209,7 @@ du répertoire \url{why3_ce}. Pour ces tests, on ne mesure pas leur succès par 
 statistiques mais par une proximité avec un résultat attendu. Les résultats
 attendus pour ces tests seront décrits dans un livrable annexe à celui-ci d'ici
 la fin 2024 au plus tard.  \footnote{Les sources de cette annexe sont
-  actuellement dans le sous-repertoire \url{counterexamples} du dépôt
+  actuellement dans le sous-répertoire \url{counterexamples} du dépôt
   \url{livrables}}
 
 \section{Contre-Exemples issus de J3}
@@ -220,37 +235,40 @@ table ci-dessous.
 \begin{center}
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|}
+    \hline
   \rowcolor{gray!50} Verdict
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
   & \multicolumn{1}{p{0.13\textwidth}|}{pourcentage}
   \\
-Non-Conformity            & 1199 & 23 \% \\
-Specification Weakness    &  153 &  3 \% \\
+Non-Conformity (NC)            & 1199 & 23 \% \\
+Specification Weakness (SW)    &  153 &  3 \% \\
 NC or SW  	          &  819 & 16 \% \\
-Bad Counterexample        &  592 & 11 \% \\
-Validation Incompleteness & 2465 & 47 \%
+Bad Counterexample (BAD)       &  592 & 11 \% \\
+    Validation Incompleteness (INC) & 2465 & 47 \% \\
+    \hline
   \end{tabular}
 \end{center}
 Ces statistiques sont également visualisées par le diagramme
 suivant.
   \begin{center}
 \begin{tikzpicture}
-    \pie{23/NC, 3/SW, 16/NCSW, 11/BAD, 47/INC}
+    \pie[sum=auto]{1199/NC, 153/SW, 819/NCSW, 592/BAD, 2465/INC}
 \end{tikzpicture}
 \end{center}
 
 Par rapport aux résultats rapportés pour Why3, les cas favorables
 (Non-Conformity + Specification Weakness + NC or SW) représentent une plus
-faible proportion du nombre total des contre-exemples générés de seulement 42
-\%, que l'on cherche donc à augmenter.
+faible proportion du nombre total des contre-exemples générés de seulement 42\%,
+que l'on cherche donc à augmenter.
 
-Pour le dernier cas ``Validation Incompleteness'', on peut donner des
+Pour le dernier cas «~Validation Incompleteness~», on peut donner des
 statistiques plus détaillées. Voici ces statistiques pour la partie de
-validation dite ``à petits pas'' :
+validation dite «~à petits pas~» :
 
 \begin{center}
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|}
+  \hline
   \rowcolor{gray!50} Réponse
   & \multicolumn{1}{p{0.65\textwidth}|}{explication}
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
@@ -264,46 +282,52 @@ INCOMPLETE & no VC                                   &   36 \\
 INCOMPLETE & out of fuel                             &   36 \\
 INCOMPLETE & expr with private type                  &   10 \\
 INCOMPLETE & protected component or part of variable &    4 \\
-INCOMPLETE & no reason                               &    2 
+    INCOMPLETE & no reason                               &    2 \\
+    \hline
 \end{tabular}
 \end{center}
 
 La première ligne, qui représente la moitié des cas d'incomplétude, correspond à
-tous les cas qui ne sont pas encore traités dans la validation à petits
-pas. C'est un axe important d'amélioration pour le futur.
+tous les cas qui ne sont pas encore traités dans la validation à petits pas, qui
+est réalisée par un interpréteur de code Ada dédié, c.-à-d. programmé
+spécifiquement pour cet usage. C'est un axe important d'amélioration pour le
+futur.
 
-Les lignes ``no body'' et ``no subprogram body'' représentent les cas où
+Les lignes «~no body~» et «~no subprogram body~» représentent les cas où
 l'implémentation d'un sous-programme n'est soit pas disponible (à cause de la
 façon dont l'outil de validation aggrège le code) ou bien pas en SPARK (ce qui
-empêche aujourd'hui la validation). La ligne ``missing parameter value''
-représente les cas où aucune valeur n'est disponible pour une variable du
-programme.
+empêche aujourd'hui la validation)\todo{Claude: en quoi le fait que ce ne soit
+  pas du fragment SPARK de Ada empèche l'exécution?}. La ligne «~missing
+parameter value~» représente les cas où aucune valeur n'est disponible pour une
+variable du programme.
 
-La ligne ``normal'' correspond aux cas où la validation à petits pas s'exécute
-sans erreur alors que la validation dite ``à pas de géant'' est incomplète. Il faut
+La ligne «~normal~» correspond aux cas où la validation à petits pas s'exécute
+sans erreur alors que la validation dite «~à pas de géant~» est incomplète. Il faut
 dans ce cas examiner les raisons de cette autre source d'incomplétude.
 
 Nous ne détaillons pas plus les cas correspondants aux lignes restantes qui
 concernent beaucoup moins de contre-exemples.
 
 Les statistiques pour la
-partie de validation dite ``à pas de géant'' sont les suivantes.
+partie de validation dite «~à pas de géant~» sont les suivantes.
 \begin{center}
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|}
+    \hline
   \rowcolor{gray!50} Réponse
   & \multicolumn{1}{p{0.65\textwidth}|}{explication}
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
     \\
 INCOMPLETE & cannot decide	   & 1754 \\
 INCOMPLETE & no reason             &  259 \\
-INCOMPLETE & missing return value  &  151
+    INCOMPLETE & missing return value  &  151 \\
+    \hline
   \end{tabular}
 \end{center}
 Les conclusions sont les mêmes que pour la validation des contre-exemples en
 Why3 avec deux pistes d'amélioration, et des cas (``no reason'') pour laquelle
 une investigation plus poussée est nécessaire.
-  
+
 \subsection{Suite de tests issue de SPARK}
 
 La suite de tests réduite pour les contre-exemples se trouvent dans l'archive
@@ -314,7 +338,7 @@ au code Why3 extrait par l'exécution de gnatprove sur le code SPARK d'une liste
 jeu de tests, les commandes
 \begin{lstlisting}
 > unzip spark_sexp.zip
-> export PATH=$PWD/../why3_examples/why3-88dc033/bin:$PATH  
+> export PATH=$PWD/../why3_examples/why3-88dc033/bin:$PATH
 > ./build_environment.sh
 > make
 \end{lstlisting}
