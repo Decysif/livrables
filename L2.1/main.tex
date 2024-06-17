@@ -22,15 +22,25 @@
   \includegraphics[width=0.1\textwidth]{../images/Logo-France-2030-rouge-bleu.png}}
 \end{picture}
 
-\begin{center}\bfseries
+\begin{center}
 
-  \Huge
-  Projet Décysif --- Livrable 2.1
+{  \Huge\bfseries
+  Projet Décysif --- Livrable 2.1 }
 
-  \Large
+{  \Large\bfseries
 Constitution d’une base de fichiers d’entrée
 représentatifs des difficultés rencontrées pour la
-preuve automatique.
+preuve automatique.}
+
+
+\bigskip
+\bigskip
+
+
+\large Yannick Moy (AdaCore), Guillaume Cluzel (TrustInSoft), Matteo
+Manighetti (Inria), Claude Marché (Inria)
+
+
 \end{center}
 
 
@@ -71,9 +81,9 @@ utilisés pour ces tests sont indiqués dans le fichier
 \url{run_bench.sh} lui-même.
 
 Une exécution de référence de ces tests a été lancée le 15 avril 2024
-sur le serveur de calcul ``moloch'' de l'équipe Inria Toccata. Ce
-serveur dispose de 16 c{\oe}urs ``Intel(R) Xeon(R) CPU E5-2450 v2 @
-2.50GHz'' et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
+sur le serveur de calcul «~moloch~» de l'équipe Inria Toccata. Ce
+serveur dispose de 16 c{\oe}urs «~Intel(R) Xeon(R) CPU E5-2450 v2 @
+2.50GHz~» et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
 ont été utilisés. Sur chaque fichier source, on demande à Why3 de
 générer l'obligation de preuve de chaque fonction, de découper la
 formule générée en plusieurs sous-formules, puis on appelle un jeu de
@@ -86,6 +96,7 @@ référence, le nombre total d'obligation de preuve est de 41389:
 \begin{center}
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|r|r|r|}
+    \hline
   \rowcolor{gray!50} Prouveur
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts}
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts prouvés}
@@ -95,25 +106,27 @@ référence, le nombre total d'obligation de preuve est de 41389:
   \\
   Alt-Ergo 2.5.2                & 41389 & 32170 &  0.00  & 4.98 &  0.12 \\
   CVC4 1.8                      & 41389 & 33650 &  0.01  & 4.81 &  0.17 \\
-  CVC5 1.0.5                    & 41389 & 32904 &  0.01  & 4.92 &  0.17 \\
-  Z3 4.12.2                     & 41389 & 30713 &  0.01  & 4.96 &  0.07
+  cvc5 1.0.5                    & 41389 & 32904 &  0.01  & 4.92 &  0.17 \\
+    Z3 4.12.2                     & 41389 & 30713 &  0.01  & 4.96 &  0.07 \\
+    \hline
 \end{tabular}
 \end{center}
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.9\textwidth]{AE-vs-CVC4.png}
-  \caption{Comparaison d'Alt-Ergo et CVC4. Globalement, CVC4 prouve
+  \hspace*{-0.1\textwidth}\includegraphics[width=1.2\textwidth]{AE-vs-CVC5.png}
+  \caption{Comparaison d'Alt-Ergo et cvc5. Globalement, cvc5 prouve
     plus de buts qu'Alt-Ergo, mais Alt-Ergo est plus rapide. On
-    indique aussi que 2515 buts sont prouvés par Alt-Ergo mais pas par
-    CVC4, alors que 3995 sont prouvés par CVC4 mais pas par Alt-Ergo.}
-  \label{fig:AEvsCVC4}
+    indique aussi que 3502 buts sont prouvés par Alt-Ergo mais pas par
+    cvc5, alors que 4236 sont prouvés par cvc5 mais pas par Alt-Ergo.}
+  \label{fig:AEvsCVC5}
+  \hrulefill
 \end{figure}
 
 Des statistiques plus fines peuvent être calculées à la demande sur
-les fichiers de sessions. Par exemple, la figure~\ref{fig:AEvsCVC4}
+les fichiers de sessions. Par exemple, la figure~\ref{fig:AEvsCVC5}
 une représentation graphique qui compare les performances de Alt-Ergo
-et de CVC4 sur le jeu de test.
+et de cvc5 sur le jeu de test.
 
 En fin de projet, une exécution similaire des outils améliorés seront
 rejoués sur les même exemples, et on évaluera les améliorations
@@ -149,7 +162,7 @@ Le code archivé correspond au code Why3 extrait du code SPARK par l'exécution
 de gnatprove. Pour installer et configurer ce jeu de tests, les commandes
 \begin{lstlisting}
 > unzip spark_sexp.zip
-> export PATH=$PWD/../why3_examples/why3-88dc033/bin:$PATH  
+> export PATH=$PWD/../why3_examples/why3-88dc033/bin:$PATH
 > ./build_environment.sh
 > make
 \end{lstlisting}
@@ -164,9 +177,9 @@ utilisés pour ces tests sont indiqués dans le fichier
 \url{run_bench.sh} lui-même.
 
 Une exécution de référence de ces tests a été lancée le 11 juin 2024
-sur le serveur de calcul ``moloch'' de l'équipe Inria Toccata. Ce
-serveur dispose de 16 c{\oe}urs ``Intel(R) Xeon(R) CPU E5-2450 v2 @
-2.50GHz'' et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
+sur le serveur de calcul «~moloch~» de l'équipe Inria Toccata. Ce
+serveur dispose de 16 c{\oe}urs «~Intel(R) Xeon(R) CPU E5-2450 v2 @
+2.50GHz~» et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
 ont été utilisés. Sur chaque fichier source, on demande à Why3 de
 générer l'obligation de preuve de chaque fonction, de découper la
 formule générée en plusieurs sous-formules, puis on appelle un jeu de
@@ -180,6 +193,7 @@ référence, le nombre total d'obligation de preuve est de 135036:
 \begin{center}
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|r|r|r|}
+    \hline
   \rowcolor{gray!50} Prouveur
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts}
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts prouvés}
@@ -188,8 +202,9 @@ référence, le nombre total d'obligation de preuve est de 135036:
   & \multicolumn{1}{p{0.13\textwidth}|}{temps moyen}
   \\
   Alt-Ergo 2.4.0                & 135036 &  98822 &  0.00  & 4.96 &  0.09 \\
-  CVC5 1.0.5                    & 135036 & 100560 &  0.01  & 4.98 &  0.11 \\
-  Z3 4.12.4                     & 135036 & 101915 &  0.00  & 4.89 &  0.04
+  cvc5 1.0.5                    & 135036 & 100560 &  0.01  & 4.98 &  0.11 \\
+    Z3 4.12.4                     & 135036 & 101915 &  0.00  & 4.89 &  0.04 \\
+\hline
 \end{tabular}
 \end{center}
 
@@ -211,15 +226,17 @@ référence, les prouveurs Alt-Ergo 2.4.0, cvc5 1.0.5 et Z3 4.12.4 et Colibri
 \begin{center}
   \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|l|r|r|r|}
+    \hline
   \rowcolor{gray!50} Prouveur
   & \multicolumn{1}{p{0.13\textwidth}|}{arithmétique entière (51 VC)}
   & \multicolumn{1}{p{0.13\textwidth}|}{arithmétique de bit-vecteurs (20 VC)}
   & \multicolumn{1}{p{0.13\textwidth}|}{arithmétique mixte entière et bit-vecteurs (8 VC)}
   \\
   Alt-Ergo 2.4.0                &  8 &  0 & 0  \\
-  CVC5 1.0.5                    & 38 &  1 & 0 \\
+  cvc5 1.0.5                    & 38 &  1 & 0 \\
   Z3 4.12.4                     & 43 &  1 & 3 \\
-  Colibri 2020.9                & 23 & 11 & 1
+    Colibri 2020.9                & 23 & 11 & 1 \\
+    \hline
 \end{tabular}
 \end{center}
 
@@ -228,6 +245,8 @@ référence, les prouveurs Alt-Ergo 2.4.0, cvc5 1.0.5 et Z3 4.12.4 et Colibri
 TODO [Claude]
 
 \section{Travail futur}
+
+Tester Colibri2 sur tous les exemples Why3
 
 Quelles autres statistiques peut-on vouloir?
 
