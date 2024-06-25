@@ -214,9 +214,86 @@ la fin 2024 au plus tard.  \footnote{Les sources de cette annexe sont
 
 \section{Contre-Exemples issus de J3}
 
-TODO [Guillaume]
+Le répertoire \url{j3_ce} contient une suite de tests au format C qui peuvent
+être rejoués en utilisant tis-analyzer, comme expliqué dans le fichier
+\url{README.md} de ce répertoire. En particulier, le répertoire contient
+deux scripts~: le premier permettant de générer des fichiers au format
+\texttt{sexp} pouvant être réutilisés ultérieurement par un utilisateur n'ayant
+pas installé tis-analyzer, et un second script permettant de lancer la suite
+de tests et obtenir des statisques sur les contres-exemples de la suite de tests.
 
-Méthodologie pour extraire des statistique à décrire
+Une exécution de ces tests a été effectuée le 21 juin 2024 en utilisant la
+version 1.47 de tis-analyzer, utilisant les prouveurs CVC4 1.7, cvc5 1.0.5 et
+Z3 4.8.17. Les résultats globaux de la classification de ces contre-exemples
+sont donnés ci-dessous.
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+    \hline
+  \rowcolor{gray!50} Verdict
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+  & \multicolumn{1}{p{0.13\textwidth}|}{pourcentage}
+  \\
+Non-Conformity (NC)                 & 147 & 70 \% \\
+Specification Weakness (SW)         &  14 &  7 \% \\
+NC or SW  	                        &  31 & 15 \% \\
+Bad Counterexample (BAD)            &   3 &  1 \% \\
+    Validation Incompleteness (INC) &  15 &  7 \% \\
+    \hline
+  \end{tabular}
+\end{center}
+Ces statistiques sont également visualisées par le diagramme
+suivant.
+  \begin{center}
+\begin{tikzpicture}
+    \pie[sum=auto]{147/NC, 14/SW, 31/NCSW, 3/BAD, 15/INC}
+\end{tikzpicture}
+\end{center}
+
+La classification des contre-exemples dans J3 se fait à l'aide de deux outils
+indépendants de J3. Le premier de ces deux outils est le greffon d'analyse par
+interpretation abstraite de tis-analyzer qui est utilisé en mode «~interpréteur~»
+ce qui représente une exécution concrète du source C. Cette partie étant assez
+stable et ses limitations déjà identifiées, le choix a été fait de se concentrer
+sur l'extration de statistiques autour du deuxième outil permettant la
+classification des contre-exemples. Cet outil est l'interpréteur de code dit
+«~à grands pas~». Les résultats de l'interpréteur de code «~à grands pas~»
+sont donnés dans la table ci-dessous.
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+    \hline
+  \rowcolor{gray!50} Verdict
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+  & \multicolumn{1}{p{0.13\textwidth}|}{pourcentage}
+  \\
+    NORMAL                              &  20 &  4 \% \\
+    FAILURE                             & 294 & 63 \% \\
+    STUCK                               &  36 &  8 \% \\
+    INCOMPLETE                          & 111 & 24 \% \\
+    \hline
+  \end{tabular}
+\end{center}
+
+La ligne «~STUCK~» révèle des problèmes dans l'exécution à grands pas du
+contre-exemple. C'est un cas défavorable qui empêche d'évaluer la qualité
+du contre-exemple et empêche également de le classifier.
+On cherche à isoler ces cas pour en réduire le pourcentage.
+Le cas «~INCOMPLETE~» rélève lui aussi des problèmes dans l'évaluation de
+la validité du contre-exemple retourné par le prouveur. Les raisons
+peuvent être diverses, et les analyser permettra de classer correctement plus
+de contre-exemples.
+La ligne «~NORMAL~» correspond à un modèle retourné par le prouveur qui ne
+viole aucune contrainte du code. Ces cas seront analysés pour comprendre
+pourquoi le proveur a retourné des modèles qui ne constitue pas un
+contre-exemple pour la propriété que l'on cherche à prouver et permettra de
+déterminer les leviés possibles pour l'amélioration des contre-exemples dans J3.
+Enfin, la ligne «~FAILURE~» correspond au cas d'un contre-exemple correct, c'est
+donc le cas favorable. L'objectif général est d'augmenter le taux
+de contre-exemples classé dans cette dernière catégorie et de diminuer les
+taux des trois autres catégories.
 
 \section{Contre-Exemples issus de SPARK}
 
