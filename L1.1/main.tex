@@ -427,7 +427,86 @@ référence de Why3 (1er mars 2024) et de compiler les commandes nécessaires. E
 \end{lstlisting}
 doit être lancée pour exécuter les tests proprement dit.
 
-TODO Résultats de référence à ajouter [Matteo]
+Une execution du jeu de test a eu lieu le 25 juin 2024, avec le prouveur CVC5 dans
+la configuration de Why3 ainsi que dans celle de SPARK (alternative "gnatprove").
+Le résultats ont été les suivants:
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|r|}
+    \hline
+  \rowcolor{gray!50} Prouveur
+  & \multicolumn{1}{p{0.4\textwidth}|}{Verdict (Abstract RAC)}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+  & \multicolumn{1}{p{0.13\textwidth}|}{pourcentage} \\
+CVC5,1.0.5,counterexamples & NC         & 68 & 0,22\\
+CVC5,1.0.5,counterexamples & SW         & 0 & 0\\
+CVC5,1.0.5,counterexamples & NC or SW   & 126& 0,42\\
+CVC5,1.0.5,counterexamples & INCOMPLETE & 90 & 0,30\\
+CVC5,1.0.5,counterexamples & BAD        & 17 & 0,06\\
+    \hline
+CVC5,1.0.5,gnatprove       & NC         & 68 & 0,22\\
+CVC5,1.0.5,gnatprove       & SW         & 0 & 0\\
+CVC5,1.0.5,gnatprove       & NC or SW   & 126& 0,42\\
+CVC5,1.0.5,gnatprove       & INCOMPLETE & 84 & 0,28\\
+CVC5,1.0.5,gnatprove       & BAD        & 24 & 0,08\\
+    \hline
+  \end{tabular}
+\end{center}
+
+Les statistiques pour la configuration gnatprove sont également visualisées par
+le diagramme suivant.
+\begin{center}
+  \begin{tikzpicture}
+    \pie[sum=auto]{68/NC, 126/NCSW, 24/BAD, 84/INC}
+  \end{tikzpicture}
+\end{center}
+
+L'execution à petits pas est maintenant executée par Why3, et non sur le code
+Ada: c'est une raison possible pour le nombre plus faible de cas d'incompletude.
+En plus, SPARK ne fournit pas le corp des sous-programmes, ce qui est nécessaire
+pour reconnaître les cas SW.
+
+Le detail de cas d'incompletude pour l'execution à petits pas est le suivant:
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+    \hline
+  \rowcolor{gray!50} Réponse
+  & \multicolumn{1}{p{0.65\textwidth}|}{explication}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+    \\
+INCOMPLETE & cannot decide & 42 \\
+INCOMPLETE & missing return value & 33 \\
+INCOMPLETE & (terminated because RAC timelimit reached) & 9 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+On peut voir qu'il ne s'agit pas de bug dans Why3, mais de cas qui nécessitent
+des améliorations dans la méthodologie de validation des contre-exemples.
+
+Le détail de l'execution à pas de géant est le suivant:
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+    \hline
+  \rowcolor{gray!50} Réponse
+  & \multicolumn{1}{p{0.65\textwidth}|}{explication}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+    \\
+INCOMPLETE & cannot decide & 52 \\
+NORMAL & & 19 \\
+INCOMPLETE & missing return value & 8 \\
+INCOMPLETE & (terminated because RAC timelimit reached) & 5 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+Ici, on a un certain nombre de cas normaux, qui sont des modèles fourni par le
+prouveur qui ne sont pas des contre-exemples.
 
 \section{Travail futur}
 
