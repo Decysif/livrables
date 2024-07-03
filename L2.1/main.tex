@@ -36,6 +36,7 @@ preuve automatique.}
 \bigskip
 \bigskip
 
+\large Juillet 2024
 
 \large Yannick Moy (AdaCore), Guillaume Cluzel (TrustInSoft), Matteo
 Manighetti (Inria), Claude Marché (Inria)
@@ -140,6 +141,8 @@ capacités de preuve automatiques des prouveurs. Ces exemples sont
 sélectionnés comme représentatifs des difficultés que l'on cherche à
 résoudre. L'idéal sera qu'en fin de projet, tous les exemples en
 question soient prouvés automatiquement.
+
+TODO [Claude] expliquer pas de statistiques
 
 \section{Exemples issus de J3}
 
@@ -253,7 +256,7 @@ référence, le nombre total d'obligation de preuve est de 135036:
   \\
   Alt-Ergo 2.4.0                & 135036 &  98822 &  0.00  & 4.96 &  0.09 \\
   cvc5 1.0.5                    & 135036 & 100560 &  0.01  & 4.98 &  0.11 \\
-    Z3 4.12.4                     & 135036 & 101915 &  0.00  & 4.89 &  0.04 \\
+  Z3 4.12.4                     & 135036 & 101915 &  0.00  & 4.89 &  0.04 \\
 \hline
 \end{tabular}
 \end{center}
@@ -292,7 +295,23 @@ référence, les prouveurs Alt-Ergo 2.4.0, cvc5 1.0.5 et Z3 4.12.4 et Colibri
 
 \section{Exemples issus de Creusot}
 
-TODO [Claude]
+Le répertoire \url{creusot_examples} contient un jeu de tests issus de
+l'outil Creusot~\cite{denis22icfem}.
+
+Ces exemples se présentent sous la forme de fichiers mlcfg, un format d'entrée supporté par Why3.
+
+Les fichiers mlcfg intégrés ont été générés avec la version 0.1 de
+Creusot.
+
+Ce jeu est constitué d'une sélection d'exemples issus du
+sous-répertoire \url{tests/should_succeed}. Cette sélection ignore
+simplement les petits tests unitaires visant à tester des features
+individuelles de Creusot.
+
+Ce jeu de tests sera amené à etre complété à l'avenir (cf section de conclusion).
+
+Les résultats obtenus lors d'une exécution avec Why3 sont les suivants.
+
 
 \section{Travail futur}
 
@@ -311,4 +330,15 @@ Gappa spécialisés pour les problèmes d'arithmétique en virgule flottante.
 
 Dans le cadre de J3, nous aimerions égalemnt constituer une suite de tests
 constitués de quelques exemples de code C++ possédant leur propres spécificités.
+
+Dans le futur, nous penson également compléter le jeu de test de Creusot par des exemples complexes,
+on pense à CreuSAT (\url{https://github.com/sarsko/creusat})
+et cdsat (\url{https://github.com/xldenis/cdsat}).
+
+\clearpage
+
+\bibliographystyle{plainurl}
+\bibliography{generated,main}
+%\bibliography{abbrevs,demons,demons2,demons3,team,crossrefs}
+
 \end{document}
