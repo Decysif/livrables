@@ -13,8 +13,11 @@
 
 \lstset{basicstyle={\ttfamily}}
 
+\usepackage{todonotes}
+
 \begin{document}
 
+\thispagestyle{empty}
 
 \unitlength=1mm
 \begin{picture}(0,0)(0,10)
@@ -22,10 +25,16 @@
   \includegraphics[width=0.1\textwidth]{../images/Logo-France-2030-rouge-bleu.png}}
 \end{picture}
 
+\todo[inline]{logos des partenaires aussi?}
+
+\vfill
+
 \begin{center}
 
 {  \Huge\bfseries
   Projet Décysif --- Livrable 2.1 }
+
+\bigskip
 
 {  \Large\bfseries
 Constitution d’une base de fichiers d’entrée
@@ -33,16 +42,23 @@ représentatifs des difficultés rencontrées pour la
 preuve automatique.}
 
 
-\bigskip
-\bigskip
+\vfill
 
 \large Juillet 2024
+
+\vfill
 
 \large Yannick Moy (AdaCore), Guillaume Cluzel (TrustInSoft), Matteo
 Manighetti (Inria), Claude Marché (Inria)
 
 
 \end{center}
+
+\vfill
+
+TODO: phrase demandée par la BPI
+
+\clearpage
 
 
 Ce livrable est constituée d'une base de tests qui se trouve dans le dépot
@@ -310,7 +326,38 @@ individuelles de Creusot.
 
 Ce jeu de tests sera amené à etre complété à l'avenir (cf section de conclusion).
 
-Les résultats obtenus lors d'une exécution avec Why3 sont les suivants.
+Une exécution de référence de ces tests a été lancée le 3 juillet 2024
+sur le serveur de calcul «~moloch~» de l'équipe Inria Toccata. Ce
+serveur dispose de 16 c{\oe}urs «~Intel(R) Xeon(R) CPU E5-2450 v2 @
+2.50GHz~» et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
+ont été utilisés. Sur chaque fichier source, on demande à Why3 de
+générer l'obligation de preuve de chaque fonction, de découper la
+formule générée en plusieurs sous-formules, puis on appelle un jeu de
+prouveur sur chacune des sous-formules. Un temps limite de 5 secondes est donné à chaque exécution de prouveurs. Pour l'exécution de référence,
+les prouveurs Alt-Ergo 2.5.4, CVC4 1.8, cvc5 1.0.5 et Z3 4.12.2 ont
+été utilisés. Les résultats sont enregistrés dans des fichiers de
+session de preuve de Why3, pouvant donner lieu à diverses
+statistiques. Voici des statistiques globales pour l'exécution de
+référence, le nombre total d'obligation de preuve est de 4706:
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|r|r|r|}
+    \hline
+  \rowcolor{gray!50} Prouveur
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts prouvés}
+  & \multicolumn{1}{p{0.13\textwidth}|}{temps minimal}
+  & \multicolumn{1}{p{0.13\textwidth}|}{temps maximal}
+  & \multicolumn{1}{p{0.13\textwidth}|}{temps moyen}
+  \\
+  Alt-Ergo 2.5.4                &  4706  & 4333   & 0.00  & 4.87  & 0.06 \\
+  CVC4 1.8                      &  4706  & 4219   & 0.01  & 4.52  & 0.09 \\
+  CVC5 1.0.5                    &  4706  & 4392   & 0.01  & 4.88  & 0.11 \\
+  Z3 4.12.2                     &  4706  & 4319   & 0.00  & 4.50  & 0.07 \\
+  \hline
+\end{tabular}
+\end{center}
+
 
 
 \section{Travail futur}
@@ -331,9 +378,15 @@ Gappa spécialisés pour les problèmes d'arithmétique en virgule flottante.
 Dans le cadre de J3, nous aimerions égalemnt constituer une suite de tests
 constitués de quelques exemples de code C++ possédant leur propres spécificités.
 
-Dans le futur, nous penson également compléter le jeu de test de Creusot par des exemples complexes,
-on pense à CreuSAT (\url{https://github.com/sarsko/creusat})
-et cdsat (\url{https://github.com/xldenis/cdsat}).
+Dans le futur, nous penson également compléter le jeu de test de
+Creusot par des exemples complexes, on pense à CreuSAT~\cite{skotam22creusat}
+(\url{https://github.com/sarsko/creusat}) et cdsat
+(\url{https://github.com/xldenis/cdsat}). Par ailleurs, il se trouvent
+que dans son fonctionnement, Creusot fait une usage particulier de la
+théorie des séquences, qui semble être une théorie diffficle pour les
+prouveurs. On pourra donc être amené à isoler dans notre jeu de tests
+les exemples qui échouent à cause des séquences, afin de fournir un
+jeu de test réduit pour ce cas précis.
 
 \clearpage
 

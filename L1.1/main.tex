@@ -20,6 +20,7 @@
 
 \begin{document}
 
+\thispagestyle{empty}
 
 \unitlength=1mm
 \begin{picture}(0,0)(0,10)
@@ -27,30 +28,39 @@
   \includegraphics[width=0.1\textwidth]{../images/Logo-France-2030-rouge-bleu.png}}
 \end{picture}
 
+\todo[inline]{logos des partenaires aussi?}
+
+\vfill
+
 \begin{center}
 
-{ \todo[inline]{logos des partenaires aussi?} \Huge\bfseries
+{ \Huge\bfseries
   Projet Décysif --- Livrable 1.1 }
 
-{  \Large\bfseries
+\bigskip
+
+{  \LARGE\bfseries
   Constitution d’une base de fichiers d’entrée
 représentatifs des difficultés rencontrées pour
 générer des exploits.
 }
 
-\bigskip
-\bigskip
+\vfill
 
 \large Juillet 2024
 
-\bigskip
+\vfill
 
 \large Guillaume Cluzel (TrustInSoft), Matteo Manighetti (Inria), Claude Marché
 (Inria), Yannick Moy (AdaCore)
 
 \end{center}
 
-\bigskip
+\vfill
+
+TODO: phrase demandée par la BPI
+
+\clearpage
 
 Ce livrable est constituée d'une base de tests qui se trouve dans le dépot
 \href{https://github.com/Decysif/benchmarks}{'benchmarks'} du projet Décysif.
@@ -129,7 +139,7 @@ Ces statistiques sont également visualisées par le diagramme
   suivant.
   \begin{center}
 \begin{tikzpicture}
-    \pie[explode={0.1,0.2,0.5},sum=auto]{721/NC, 93/SW, 6/NCSW, 195/BAD, 160/INC}
+    \pie[sum=auto]{721/NC, 93/SW, 6/NCSW, 195/BAD, 160/INC}
 \end{tikzpicture}
 \end{center}
 La première ligne «~Non-Conformity~» (en abrégé NC) désigne les cas où une
@@ -515,7 +525,8 @@ prouveur qui ne sont pas des contre-exemples.
 
 Quelles autres statistiques peut-on vouloir?
 
-Creer une infrastrcture de contre-exemples pour Creusot
+Un travail futur est également de créerr une infrastructure de production de
+contre-exemples pour Creusot~\cite{denis22icfem}.
 
 \clearpage
 
