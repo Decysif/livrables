@@ -143,11 +143,61 @@ question soient prouvés automatiquement.
 
 \section{Exemples issus de J3}
 
-TODO [Guillaume]
+\subsection{Jeu d'exemples de programmes écrits en C et extraits en WhyML}
 
-Méthodologie pour extraire des statistique à décrire:
-* Nombre de buts prouvés/Nombre de buts au total
-TODO: Fixer la version d'alt-ergo
+Le sous-répertoire \url{j3_example} contient le jeu d'exemples extrait du bench
+d'exemples de la distribution de SPARK, formé de code source dans le langage C.
+La documentation de référence est dans le fichier \url{README.md} de ce
+répertoire.
+
+La création de ce jeu de tests se fait via la lancement d'un script
+\verb/generate-sexp.sh/.
+Ce script nécessite d'avoir le binaire \verb/tis-analyzer/ qui sera lancé
+pour générer les fichiers sexp sur tous les exemples présents dans ce
+répertoire.
+
+Un deuxième script \verb/run.sh/ permet de lancer Why3 sur tous les fichiers
+sexp préalablement générés. Why3 tente ensuite de faire prouver les obligations
+de preuve généré par les prouveurs Alt-Ergo 2.5.2, CVC4 1.8, cvc5 1.0.8 et
+Z3 4.8.17. Une exécution de référence de ces tests a été lancé le 6 juin 2024
+sur une machine disposant de 12 c{\oe}urs «~11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz~» et disposant de 16~Go de RAM.
+Les résultats sont enregistrés dans de fichier de session de preuve et peuvent
+donner lieu à plusieurs statistiques.
+Voici des statistiques globales pour l'exécution de
+référence, le nombre total d'obligation de preuve est de 9534:
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|r|r|r|}
+    \hline
+  \rowcolor{gray!50} Prouveur
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre de buts prouvés}
+  & \multicolumn{1}{p{0.13\textwidth}|}{temps minimal}
+  & \multicolumn{1}{p{0.13\textwidth}|}{temps maximal}
+  & \multicolumn{1}{p{0.13\textwidth}|}{temps moyen}
+  \\
+  Alt-Ergo 2.5.2                &  9534 & 5321 & 0.05 & 4.98 & 0.18 \\
+  CVC4 1.8                      &  9534 & 7533 & 0.04 & 4.77 & 0.28 \\
+  CVC5 1.0.8                    &  9534 & 7500 & 0.03 & 4.96 & 0.31 \\
+  Z3 4.8.17                     &  9534 & 6948 & 0.02 & 4.93 & 0.61 \\
+    \hline
+\end{tabular}
+\end{center}
+
+Des statistiques plus fines peuvent être extraites pour comparer deux à deux
+les prouveurs utilisés pour la preuve et affichant le résultat sous une forme
+similaire à celle présentée dans la section précédente. Ces résultats peuvent
+être trouvés dans le sous-dossier \url{results/2024-06-06}.
+
+\subsection*{Examples écrits spécifiquement pour le projet}
+
+Le dossier \url{j3_handcrafted} contient des examples de programmes C
+relativement basiques qui mettent en échec les différents prouveurs CVC4, cvc5,
+Z3 et Alt-Ergo dans leurs versions mentionnées précédemment.
+Ces exemples ont été sélectionnés car représentatifs des problèmes que l'on
+cherche à résoudre, et ils semblent suffisamment simples pour que l'ont puisse
+s'attendre à qu'ils soient prouvés automatiquement.
 
 \section{Exemples issus de SPARK}
 
@@ -259,4 +309,6 @@ Nous désirons également mesurer les résultats d'autres prouveurs sur ces suit
 de tests, comme le successeur Colibri2 de Colibri, et les prouveurs dReal et
 Gappa spécialisés pour les problèmes d'arithmétique en virgule flottante.
 
+Dans le cadre de J3, nous aimerions égalemnt constituer une suite de tests
+constitués de quelques exemples de code C++ possédant leur propres spécificités.
 \end{document}
