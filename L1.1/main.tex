@@ -23,12 +23,14 @@
 \thispagestyle{empty}
 
 \unitlength=1mm
-\begin{picture}(0,0)(0,10)
-\put(-20,25){\includegraphics[width=0.3\textwidth]{../images/Logo_Bpifrance.png}
-  \includegraphics[width=0.1\textwidth]{../images/Logo-France-2030-rouge-bleu.png}}
+\begin{picture}(140,30)
+\put(0,30){\includegraphics[height=6mm]{../images/TIS-logo.png}}
+\put(0,15){\includegraphics[height=10mm]{../images/adacore.png}}
+\put(0,0){OCamlPro}
+\put(120,30){\includegraphics[height=8mm]{../images/Universite_Paris_Saclay_logo.png}}
+\put(120,15){\includegraphics[height=12mm]{../images/cnrs.png}}
+\put(120,0){\includegraphics[height=12mm]{../images/logo-inria-reduced.png}}
 \end{picture}
-
-\todo[inline]{logos des partenaires aussi?}
 
 \vfill
 
@@ -58,7 +60,13 @@ générer des exploits.
 
 \vfill
 
-TODO: phrase demandée par la BPI
+\noindent\begin{picture}(140,30)
+\put(0,0){\includegraphics[width=0.3\textwidth]{../images/Logo_Bpifrance.png}}
+\put(140,0){\includegraphics[width=0.1\textwidth]{../images/Logo-France-2030-rouge-bleu.png}}
+\end{picture}
+
+\noindent Le projet Décysif est financé par la Région Île-de-France et par le Gouvernement
+Français dans le cadre du Plan France 2030
 
 \clearpage
 
@@ -271,7 +279,7 @@ ce qui représente une exécution concrète du source C. Cette partie étant ass
 stable et ses limitations déjà identifiées, le choix a été fait de se concentrer
 sur l'extration de statistiques autour du deuxième outil permettant la
 classification des contre-exemples. Cet outil est l'interpréteur de code dit
-«~à grands pas~». Les résultats de l'interpréteur de code «~à grands pas~»
+«~à pas de géant~». Les résultats de l'interpréteur de code «~à pas de géant~»
 sont donnés dans la table ci-dessous.
 
 \begin{center}
@@ -290,7 +298,7 @@ sont donnés dans la table ci-dessous.
   \end{tabular}
 \end{center}
 
-La ligne «~STUCK~» révèle des problèmes dans l'exécution à grands pas du
+La ligne «~STUCK~» révèle des problèmes dans l'exécution à pas de géant du
 contre-exemple. C'est un cas défavorable qui empêche d'évaluer la qualité
 du contre-exemple et empêche également de le classifier.
 On cherche à isoler ces cas pour en réduire le pourcentage.
@@ -523,9 +531,13 @@ prouveur qui ne sont pas des contre-exemples.
 
 \section{Travail futur}
 
-Quelles autres statistiques peut-on vouloir?
+Quelles autres statistiques peut-on vouloir? plus de détail sur les cas ``cannot decide'' ?
 
-Un travail futur est également de créerr une infrastructure de production de
+Futur: extraire depuis les contre-exemples classifiés comme NC des
+exploits. Peut-etre un besoin d'indentifier des exemples dédiés sur lesquels on
+sait que des exploits existent, et on veut montrer que l'on sait les identifier.
+
+Un travail futur est également de créer une infrastructure de production de
 contre-exemples pour Creusot~\cite{denis22icfem}.
 
 \clearpage
