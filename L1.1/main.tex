@@ -25,11 +25,11 @@
 \unitlength=1mm
 \begin{picture}(140,30)
 \put(-10,30){\includegraphics[height=12mm]{../images/TIS-logo.png}}
-\put(-10,10){\includegraphics[height=22mm]{../images/adacore.png}}
-\put(0,0){OCamlPro}
+\put(-10,11){\includegraphics[height=22mm]{../images/adacore.png}}
+\put(-6,0){\includegraphics[height=12mm]{../images/logo_ocamlpro.png}}
 \put(125,30){\includegraphics[height=10mm]{../images/Universite_Paris_Saclay_logo.png}}
-\put(125,12){\includegraphics[height=16mm]{../images/cnrs.png}}
-\put(120,0){\includegraphics[height=12mm]{../images/logo-inria-reduced.png}}
+\put(127,12){\includegraphics[height=16mm]{../images/cnrs.png}}
+\put(123,0){\includegraphics[height=12mm]{../images/logo-inria-reduced.png}}
 \end{picture}
 
 \vfill
@@ -126,7 +126,7 @@ les résultats de ces tests, avec le script
 qui génère des fichiers de statistiques au format CSV.
 
 Une exécution de ces tests a été effectuée
-le 22 avril 2024, avec les prouveurs Alt-Ergo 2.5.2, CVC4 1.8, CVC5
+le 22 avril 2024, avec les prouveurs Alt-Ergo 2.5.2, CVC4 1.8, cvc5
 1.0.5 et Z3 4.8.10. les résultats globaux sont donnés par la table ci-dessous.
   \begin{center}
   \rowcolors{2}{gray!25}{white}
@@ -449,7 +449,7 @@ référence de Why3 (1er mars 2024) et de compiler les commandes nécessaires. E
 \end{lstlisting}
 doit être lancée pour exécuter les tests proprement dit.
 
-Une execution du jeu de test a eu lieu le 25 juin 2024, avec le prouveur CVC5 dans
+Une execution du jeu de test a eu lieu le 25 juin 2024, avec le prouveur cvc5 dans
 la configuration de Why3 ainsi que dans celle de SPARK (alternative "gnatprove").
 Le résultats ont été les suivants:
 
@@ -461,17 +461,17 @@ Le résultats ont été les suivants:
   & \multicolumn{1}{p{0.4\textwidth}|}{Verdict}
   & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
   & \multicolumn{1}{p{0.13\textwidth}|}{pourcentage} \\
-CVC5,1.0.5,counterexamples & NC         & 68 & 0,22\\
-CVC5,1.0.5,counterexamples & SW         & 0 & 0\\
-CVC5,1.0.5,counterexamples & NC or SW   & 126& 0,42\\
-CVC5,1.0.5,counterexamples & INCOMPLETE & 90 & 0,30\\
-CVC5,1.0.5,counterexamples & BAD        & 17 & 0,06\\
+cvc5,1.0.5,counterexamples & NC         & 68 & 0,22\\
+cvc5,1.0.5,counterexamples & SW         & 0 & 0\\
+cvc5,1.0.5,counterexamples & NC or SW   & 126& 0,42\\
+cvc5,1.0.5,counterexamples & INCOMPLETE & 90 & 0,30\\
+cvc5,1.0.5,counterexamples & BAD        & 17 & 0,06\\
     \hline
-CVC5,1.0.5,gnatprove       & NC         & 68 & 0,22\\
-CVC5,1.0.5,gnatprove       & SW         & 0 & 0\\
-CVC5,1.0.5,gnatprove       & NC or SW   & 126& 0,42\\
-CVC5,1.0.5,gnatprove       & INCOMPLETE & 84 & 0,28\\
-CVC5,1.0.5,gnatprove       & BAD        & 24 & 0,08\\
+cvc5,1.0.5,gnatprove       & NC         & 68 & 0,22\\
+cvc5,1.0.5,gnatprove       & SW         & 0 & 0\\
+cvc5,1.0.5,gnatprove       & NC or SW   & 126& 0,42\\
+cvc5,1.0.5,gnatprove       & INCOMPLETE & 84 & 0,28\\
+cvc5,1.0.5,gnatprove       & BAD        & 24 & 0,08\\
     \hline
   \end{tabular}
 \end{center}
