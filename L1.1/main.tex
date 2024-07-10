@@ -301,19 +301,40 @@ sont donnés dans la table ci-dessous.
 
 La ligne «~STUCK~» révèle des problèmes dans l'exécution à pas de géant du
 contre-exemple. C'est un cas défavorable qui empêche d'évaluer la qualité
-du contre-exemple et empêche également de le classifier.
+du contre-exemple dans certains cas.
 On cherche à isoler ces cas pour en réduire le pourcentage.
 Le cas «~INCOMPLETE~» rélève lui aussi des problèmes dans l'évaluation de
 la validité du contre-exemple retourné par le prouveur. Les raisons
 peuvent être diverses, et les analyser permettra de classer correctement plus
-de contre-exemples.
+de contre-exemples. La table suivant ce paragraphe expose les principales
+raisons menant au cas «~INCOMPLETE~».
 La ligne «~NORMAL~» correspond à un modèle retourné par le prouveur qui ne
 viole aucune contrainte du code. Ces cas seront analysés pour comprendre
 pourquoi le proveur a retourné des modèles qui ne constitue pas un
 contre-exemple pour la propriété que l'on cherche à prouver et permettra de
 déterminer les leviés possibles pour l'amélioration des contre-exemples dans J3.
 Enfin, la ligne «~FAILURE~» correspond au cas d'un contre-exemple correct, c'est
-donc le cas favorable. L'objectif général est d'augmenter le taux
+donc le cas favorable.
+
+\begin{center}
+  \rowcolors{2}{gray!25}{white}
+  \begin{tabular}{|l|r|r|}
+  \hline
+  \rowcolor{gray!50} Réponse
+  & \multicolumn{1}{p{0.65\textwidth}|}{explication}
+  & \multicolumn{1}{p{0.13\textwidth}|}{nombre d'occurrences}
+    \\
+STUCK & failure in pre/postcondition/loop invariant               &  35 \\
+INCOMPLETE & terminated because Postcondition cannot be evaluated &  76 \\
+INCOMPLETE & terminated because Precondition cannot be evaluated  &  13 \\
+INCOMPLETE & terminated because missing value for return value    &  12 \\
+INCOMPLETE & terminated because Assertion cannot be evaluated     &   6 \\
+INCOMPLETE & terminated with uncaught exception                   &   6 \\
+    \hline
+\end{tabular}
+\end{center}
+
+L'objectif général est d'augmenter le taux
 de contre-exemples classé dans cette dernière catégorie et de diminuer les
 taux des trois autres catégories.
 
@@ -532,14 +553,27 @@ prouveur qui ne sont pas des contre-exemples.
 
 \section{Travail futur}
 
-Quelles autres statistiques peut-on vouloir? plus de détail sur les cas ``cannot decide'' ?
+Dans le futur, il serait souhaitable pour obtenir de meilleures statistiques
+et notamment en tentant d'avoir plus de détails sur les cas classés comme
+«~cannot decide~» dans l'exécution à pas de géant du côté de Why3 ou les cas
+correspondant à «~unsupported~» de l'exécution à petits pas du côté de SPARK.
+Des statistiques sur les cas d'erreurs et les cas pour lesquels aucun
+diagnostique n'a pu être retourné par l'exécution à petits pas de J3.
 
-Futur: extraire depuis les contre-exemples classifiés comme NC des
-exploits. Peut-etre un besoin d'indentifier des exemples dédiés sur lesquels on
-sait que des exploits existent, et on veut montrer que l'on sait les identifier.
+Il serait aussi souhaitable de mettre en place une infrastructure de production
+de contre-exemples pour Creusot~\cite{denis22icfem} de manière à obtenir des
+contre-exemples sur du code généré ayant une forme différente de celui généré
+par SPARK ou J3, et donc d'identifier des problèmes différents qui n'aurait pas
+pu être identifiés préalablement.
 
-Un travail futur est également de créer une infrastructure de production de
-contre-exemples pour Creusot~\cite{denis22icfem}.
+D'autre part, les statisques ont été faite avec une version d'Alt-Ergo ayant
+quelques mois. Il serait souhaitable de refaire ces expérimentations avec une
+version plus récente pour évaluer les dernières améliorations du prouveur.
+
+Enfin, il serait souhaitable de rajouter dans la suite de tests des exemples
+de code en C ou en Ada comportant des failles de sécurité avérée pour en tirer
+des conclusions sur la capacités des outils de génération de contre-exemple à
+générer des exploits pour de telles failles.
 
 \clearpage
 
