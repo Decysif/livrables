@@ -109,7 +109,7 @@ utilisés pour ces tests sont indiqués dans le fichier
 Une exécution de référence de ces tests a été lancée le 15 avril 2024
 sur le serveur de calcul «~moloch~» de l'équipe Inria Toccata. Ce
 serveur dispose de 16 c{\oe}urs «~Intel(R) Xeon(R) CPU E5-2450 v2 @
-2.50GHz~» et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
+2.50GHz~» et de 64 Go de mémoire centrale. Pour ces tests, 8 c{\oe}urs
 ont été utilisés. Sur chaque fichier source, on demande à Why3 de
 générer l'obligation de preuve de chaque fonction, de découper la
 formule générée en plusieurs sous-formules, puis on appelle un jeu de
@@ -151,12 +151,12 @@ référence, le nombre total d'obligation de preuve est de 41389:
 
 Des statistiques plus fines peuvent être calculées à la demande sur
 les fichiers de sessions. Par exemple, la figure~\ref{fig:AEvsCVC5}
-une représentation graphique qui compare les performances de Alt-Ergo
+est une représentation graphique qui compare les performances de Alt-Ergo
 et de cvc5 sur le jeu de test.
 
-En fin de projet, une exécution similaire des outils améliorés seront
-rejoués sur les même exemples, et on évaluera les améliorations
-apportées en terme de pourcentage de preuve automatique réussies.
+En fin de projet, des exécutions similaires des outils améliorés seront
+rejouées sur les mêmes exemples, et on évaluera les améliorations
+apportées en terme de pourcentage de preuves automatiques réussies.
 
 \subsection{Exemples écrits spécifiquement pour le projet Décysif}
 
@@ -189,7 +189,7 @@ répertoire.
 Un deuxième script \verb/run.sh/ permet de lancer Why3 sur tous les fichiers
 sexp préalablement générés. Why3 tente ensuite de faire prouver les obligations
 de preuve généré par les prouveurs Alt-Ergo 2.5.2, CVC4 1.8, cvc5 1.0.8 et
-Z3 4.8.17. Une exécution de référence de ces tests a été lancé le 6 juin 2024
+Z3 4.8.17. Une exécution de référence de ces tests a été lancée le 6 juin 2024
 sur une machine disposant de 12 c{\oe}urs «~11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz~» et disposant de 16~Go de RAM.
 Les résultats sont enregistrés dans de fichier de session de preuve et peuvent
 donner lieu à plusieurs statistiques.
@@ -220,7 +220,7 @@ les prouveurs utilisés pour la preuve et affichant le résultat sous une forme
 similaire à celle présentée dans la section précédente. Ces résultats peuvent
 être trouvés dans le sous-dossier \url{results/2024-06-06}.
 
-\subsection*{Examples écrits spécifiquement pour le projet}
+\subsection{Exemples écrits spécifiquement pour le projet Décysif}
 
 Le dossier \url{j3_handcrafted} contient des examples de programmes C
 relativement basiques qui mettent en échec les différents prouveurs CVC4, cvc5,
@@ -231,7 +231,7 @@ s'attendre à qu'ils soient prouvés automatiquement.
 
 \section{Exemples issus de SPARK}
 
-\subsection{Jeu d'exemples de programmes écrits en SPARK et extraits vers WhyML}
+\subsection{Jeu d'exemples de programmes écrits en SPARK et extraits en WhyML}
 
 Le sous-répertoire \url{spark_examples} contient le jeu d'exemples extrait du
 bench d'exemples de la distribution de SPARK, formé de code source dans le
@@ -259,7 +259,7 @@ utilisés pour ces tests sont indiqués dans le fichier
 Une exécution de référence de ces tests a été lancée le 11 juin 2024
 sur le serveur de calcul «~moloch~» de l'équipe Inria Toccata. Ce
 serveur dispose de 16 c{\oe}urs «~Intel(R) Xeon(R) CPU E5-2450 v2 @
-2.50GHz~» et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
+2.50GHz~» et de 64 Go de mémoire centrale. Pour ces tests, 8 c{\oe}urs
 ont été utilisés. Sur chaque fichier source, on demande à Why3 de
 générer l'obligation de preuve de chaque fonction, de découper la
 formule générée en plusieurs sous-formules, puis on appelle un jeu de
@@ -288,7 +288,7 @@ référence, le nombre total d'obligation de preuve est de 135036:
 \end{tabular}
 \end{center}
 
-\subsection{Jeu d'exemples de VC écrites en SMT-LIB2}
+\subsection{Exemples écrits spécifiquement pour le projet Décysif}
 
 Le sous-répertoire \url{spark_handcrafted} contient le jeu d'exemples de VC
 écrites directement au format SMT-LIB2 à partir de VC provenant de la suite de
@@ -308,9 +308,9 @@ référence, les prouveurs Alt-Ergo 2.4.0, cvc5 1.0.5 et Z3 4.12.4 et Colibri
   \begin{tabular}{|l|r|r|r|}
     \hline
   \rowcolor{gray!50} Prouveur
-  & \multicolumn{1}{p{0.13\textwidth}|}{arithmétique entière (51 VC)}
-  & \multicolumn{1}{p{0.13\textwidth}|}{arithmétique de bit-vecteurs (20 VC)}
-  & \multicolumn{1}{p{0.13\textwidth}|}{arithmétique mixte entière et bit-vecteurs (8 VC)}
+  & \multicolumn{1}{p{0.2\textwidth}|}{arithmétique entière (51 VC)}
+  & \multicolumn{1}{p{0.2\textwidth}|}{arithmétique de bit-vecteurs (20 VC)}
+  & \multicolumn{1}{p{0.2\textwidth}|}{arithmétique mixte entière et bit-vecteurs (8 VC)}
   \\
   Alt-Ergo 2.4.0                &  8 &  0 & 0  \\
   cvc5 1.0.5                    & 38 &  1 & 0 \\
@@ -326,21 +326,18 @@ Le répertoire \url{creusot_examples} contient un jeu de tests issus de
 l'outil Creusot~\cite{denis22icfem}.
 
 Ces exemples se présentent sous la forme de fichiers mlcfg, un format d'entrée supporté par Why3.
-
 Les fichiers mlcfg intégrés ont été générés avec la version 0.1 de
 Creusot.
-
 Ce jeu est constitué d'une sélection d'exemples issus du
 sous-répertoire \url{tests/should_succeed}. Cette sélection ignore
 simplement les petits tests unitaires visant à tester des features
 individuelles de Creusot.
-
-Ce jeu de tests sera amené à etre complété à l'avenir (cf section de conclusion).
+Ce jeu de tests sera amené à être complété à l'avenir (cf section de conclusion).
 
 Une exécution de référence de ces tests a été lancée le 3 juillet 2024
 sur le serveur de calcul «~moloch~» de l'équipe Inria Toccata. Ce
 serveur dispose de 16 c{\oe}urs «~Intel(R) Xeon(R) CPU E5-2450 v2 @
-2.50GHz~» et de 64 Go de memoire centrale. Pour ces tests, 8 c{\oe}urs
+2.50GHz~» et de 64 Go de mémoire centrale. Pour ces tests, 8 c{\oe}urs
 ont été utilisés. Sur chaque fichier source, on demande à Why3 de
 générer l'obligation de preuve de chaque fonction, de découper la
 formule générée en plusieurs sous-formules, puis on appelle un jeu de
@@ -369,8 +366,6 @@ référence, le nombre total d'obligation de preuve est de 4706:
 \end{tabular}
 \end{center}
 
-
-
 \section{Travail futur}
 
 Les statistiques présentées mettent en avant les nombres totaux de VC prouvées
@@ -387,13 +382,13 @@ de tests, comme le successeur Colibri2 de Colibri, et les prouveurs dReal et
 Gappa spécialisés pour les problèmes d'arithmétique en virgule flottante.
 
 Dans le cadre de J3, nous aimerions égalemnt constituer une suite de tests
-constitués de quelques exemples de code C++ possédant leur propres spécificités.
+constituée de quelques exemples de code C++ possédant leur propre spécificité.
 
-Dans le futur, nous penson également compléter le jeu de test de
+Dans le futur, nous pensons également compléter le jeu de test de
 Creusot par des exemples complexes, on pense à CreuSAT~\cite{skotam22creusat}
 (\url{https://github.com/sarsko/creusat}) et cdsat
-(\url{https://github.com/xldenis/cdsat}). Par ailleurs, il se trouvent
-que dans son fonctionnement, Creusot fait une usage particulier de la
+(\url{https://github.com/xldenis/cdsat}). Par ailleurs, il se trouve
+que dans son fonctionnement, Creusot fait un usage particulier de la
 théorie des séquences, qui semble être une théorie diffficle pour les
 prouveurs. On pourra donc être amené à isoler dans notre jeu de tests
 les exemples qui échouent à cause des séquences, afin de fournir un
