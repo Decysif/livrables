@@ -105,10 +105,10 @@
   \maketitle
 \end{frame}
 
-% \begin{frame}
-%   \frametitle{Outline}
-%   \tableofcontents
-% \end{frame}
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents
+\end{frame}
 
   \AtBeginSection[]{
   \begin{frame}
@@ -117,6 +117,9 @@
   \end{frame}
 }
 
+\section{Alt-Ergo}
+
+\subsection{Counterexamples}
 
 \begin{frame}{Counterexamples}
 
@@ -125,7 +128,7 @@
   \item Syntax \texttt{.k0}, \texttt{.k1} in models: what does it
     mean? Issue reported
     \url{https://github.com/OCamlPro/alt-ergo/issues/1270}
-  \item Negative real constants. Iissue reported \url{https://github.com/OCamlPro/alt-ergo/issues/1271}
+  \item Negative real constants. Issue reported \url{https://github.com/OCamlPro/alt-ergo/issues/1271}
   \end{itemize}
 \end{block}
 \vfill
@@ -136,6 +139,18 @@
 
   \end{block}
 \end{frame}
+
+\begin{frame}{Actions regarding counterexamples}
+
+  What else?
+  \begin{itemize}
+  \item investigate issues from the Why3 side (all the ``warnings'')
+  \item On OCamlPro side?
+  \end{itemize}
+
+\end{frame}
+
+\subsection{Bitvectors}
 
 \begin{frame}{Bitvectors}
 
@@ -196,6 +211,40 @@
 
 \end{frame}
 
+\begin{frame}{Actions regarding bitvectors}
+
+  What else?
+
+  \begin{itemize}
+  \item Put a specific set of benchmarks in the Decysif git?
+  \item Test with J3?
+  \item OCamlPro: add support for \texttt{bv2int}?
+  \item Side remark: could AE support non-standard \texttt{pow2} function (cvc5 has \texttt{int.pow2})
+  \item ?
+  \end{itemize}
+
+\end{frame}
+
+\subsection{Polymorphism, ADTs}
+
+\begin{frame}{Polymorphism}
+
+  Issue to report regarding counterexamples
+
+\end{frame}
+
+\begin{frame}{ADTs}
+
+  AE 2.5.4 support for ADTs was not satisfactory enough
+
+  AE 2.6.0 to be tested ?
+
+  Should we design a set of benchmarks dedicated to ADTs?
+
+\end{frame}
+
+\subsection{Steps}
+
 \begin{frame}{About ``Steps''}
 
   \begin{itemize}
@@ -216,6 +265,16 @@
 
 \end{frame}
 
+\begin{frame}{Actions regarding ``steps''}
+
+  \begin{itemize}
+  \item{} [OCamlPro] Implement a \texttt{-{}-steps-per-goal} option?
+  \item{} [OCamlPro] Make sure steps ``advance'' enough in any part of the code
+  \end{itemize}
+
+\end{frame}
+
+\subsection{Benchmarks Decysif}
 
 \begin{frame}{Benchmarks Decysif}
 
@@ -226,6 +285,7 @@
 
 \end{frame}
 
+\section{Rust}
 
 \begin{frame}{Rust and Creusot}
 
