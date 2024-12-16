@@ -1,124 +1,81 @@
-\documentclass[a4paper,twoside]{article}
+\documentclass[a4paper,11pt]{article}
 
-% fonts
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{mathptmx}
-\usepackage[scaled=0.8]{beramono}
 
-% geometry
-\usepackage[a4paper,centering]{geometry}
-\setlength{\marginparwidth}{2cm}
-
-% Inria research report
-\usepackage{RR}
-
-% extra packages
+\usepackage[a4paper,text={160mm,220mm},centering]{geometry}
 
 \usepackage{hyperref}
-\usepackage{xspace}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
 
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amsthm}
+\lstset{basicstyle={\ttfamily}}
 
-\usepackage[color=yellow!45!white,linecolor=black,textsize=footnotesize]{todonotes}
-
-\usepackage{why3lang}
-
-% placement of figures
-\renewcommand\floatpagefraction{0.99}
-\renewcommand{\textfraction}{0.01}
-\renewcommand{\topfraction}{0.99}
-\renewcommand{\bottomfraction}{0.99}
-\setcounter{topnumber}{4}
-% \setcounter{bottomnumber}{4}
-% \setcounter{totalnumber}{8}
-
-
-\newcommand{\ie}{\textit{i.e.\/}\xspace}
-\newcommand{\eg}{\textit{e.g.\/}\xspace}
-
-
-\RRNo{XXXX}    % TODO
-% \RTNo{XXXX}
-%%
-%% date de publication du rapport
-\RRdate{xxx 2024}
-%%
-%% Cas d'une version deux
-%% \RRversion{2}
-%% date de publication de la version 2
-%% \RRdater{November 2008}
-%%
-\RRauthor{% les auteurs
-  Claude Marché\thanks[toccata]{Université Paris-Saclay, CNRS, ENS Paris-Saclay, Inria,
-    LMF, 91190, Gif-sur-Yvette, France}
-}
-%% Ceci apparait sur chaque page paire.
-\authorhead{Marché}
-%% titre francais long
-\RRtitle{Un état de l'art des modèles mémoires pour les programmes à pointeurs\thanks{Ces recherches ont été partiellement financées par Décysif TODO....}}
-%% English title
-\RRetitle{A state of the art of memory models for pointer programs\thanks{This work has been partially supported by Décysif... TODO}}
-%%
-\titlehead{Memory Models for Pointer Programs}
-%%
-% \RRnote{This is a note}
-% \RRnote{This is a second note}
-%%
-\RRresume{A FAIRE}
-
-\RRabstract{TO DO}
-
-%%
-\RRmotcle{Vérification déductive, Programmes à pointeurs, Modèles mémoire}
-%
-\RRkeyword{Deductive Verification, Pointer programs, Memory models}
-%%
-\RRprojet{Toccata}  % cas d'un seul projet
-% \RRprojets{Apics and Op\'era and Marelle}
-%%
-%% \URLorraine % pour ceux qui sont \`a l'est
-%% \URRennes  % pour ceux qui sont \`a l'ouest
-%% \URRhoneAlpes % pour ceux qui sont dans les montagnes
-%% \URRocq % pour ceux qui sont au centre de la France
-%% \URFuturs % pour ceux qui sont dans le virtuel
-%% \URSophia % pour ceux qui sont au Sud.
-%%
-%% \RCBordeaux % centre de recherche Bordeaux - Sud Ouest
-%% \RCLille % centre de recherche Lille Nord Europe
-%% \RCParis % Paris Rocquencourt
-\RCSaclay % Saclay \^Ile de France
-%% \RCGrenoble % Grenoble - Rh\^one-Alpes
-%% \RCNancy % Nancy - Grand Est
-%% \RCRennes % Rennes - Bretagne Atlantique
-%% \RCSophia % Sophia Antipolis M\'editerran\'ee
-
-
-% \maketitle
-
-\newtheorem{definition}{Definition}[section]
-\newtheorem{example}[definition]{Example}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{theorem}[definition]{Theorem}
-
+\usepackage{todonotes}
 
 \begin{document}
 \sloppy\hbadness=9999
-%%
-\makeRR   % cas d'un rapport de recherche
-% \makeRT % cas d'un rapport technique.
-%% a partir d'ici, chacun fait comme il le souhaite
 
+\thispagestyle{empty}
+
+\unitlength=1mm
+\begin{picture}(140,30)
+\put(-10,30){\includegraphics[height=12mm]{../images/TIS-logo.png}}
+\put(-10,11){\includegraphics[height=22mm]{../images/adacore.png}}
+\put(-6,0){\includegraphics[height=12mm]{../images/logo_ocamlpro.png}}
+\put(125,30){\includegraphics[height=10mm]{../images/Universite_Paris_Saclay_logo.png}}
+\put(127,12){\includegraphics[height=16mm]{../images/cnrs.png}}
+\put(123,0){\includegraphics[height=12mm]{../images/logo-inria-reduced.png}}
+\end{picture}
+
+\vfill
+
+\begin{center}
+
+{  \Huge\bfseries
+  Projet Décysif --- Livrable 3.1 }
+
+\bigskip
+
+{ \LARGE\bfseries Memory Models for Pointer Programs: a State of the
+  Art from the Point of View of Décysif Partners }
+
+
+\vfill
+
+\large January 2025
+
+\vfill
+
+\large
+% Yannick Moy (AdaCore),
+% Guillaume Cluzel (TrustInSoft),
+% Matteo Manighetti (Inria \& Université Paris-Saclay),
+Claude Marché (Inria \& Université Paris-Saclay)
+
+
+\end{center}
+
+\vfill
+
+\noindent\begin{picture}(140,30)
+\put(0,0){\includegraphics[width=0.3\textwidth]{../images/Logo_Bpifrance.png}}
+\put(70,0){\includegraphics[width=0.3\textwidth]{../images/LOGO_RIDF_2019_COULEUR.png}}
+\put(145,0){\includegraphics[width=0.1\textwidth]{../images/Logo-France-2030-rouge-bleu.png}}
+\end{picture}
+
+\noindent Le projet Décysif est financé par la Région Île-de-France et par le Gouvernement
+Français dans le cadre du Plan France 2030
+
+\clearpage
 
 \tableofcontents
 \clearpage
 
-\listoffigures
-
-\clearpage
+% \listoffigures
+% \clearpage
 
 \section{Introduction}
 
@@ -128,48 +85,102 @@ behaviour, with the use of techniques based of automated theorem proving. In
 this context, the specification is written in some formal mathematical language,
 and the conformity of the code with respect to the specification is
 automatically reduced into a set of mathematical formulas than must proved
-valid. When the computer programs considered are expressed in programming
+valid. When the computer programs considered are expressed in a programming
 language making use of pointers to access their memory heap, the interpretation
 of programs into mathematical formulas must rely on a logical description of
 such pointers and memory heap: the so-called \emph{memory model}.
 
 When reasoning mathematically on pointer programs, the suitability of the memory
 model is crucial. One major challenge is the potential \emph{aliasing} of memory
-contents: when using pointers, the same memory cell cannot be denoted by
-different ``names'',or ``access path''. Modification of the memory content
+contents: when using pointers, the same memory cell can be denoted by
+multiple ``names'', or ``access paths''. Modification of the memory content
 through one of these names should be taken into account when accessing the same
-memory cell via another name. More generally, blocks of memory cells can be read
-of written through access path, and these blocks may overlap. The property of
+memory cell via another name. More generally, \emph{blocks} of memory cells can be read
+or written through such access paths, and these blocks may \emph{overlap}. The property of
 non-overlapping for memory blocks is called their \emph{separation}. Separation
 assumptions play an important role when reasoning about pointer
 programs~\cite{bornat00mpc}.
 
-Such a memory model cannot be described uniformly among different programming
+A memory model cannot be described uniformly among different programming
 languages. On the contrary, a specific memory model must be defined for each
-programming languages considered. It is even possible to consider several memory
-models for different supported of some programming language. \todo{cite
-  Frama-C/WP ?}. The Décysif project gathers partners involved in the design of several
-programming language involving different approaches for memory access. They
-develop tools that each contains different approaches for delaing with
-separation: the tool Why3 for WhyML programs, the SPARK environment for Ada
-code, the J3 analyzer for C and C++ code, and the Creusot tool for Rust code.
+programming language considered. It is even possible to consider several memory
+models for different supported subsets of a given programming language, as in
+the Wp plug-in of the Frama-C environment for analysis of C
+code~\cite{blanchard2024wp}.
 
-The purpose of this document is to summarise the different memory models
-implemented in these tools, compare with existing approaches, and present some
-future work to do in Décysif.
+The Décysif project gathers partners involved in the design of
+verification environments for several programming languages, involving
+different approaches for memory access. They develop multiple tools and each of them
+contains a different approach for dealing with aliasing and separation: the tool
+Why3 for WhyML programs, the SPARK environment for Ada code, the J3
+analyzer for C and C++ code, and the Creusot tool for Rust code.
 
-% Generalities about memory models ?
+Generally speaking, there are numerous technical challenges related to the
+design of memory models. This is not the purpose of this document to review
+them. Instead we recommend to the interested reader the reading of a survey on
+that purpose by Leavens \emph{et. al.}~\cite{leavens07}.  The purpose of this
+document is focused to summarise the different memory models implemented in the
+Decysif partners tools, fosuing on the important design choices, and briefly
+compare them with each other and with other existing approaches in the
+international community of deductive verification. From such a summary, we
+derive and expose some future work we want to perform in the context of the
+Décysif project.
 
-TODO: Overview of the document.
+TODO: Overview of the document: Section~\ref{sec:why3}, Section~\ref{sec:spark},
+Section~\ref{sec:j3}, Section~\ref{sec:creusot}, Section~\ref{sec:related},
+Section~\ref{sec:future}.
 
 \section{The memory model of Why3}
+\label{sec:why3}
 
-The region-based aliasing analysis of Why3~\cite{gondelman16reg}.
+The Why3
+environment~\cite{filliatre13esop,bobot14sttt,blazy19fmtea,paskevich20isola} is
+designed and developed by the Inria partner of Décysif. It is not an environment
+for a particular mainstream programming language such as C or Java. Instead, it
+is designed as a \emph{generic} environment for deductive verification. This
+genericity comes into different aspects. First, Why3 proposes its own
+programming language, called WhyML, dedicated to deductive verification, in the
+sense that it is designed to ease the generation of verification conditions,
+making the proof of these formulas as automatic as possible. This relies on a
+second generic aspect of Why3: its ability to communicate with a large set of
+provers to discharge the verification conditions~\cite{boogie11why3}. A third
+generic aspect of Why3 is its suitability to be used as an intermediate language
+for deductive verification: as a matter of fact, WhyML is used as an
+intermediate language by the other tools mentioned below: Spark, J3 and Creusot.
 
-Common current issues. E.g. with specification, with proof automation, with
-counterexamples.
+In the WhyML language, mutability of memory is supported, but to control the
+difficulties coming from aliasing and separation, mutation of memory is
+controlled by a dedicated powerful static typing system. This typing system is
+expressed on top of important notions of \emph{ownership} and
+\emph{regions}~\cite{gondelman16reg}. Thanks to this typing system, the
+potential issues with aliasing and memory separation are handled \emph{during}
+the generation of VCs, so that the generated formulas do not need to take
+aliasing anymore into account. Roughly speaking, the generated VCs are as simple
+as if they were coming from a purely functional programming language, with no
+memory mutability at all. One must understand in particular that this approach
+differs fundamentally with other approaches well-known in the litterature, such
+as \emph{separation logic} or \emph{dynamic frames}, where non-aliasing and
+separation properties are still present in the logic formulas to be proved
+valid, which makes the work of provers significantly more difficult. The
+powerful region-based mechanism of Why3 comes at a cost though: the set of
+programs that one is writing in WhyML must pass the type checking, which means
+the programmer must think carefully about how the side effects in their program
+must be expressed.
+
+The research work around Why3 is still active nowadays, e.g. regarding
+the design of better constructs for writing specifications, the
+improvement of the ratio of proof automation, or the generation of
+counterexamples when proofs
+fail~\cite{dailler18jlamp,becker21fide}. In the context of Décysif,
+the efforts are planned on two directions: the design of an
+alternative to WhyML, and the improvement of counterexamples
+generation to better suit the need of frontends of the partners. These
+are details in Section~\ref{sec:future} below.
 
 \section{The memory model of Spark}
+\label{sec:spark}
+
+  \todo{Premier jet par Claude, rédaction à reprendre par AdaCore, Claire ?}
 
 Complete absence of pointers at first, then partial support of pointers, aliased
 controlled using a borrow checker~\cite{dross20cav,jaloyan20icfem}.
@@ -180,6 +191,7 @@ Common current issues. E.g. with specification, with proof automation, with
 counterexamples.
 
 \section{The memory model of J3}
+\label{sec:j3}
 
 Aims at supporting low-level C code, with arbitrary pointer casts. Inspired by
 CompCert V2~\cite{leroy12rr}. Herms thesis~\cite{herms13phd}.
@@ -191,40 +203,77 @@ of separation similar to the old plugin
 Jessie~\cite{hubert2008these,hubert07hav}.
 
 
+\paragraph{positioning}
+
+Frama-C/WP~\cite{blanchard2024wp}
+
+Frama-C/Jessie , separation analysis~\cite{hubert2008these,hubert07hav}
+
+C code, separation logic, VST, Appel Bertot, Verifast
+
+
 \section{The memory model of Creusot}
+\label{sec:creusot}
+
+  \todo{Premier jet par Claude, rédaction à reprendre par l'équipe Creusot, Jacques-Henri ?}
 
 Relies on Rust's borrow checker to propose a translation to Why3. mutable
 borrows are translated to pairs of current value and future final value
 (prophecy).\cite{denis23phd,denis22icfem,matsushita22pldi}.
 
-\section{Comparison with other tools}
+\paragraph{positioning}
 
-Frama-C/WP~
+Prusti~\cite{astrauskas19oopsla}, aeneas~\cite{ho22icfp}
 
-Frama-C/Jessie , separation analysis~\cite{hubert2008these,hubert07hav}
 
-C code, separation logic, VST, Appel Bertot
+\section{Comparison with Tools for Other Languages}
+\label{sec:related}
 
 Java, JML, data groups~\cite{breunesse03ftfjp}, universes~\cite{Dietl05jot}
 
-Spec\# ~\cite{BarnettLS04}
+Spec\# ~\cite{BarnettLS04}, dynamic frames, Dafny
 
-CFML~\cite{chargueraud08icfp}, gospel~\cite{gospelfm19}
+CFML~\cite{chargueraud08icfp}, gospel~\cite{gospelfm19}, Cameleer~\cite{DBLP:conf/cav/PereiraR20}
 
-Rust: Prusti~\cite{astrauskas19oopsla}, aeneas~\cite{ho22icfp}
 
-\section{Conclusions and Future Work}
+\section{Future Work within Décysif}
+\label{sec:future}
 
-Future work
-\begin{itemize}
-\item New intermediate language in Why3, continuation-based. On going thesis of
+
+
+\begin{description}
+\item[Flexible Abstraction Barriers]
+
+  New intermediate language in Why3, called Coma, continuation-based. On going thesis of
   Paul Patault.
-\item Separation analysis for J3.
-\item Support for concurrency in Creusot, Support for ghost aliasing, on-going
+
+\item[From Counterexamples to Exploits]
+
+  Better support for counterexamples, needs to makes memory models
+  more concrete, more ``executable-like'', to obtain directly test
+  case in frontends to be replayed as exploits.
+
+\item[Future Work in SPARK]
+  \todo{Rédacteur Souhaité: AdaCore, Claire ?}
+
+  Exploits ?
+
+  Add prophecies in the Spec lang of SPARK?
+
+\item[J3]
+
+  Separation analysis for its memory model
+
+  Executability for exploit
+
+\item[Extensions of Creusot]
+
+  Support for concurrency in Creusot, Support for ghost aliasing, on-going
   thesis of Arnaud Golfouse.
-\item Better support for counterexamples, needs to makes memory models more
-  concrete, more ``executable-like''
-\end{itemize}
+
+\item[CEs in Creusot]
+
+\end{description}
 
 \bibliographystyle{plainurl}
 %\bibliography{abbrevs,demons,demons2,demons3,team,crossrefs}
