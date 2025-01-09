@@ -133,6 +133,9 @@ Section~\ref{sec:future}.
 \section{The memory model of Why3}
 \label{sec:why3}
 
+\todo[inline]{Premier jet par Claude $\to$ relecture souhaitée par Andrei et
+  Jean-Christophe}
+
 The Why3
 environment~\cite{filliatre13esop,bobot14sttt,blazy19fmtea,paskevich20isola} is
 designed and developed by the Inria partner of Décysif. It is not an environment
@@ -146,7 +149,7 @@ second generic aspect of Why3: its ability to communicate with a large set of
 provers to discharge the verification conditions~\cite{boogie11why3}. A third
 generic aspect of Why3 is its suitability to be used as an intermediate language
 for deductive verification: as a matter of fact, WhyML is used as an
-intermediate language by the other tools mentioned below: Spark, J3 and Creusot.
+intermediate language by the other tools mentioned below: SPARK, J3 and Creusot.
 
 In the WhyML language, mutability of memory is supported, but to control the
 difficulties coming from aliasing and separation, mutation of memory is
@@ -177,18 +180,42 @@ alternative to WhyML, and the improvement of counterexamples
 generation to better suit the need of front-ends of the partners. These
 are details in Section~\ref{sec:future} below.
 
-\section{The memory model of Spark}
+\section{The Memory Model of SPARK}
 \label{sec:spark}
 
-  \todo{Premier jet par Claude, rédaction à reprendre par AdaCore, Claire ?}
+\todo[inline]{Premier jet par Claude $\to$ rédaction à reprendre par AdaCore,
+  Claire (qui peut déléguer!)}
 
-Complete absence of pointers at first, then partial support of pointers, aliased
-controlled using a borrow checker~\cite{dross20cav,jaloyan20icfem}.
+Originally in the 90s, SPARK appeared as a subset of Ada, suitable to be
+equipped with specifications in Z~\cite{carre90} that can be formally
+verified. In 2014, SPARK2014~\cite{mccormick15} was released as a complete
+re-implementation of SPARK, made compatible with Ada 2012, a version of Ada that
+introduced specification contracts as part of Ada. Since that time, SPARK is
+using WhyML as an intermediate language, and Why3 as a verification condition
+generator.
 
-How the translation to Why3 works.
+The Ada subset supported by SPARK is highly restricted regarding to use of
+pointers (called access types in Ada) and memory allocation. In essence, these
+pointers are forbidden, so that no possible aliasing can take place. This high
+restriction allows to translate SPARK programs into WhyML with a simple
+\emph{flat} memory model, where all mutable locations are identified as WhyML
+mutable variables. Such a choice made the generation of VCs simple enough to
+obtain a satisfactory level of automation of proofs, and also allowed the
+possibility of generation meaningfull counterexamples~\cite{dailler18jlamp}.
 
-Common current issues. E.g. with specification, with proof automation, with
-counterexamples.
+Yet, disallowing the use of access types in SPARK is highly restrictive. In
+2020, the SPARK developers introduced some support for them. To control aliasing,
+a technique inspired by the Rust borrowing policy and the Prusti tool was
+designed and implemented~\cite{dross20cav,jaloyan20icfem}. An essential idea
+being that technique is that each aliasing is statically known by the type
+system, so that programs can continue to be translated into an aliasing-free
+WhyML program. Later on, the method implemented was slightly modified to follow
+the idea of \emph{prophetic encoding} introduced originally by Matsushita et
+al~\cite{matsushita20esop}.
+
+Nowadays, the major issues with SPARK remain the need to increase the ratio of
+automation of proofs, and to produce better counterexamples. The objectives for
+SPARK in the Décysif project are detailed in Section~\ref{sec:future} below.
 
 \section{The memory model of J3}
 \label{sec:j3}
@@ -211,6 +238,7 @@ Frama-C/Jessie , separation analysis~\cite{hubert2008these,hubert07hav}
 
 C code, separation logic, VST, Appel Bertot, Verifast
 
+Isabelle/C
 
 \section{The memory model of Creusot}
 \label{sec:creusot}
@@ -229,13 +257,25 @@ Prusti~\cite{astrauskas19oopsla}, aeneas~\cite{ho22icfp}
 \section{Comparison with Tools for Other Languages}
 \label{sec:related}
 
-Java, JML, data groups~\cite{breunesse03ftfjp}, universes~\cite{Dietl05jot}
+Java, ESC-Java, JML, data groups~\cite{breunesse03ftfjp}, universes~\cite{Dietl05jot}
 
-Spec\# ~\cite{BarnettLS04}, dynamic frames, Dafny
+Spec\# ~\cite{BarnettLS04},
 
-CFML~\cite{chargueraud08icfp}, gospel~\cite{gospelfm19}, Cameleer~\cite{DBLP:conf/cav/PereiraR20}
+Separation Logic appeared in 2002, but hardly any automated tool first
 
-Scala, Stainless, EPFL [ijcar 2024 ?]
+dynamic frames, Dafny~\cite{leino14fide}
+
+Iris~\cite{iris17}
+
+Ynot in Coq, CFML~\cite{chargueraud08icfp}, gospel~\cite{gospelfm19}, Cameleer~\cite{DBLP:conf/cav/PereiraR20}
+
+VST, separation logic upon CompCert memory model (already above)
+
+Isabelle/?   (Isabelle/C already above)
+
+Viper, Prusti, Vercors
+
+Scala -> Stainless, EPFL [ijcar 2024 ?]
 
 \section{Future Work within Décysif}
 \label{sec:future}
@@ -257,9 +297,11 @@ Scala, Stainless, EPFL [ijcar 2024 ?]
 \item[Future Work in SPARK]
   \todo{Rédacteur Souhaité: AdaCore, Claire ?}
 
-  Exploits ?
+  Increase level of automation ?
 
-  Add prophecies in the Spec lang of SPARK?
+  Turning counterexamples into true ``exploits'', that is concrete test cases exposed vulnerabilities ?
+
+  Add prophecies in the Specification language of SPARK ?
 
 \item[J3]
 
