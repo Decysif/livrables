@@ -50,10 +50,12 @@
 \vfill
 
 \large
-% Yannick Moy (AdaCore),
-% Guillaume Cluzel (TrustInSoft),
-% Matteo Manighetti (Inria \& Université Paris-Saclay),
-Claude Marché (Inria \& Université Paris-Saclay)
+Claude Marché (Inria \& Université Paris-Saclay),
+Guillaume Cluzel (TrustInSoft),
+Claire Dross (AdaCore),
+Jean-Christophe Filliâtre (CNRS \& Université Paris-Saclay),
+Jacques-Henri Jourdan (CNRS \& Université Paris-Saclay),
+Andrei Paskevich (Université Paris-Saclay),
 
 
 \end{center}
@@ -100,6 +102,7 @@ or written through such access paths, and these blocks may \emph{overlap}. The p
 non-overlapping for memory blocks is called their \emph{separation}. Separation
 assumptions play an important role when reasoning about pointer
 programs, an early reference publication on that subject is due to Bornat in 2000~\cite{bornat00mpc}.
+\todo{mentionner les grands points: separation logic, dynamic frames}
 
 A memory model cannot be described uniformly among different programming
 languages. On the contrary, a specific memory model must be defined for each
@@ -130,7 +133,7 @@ TODO: Overview of the document: Section~\ref{sec:why3}, Section~\ref{sec:spark},
 Section~\ref{sec:j3}, Section~\ref{sec:creusot}, Section~\ref{sec:related},
 Section~\ref{sec:future}.
 
-\section{The memory model of Why3}
+\section{The Memory Model of Why3}
 \label{sec:why3}
 
 \todo[inline]{Premier jet par Claude $\to$ relecture souhaitée par Andrei et
@@ -217,7 +220,7 @@ Nowadays, the major issues with SPARK remain the need to increase the ratio of
 automation of proofs, and to produce better counterexamples. The objectives for
 SPARK in the Décysif project are detailed in Section~\ref{sec:future} below.
 
-\section{The memory model of J3}
+\section{The Memory Model of J3}
 \label{sec:j3}
 
 \todo[inline]{Premier jet par Claude $\to$ rédaction à reprendre par TrustInSoft,
@@ -303,22 +306,50 @@ proof failure, or even counterexamples.
 Notice finally that J3 has the ambition to be applied on C++ code, which is
 hardly supported by any other tool.
 
-\section{The memory model of Creusot}
+\section{The Memory Model of Creusot}
 \label{sec:creusot}
 
-  \todo{Premier jet par Claude, rédaction à reprendre par l'équipe Creusot, Jacques-Henri ?}
+\todo[inline]{Premier jet par Claude, rédaction à reprendre par l'équipe
+  Creusot, Jacques-Henri ?}
 
-Relies on Rust's borrow checker to propose a translation to Why3. mutable
-borrows are translated to pairs of current value and future final value
-(prophecy).\cite{denis23phd,denis22icfem,matsushita22pldi}.
+Creusot is a tool for deductive verification of Rust programs, developed by
+Inria. The Rust programming language has a unique feature: it is equipped with a
+very elaborated static typing system, so that when a program passes this type
+checker, it can be considered \emph{safe} in the sense that it is free from
+undefined behavior related to memory access.
+
+Creusot leverages on this property to produce verification conditions for safe
+Rust programs, that are do not need to express anymore any property regarding
+aliasing and memory separation. To achieve this Creusot uses a memory model
+involving a so-called prophetic encoding of mutable borrows, which roughly
+amounts to represent a borrow by a pair of its current value and its future
+value and the end of its lifetime~\cite{denis22icfem,denis23phd}.  Technically,
+Creusot translates Rust into Why3 where memory read and write are encoded in
+WhyML mutables variables. Thanks to that approach, the obtained verification
+conditions are significantly easier to be discharged by automated provers.  The
+soundness of the translation based on prophetic encoding has been proved valid
+using Coq and its RustBelt library~\cite{matsushita22pldi}.
 
 \paragraph{Positioning}
 
-Prusti~\cite{astrauskas19oopsla}, aeneas~\cite{ho22icfp}
+Historically, Prusti~\cite{astrauskas19oopsla} is the first tool to implement a
+verifier for Rust programs, leveraging on the borrow checker. A significant
+difference with Creusot is that Prusti encodes Rust code into Viper, which is an
+intermediate language based on separation logic. Technically, this means that
+Prusti is not limited to safe Rust as Creusot is, so supports a larger subset of
+Rust. On the other hand, the generated verification are significantly harder to
+discharge by automated provers, as shown by the benchmarks we
+did~\cite{denis23phd}.
+
+TODO positioning with Aeneas~\cite{ho22icfp} \todo{Jacques-Henri}
+
+TODO positioning with AWS \todo{Jacques-Henri}
 
 
-\section{Comparison with Tools for Other Languages}
+\section{Additional Comparison and Positioning}
 \label{sec:related}
+
+with Tools for Other Languages
 
 Java, ESC-Java, JML, data groups~\cite{breunesse03ftfjp}, universes~\cite{Dietl05jot}
 
@@ -340,7 +371,9 @@ Viper, Prusti, Vercors
 
 Scala -> Stainless, EPFL [ijcar 2024 ?]
 
-\section{Future Work within Décysif}
+Conclusion: TODO, nos outils ont des modeles ... sauf J3
+
+\section{Planned Future Work within Décysif}
 \label{sec:future}
 
 
