@@ -105,7 +105,7 @@ A memory model cannot be described uniformly among different programming
 languages. On the contrary, a specific memory model must be defined for each
 programming language considered. It is even possible to consider several memory
 models for different supported subsets of a given programming language, as in
-the Wp plug-in of the Frama-C environment for analysis of C
+the WP plug-in of the Frama-C environment for analysis of C
 code~\cite{blanchard2024wp}.
 %
 The Décysif project gathers partners involved in the design of
@@ -188,7 +188,7 @@ are details in Section~\ref{sec:future} below.
 
 Originally in the 90s, SPARK appeared as a subset of Ada, suitable to be
 equipped with specifications in Z~\cite{carre90} that can be formally
-verified. In 2014, SPARK2014~\cite{mccormick15} was released as a complete
+verified. In 2014, AdaCore released SPARK2014~\cite{mccormick15} as a complete
 re-implementation of SPARK, made compatible with Ada 2012, a version of Ada that
 introduced specification contracts as part of Ada. Since that time, SPARK is
 using WhyML as an intermediate language, and Why3 as a verification condition
@@ -210,8 +210,8 @@ designed and implemented~\cite{dross20cav,jaloyan20icfem}. An essential idea
 being that technique is that each aliasing is statically known by the type
 system, so that programs can continue to be translated into an aliasing-free
 WhyML program. Later on, the method implemented was slightly modified to follow
-the idea of \emph{prophetic encoding} introduced originally by Matsushita et
-al~\cite{matsushita20esop}.
+the idea of \emph{prophetic encoding} introduced originally by Matsushita \emph{et
+al}~\cite{matsushita20esop}.
 
 Nowadays, the major issues with SPARK remain the need to increase the ratio of
 automation of proofs, and to produce better counterexamples. The objectives for
@@ -220,25 +220,87 @@ SPARK in the Décysif project are detailed in Section~\ref{sec:future} below.
 \section{The memory model of J3}
 \label{sec:j3}
 
-Aims at supporting low-level C code, with arbitrary pointer casts. Inspired by
-CompCert V2~\cite{leroy12rr}. Herms thesis~\cite{herms13phd}.
+\todo[inline]{Premier jet par Claude $\to$ rédaction à reprendre par TrustInSoft,
+  Guillaume (qui peut déléguer!)}
 
-How the translation to Why3 works. Bitvectors everywhere~\cite{fumex16nfm}.
+Since its creation in 2013, TrustInSoft develops TIS-Analyzer, an environment
+for formal analysis of C and C++ source code. The central method for analyzing
+code is an abstract interpretation engine, that is aimed at detecting undefined
+behaviors in any kind of C programs. To complement the use of abstract
+interpretation when alarms are signaled, it was decided in 2020 to design and implement
+a new plug-in, called J3, to apply deductive verification techniques on such C
+and C++ code.
 
-Not yet supported but future work: static analysis
-of separation similar to the old plugin
-Jessie~\cite{hubert2008these,hubert07hav}.
+The initial design of J3 included important decision regarding the supported
+subset of C. In essence, it was decided that any kind of code should be
+supported. That includes low-level C code, making using of complex low-level,
+architecture-dependent bit-wise manipulation, but also arbitrary use of
+pointers, and conversion (cast) of such pointers. Memory allocation and freeing
+must be supported too, so as any kind of aliasing and memory overlap. To reach
+such an ambiguous goal, but not starting everything from scratch, it was decided
+to reuse some existing memory model, namely it was decided to use CompCert
+V2~\cite{leroy12rr} memory model, already formalized in Coq, and the basis of
+the C semantics on which the verified C compiler CompCert operates.
 
+The formalization of the memory model for J3 is done using WhyML, it makes heavy
+use of bit-vectors~\cite{fumex16nfm}. It explicitly defines the notions of memory
+blocks and permissions, so that at the end, generated verification conditions
+for a C code contains explicit pointers, predicates expressing separation (or
+not separation) and other memory-related concepts. A consequence of this design
+is that in its current state, the proofs done using J3 suffer from a poor ratio
+of automation. It is one of the objective in Décysif to increase this ratio.
+
+Another important design choice for J3 was the will to obtain a counterexample
+when a proof fails. In its current state, J3 is able to produce such
+counterexamples in some cases, but overall the methodology needs significant
+improvement. Even more, it is a central goal in Décysif to be able to turn such
+a counterexample into an \emph{exploit}, that is an explicit test case that
+exposes a vulnerability regarding safety or security.
+
+The Décysif objectives for J3 are detailed below in Section~\ref{sec:future}.
 
 \paragraph{positioning}
 
-Frama-C/WP~\cite{blanchard2024wp}
+J3 is far from being the only tool for deductive verification of C
+code. Historically, Frama-C/WP~\cite{blanchard2024wp} is a deductive
+verification plugin for Frama-C, the environment from which TIS-Analyzer was
+derived. WP design was guided by different choices, in particular it does not
+attempt to support any kind of memory aliasing. On the contrary, it provides a
+set of variants of memory model where separation is partially or even totally
+assumed. Also, it wasn't designed with the need of counterexample in mind, and
+only very recently has this as an experimental new feature. Comparison between
+J3 and WP on that matter will be interesting to investigate in the future.
 
-Frama-C/Jessie , separation analysis~\cite{hubert2008these,hubert07hav}
+Jessie is another historic deductive verification plugin for Frama-C, designed
+on top of the predecessor of Why3. It is not maintained anymore. J3 design
+inherits in part from Jessie. It is in particular planned to resurrect in J3 a
+static separation analysis similar to the one of
+Jessie~\cite{hubert2008these,hubert07hav}
 
-C code, separation logic, VST, Appel Bertot, Verifast
+VCC~\cite{dahlweid09icse} was historically another tool for deductive
+verification of C, inspired by Spec\# ownership (see Section~\ref{sec:related}
+below). Not any kind of memory aliasing was supported. It is not maintained
+anymore.
+%
+VST~\cite{appel11esop} is an environment built on top of CompCert and a Coq
+formalization of separation logic. To perform a proof of some C code, it is
+mandatory to use the Coq system, thus having a low level of automation. An
+advantage though is that the underlying memory model is low-level and precise.
+%
+Verifast~\cite{jacobs11nfm} is a tool for deductive verification of C (and Java)
+code. It relies on separation logic and/or dynamic frames. To perform proofs,
+the code must be annotated by the user to explicit the reasoning regarding
+opening or closing definitions of memory-related representation predicates.
+%
+Isabelle/C~\cite{tuong19fide} is an environment for reasoning on C code on top
+of Isabelle/HOL and its layer AutoCorres for imperative programs. To perform
+proofs it is mandatory to use the Isabelle system interactively.
+%
+Generally speaking, the tools above are not designed to produce exploits in case of
+proof failure, or even counterexamples.
 
-Isabelle/C
+Notice finally that J3 has the ambition to be applied on C++ code, which is
+hardly supported by any other tool.
 
 \section{The memory model of Creusot}
 \label{sec:creusot}
@@ -305,7 +367,9 @@ Scala -> Stainless, EPFL [ijcar 2024 ?]
 
 \item[J3]
 
-  Separation analysis for its memory model
+  Separation analysis for its memory model. static analysis
+of separation similar to the old plugin
+Jessie~\cite{hubert2008these,hubert07hav}.
 
   Executability for exploit
 
