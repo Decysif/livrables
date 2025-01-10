@@ -94,15 +94,18 @@ such pointers and of the memory heap: the so-called \emph{memory model}.
 
 When reasoning mathematically on pointer programs, the suitability of the memory
 model is crucial. One major challenge is the potential \emph{aliasing} of memory
-contents: when using pointers, the same memory cell can be denoted by
-multiple ``names'', or ``access paths''. Modification of the memory content
-through one of these names should be taken into account when accessing the same
-memory cell via another name. More generally, \emph{blocks} of memory cells can be read
-or written through such access paths, and these blocks may \emph{overlap}. The property of
-non-overlapping for memory blocks is called their \emph{separation}. Separation
-assumptions play an important role when reasoning about pointer
-programs, an early reference publication on that subject is due to Bornat in 2000~\cite{bornat00mpc}.
-\todo{mentionner les grands points: separation logic, dynamic frames}
+contents: when using pointers, the same memory cell can be denoted by multiple
+``names'', or ``access paths''. Modification of the memory content through one
+of these names should be taken into account when accessing the same memory cell
+via another name. More generally, \emph{blocks} of memory cells can be read or
+written through such access paths, and these blocks may \emph{overlap}. The
+property of non-overlapping for memory blocks is called their
+\emph{separation}. Separation assumptions play an important role when reasoning
+about pointer programs, an early reference publication on that subject is due to
+Bornat in 2000~\cite{bornat00mpc}.  Since then, many different approaches for
+dealing with memory aliasing and separation have been proposed, including the
+landmark proposal \emph{separation logic}~\cite{reynolds02lics}. We discuss them
+more in Section~\ref{sec:related}.
 
 A memory model cannot be described uniformly among different programming
 languages. On the contrary, a specific memory model must be defined for each
@@ -349,76 +352,156 @@ TODO positioning with AWS \todo{Jacques-Henri}
 \section{Additional Comparison and Positioning}
 \label{sec:related}
 
-with Tools for Other Languages
+\todo[inline]{Premier jet par Claude, relectures souhaitées}
 
-Java, ESC-Java, JML, data groups~\cite{breunesse03ftfjp}, universes~\cite{Dietl05jot}
+There are other mainstream programming languages for which deductive
+verification tools exists. Historically, even before 2000, Java was one the
+first of these languages, starting with the tool ESC-Java~\cite{escjava98} for
+which the specification language JML~\cite{Burdy04} was invented. At that time
+there were very few techniques for handling conveniently the heap memory. In the
+early 2000s, JML featured a notion of \emph{data groups}~\cite{breunesse03ftfjp}
+for such a purpose, coming with early notions of \emph{ownership}, as it was
+implemented in the Spec\#~\cite{BarnettLS04} tool for C\#, or similar notions of
+\emph{universes}~\cite{Dietl05jot}.
 
-Spec\# ~\cite{BarnettLS04},
+Separation Logic~\cite{reynolds02lics} appeared around the same time in 2002,
+but at first there were hardly any automated tool using it, because of the lack
+of automated reasoning techniques dedicated to this special from of logic.
 
-Separation Logic appeared in 2002, but hardly any automated tool first
+In 2006 was proposed the concept of \emph{dynamic frames}~\cite{kassios2006fm}
+which was seen as an alternative to separation logic more amenable to automated
+reasoning, in particular with the variant of \emph{implicit dynamic
+  frames}~\cite{Smans09} which was implemented in new tools like
+VeriFast~\cite{jacobs11nfm} (2009, for Java and C) and
+Dafny~\cite{Dafny,leino14fide} (2010, featuring its own object-oriented
+programming language).
 
-dynamic frames, Dafny~\cite{leino14fide}
+Separation Logic obtained a more obvious success in the context of interactive
+theorem proving tools. It is exemplified say by the Iris~\cite{iris17} library
+for Coq. Separation Logic implemented in Coq gave birth to tools like
+Ynot~\cite{nanevski08icfp} and CFML~\cite{chargueraud08icfp}, both dealing with
+their own ML-like language. As already mentioned above in Section~\ref{sec:j3},
+this line of approach is applied to the C programming language nowadays: the
+Verified Software Toolchain (VST) builds upon the CompCert memory model and
+separation logic to allow (interactive) proofs of C programs in Coq, and
+Isabelle/simple provide an infrastructure for reasoning about imperative
+programs in Isabelle/HOL, on top of which is built the
+Isabelle/C~\cite{tuong19fide} environment and the
+AutoCorres~\cite{greenaway14pldi} tool.
 
-Iris~\cite{iris17}
+More recently in 2016 appeared the environment
+Viper~\cite{MuellerSchwerhoffSummers16}, which is meant as a generic environment
+for automated verification using separation logic/dynamic frames. It is used as
+an intermediate language for the Prusti tool for Rust (already mentioned in
+Section~\ref{sec:creusot}) and Vercors~\cite{armborst24cav}.
 
-Ynot in Coq, CFML~\cite{chargueraud08icfp}, gospel~\cite{gospelfm19}, Cameleer~\cite{DBLP:conf/cav/PereiraR20}
+Tools exists for the deductive verification of OCaml programs, namely the
+Gospel~\cite{gospelfm19} environment which combines different techniques
+including separation logic in Coq, and Cameleer~\cite{DBLP:conf/cav/PereiraR20}
+which proceeds by translation into Why3. For the Scala programming language
+there exist the Stainless tool~\cite{chassot24ijcar}.
 
-VST, separation logic upon CompCert memory model (already above)
-
-Isabelle/?   (Isabelle/C already above)
-
-Viper, Prusti, Vercors
-
-Scala -> Stainless, EPFL [ijcar 2024 ?]
-
-Conclusion: TODO, nos outils ont des modeles ... sauf J3
+To conclude with this section of overall positioning, let's emphasize that with
+the tool we develop in Décysif (in Why3, SPARK and Creusot but with the notable
+exception of J3) we adopt a general approach were aliasing and separation is
+handled in an early stage of static typing based on ownership-like concepts,
+allowing to produce verification conditions that do not include anymore
+memory-related notions. This make the generated verification conditions more
+amenable to automation. J3 is an exception, since there is a will to support all
+C features even to most low-level ones. This is why improving the memory model
+of J3 remains an important future work in Décysif.
 
 \section{Planned Future Work within Décysif}
 \label{sec:future}
 
-
+We conclude this document with a review of the research actions that are planned
+with Décysif related to the memory models and the tools support.
 
 \begin{description}
 \item[Flexible Abstraction Barriers]
 
-  New intermediate language in Why3, called Coma, continuation-based. On going thesis of
-  Paul Patault.
+  \todo[inline]{Premier jet Claude, please amend JCF and Andrei}
+  The on-going PhD thesis of Paul Patault is aimed at the design of an
+  intermediate language in Why3, as an alternative of WhyML. The goal is to
+  relax the standard approach were function calls act as a mandatory abstraction
+  barrier: classically, when reasoning about a function call, only the contract
+  of that function is visible. The new intermediate language under design, now
+  called Coma, is based on a continuation passing style. It is intended to use
+  Coma as a target from Creusot, as Coma offers new possibilities in particular
+  regarding the translation of Rust closures.
 
-\item[From Counterexamples to Exploits]
-
-  Better support for counterexamples, needs to makes memory models
-  more concrete, more ``executable-like'', to obtain directly test
-  case in frontends to be replayed as exploits.
+  The model of mutable memory in Coma remains to be decided.
 
 \item[Future Work in SPARK]
-  \todo{Rédacteur Souhaité: AdaCore, Claire ?}
+
+  \todo[inline]{Rédacteur Souhaité: AdaCore, Claire ?}
 
   Increase level of automation ?
 
-  Turning counterexamples into true ``exploits'', that is concrete test cases exposed vulnerabilities ?
+  Turning counterexamples into true ``exploits'', that is concrete test cases
+  exposed vulnerabilities ?
 
   Add prophecies in the Specification language of SPARK ?
 
 \item[J3]
 
-  Separation analysis for its memory model. static analysis
-of separation similar to the old plugin
-Jessie~\cite{hubert2008these,hubert07hav}.
+  \todo[inline]{Premier jet Claude, please amend Guillaume}
 
-  Executability for exploit
+  So far, the memory model of J3 does not give satisfactory results regarding
+  the ratio of automated proofs (see benchmarks from deliverable 2.1), and
+  there are plans to make it better. One important axis is to implement a static
+  analysis of separation, similar to the one of the former plugin
+  Jessie~\cite{hubert2008these,hubert07hav}, so that the generated verification
+  conditions become simpler, with less need for memory-related predicate.
+
+  The main axis of work on J3 is towards the generation of exploits. It means
+  that the potential counterexamples that are obtained from Why3 when proof
+  fails (see benchmarks from deliverable 1.1) must be turn into concrete test
+  cases for the original C code.
 
 \item[Extensions of Creusot]
 
-  Support for concurrency in Creusot, Support for ghost aliasing, on-going
-  thesis of Arnaud Golfouse.
+  \todo[inline]{Premier jet Claude, please amend Jacques-Henri}
 
-\item[CEs in Creusot]
+  The on-going PhD thesis of Arnaud Golfouse is aimed at extending the subset of
+  Rust that is supported by Creusot. This include support for concurrent
+  programs, support for the so-called ghost aliasing.
+
+  Supporting this extended set of Rust features need to reconsider the
+  prophecy-based modeling, providing adequate extensions, show them correct,
+  implement them, and evaluate them on concrete Rust code.
+
+\item[From Counterexamples to Exploits]
+
+  \todo[inline]{Premier jet Claude, please amend Guillaume}
+
+  As already said above for J3, one major goal in the Décysif project is the
+  generation of exploits from alarms obtained in the analyzers. When such an
+  alarm is raised at a given location of a source, it means that the analyzer
+  was not able to guarantee that the corresponding piece of code is safe
+  regarding safety and security. Constructing an exploit is a way to be able to
+  decide if such an alarm is a real bug or a false alarm.
+
+  The current objective is to start from potential counterexamples suggested by
+  provers (see benchmarks in deliverable 1.1) and turn them into real test cases
+  to be replayed with a concrete execution of the suspicious code.
+
+  This objective is shared between J3 and SPARK
+
+\item[Counterexamples in Creusot]
+
+  \todo[inline]{Premier jet Claude, please comment}
+
+  So far Creusot is not designed with the ability to produce counterexamples in
+  case of proof failure. This is thus another plan within Décysif to make this
+  possible, including the fact that, in a second step, these counterexamples
+  should be turned into exploits to be executed on the Rust original code.
 
 \end{description}
 
 \bibliographystyle{plainurl}
-\bibliography{abbrevs,demons,demons2,demons3,team,crossrefs}
-%\bibliography{generated,extra}
+%\bibliography{abbrevs,demons,demons2,demons3,team,crossrefs}
+\bibliography{generated,extra}
 
 %\clearpage
 
