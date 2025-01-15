@@ -432,8 +432,27 @@ with Décysif related to the memory models and the tools support.
 
 \item[Memory model for Coma]
 
- \todo[inline]{Andrei}
-  The model of mutable memory in Coma remains to be decided.
+  In the context of the Coma verification language (see above),
+  we want to explore a new abstraction/refinement mechanism for
+  programs with mutable state.
+  %
+  On the implementation side, this mechanism would admit arbitrary
+  pointer aliasing, allowing us to verify algorithms with complex
+  pointer structure.
+  % for which usual ownership-based methods would be too restrictive.
+  This verification would rely on memory models, which grant us
+  greater expressiveness, at the price of more complex specification
+  and reasoning.
+  %
+  On the interface side, these memory models would be hidden and a
+  simple alias-free specification would allow us to apply simpler
+  Hoare-style reasoning to verify the client code.
+  %
+  A typical example would be hash tables, whose implementation uses
+  mutable singly-linked lists for buckets, but whose specification
+  only requires a single mutable variable containing a dictionary.
+  %
+  This work is the subject of an ongoing PhD thesis in Toccata.
 
 \item[Future Work in SPARK]
 
