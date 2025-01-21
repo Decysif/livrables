@@ -192,29 +192,29 @@ are details in Section~\ref{sec:future} below.
 \todo[inline]{Premier jet par Claude $\to$ rédaction à reprendre par AdaCore,
   Claire (qui peut déléguer!)}
 
-Originally in the 90s, SPARK appeared as a subset of Ada, suitable to be
-equipped with specifications in Z~\cite{carre90} that can be formally
-verified. In 2014, AdaCore released SPARK2014~\cite{mccormick15} as a complete
+During the 1990s, SPARK emerged as a tool used to formally verify a subset of 
+the Ada language~\cite{carre90}. In 2014, AdaCore released
+SPARK2014~\cite{mccormick15} as a complete
 re-implementation of SPARK, made compatible with Ada 2012, a version of Ada that
-introduced specification contracts as part of Ada. Since that time, SPARK is
+introduced specification contracts as part of Ada. Since that time, SPARK has been
 using WhyML as an intermediate language, and Why3 as a verification condition
 generator.
 
-The Ada subset supported by SPARK is highly restricted regarding to use of
-pointers (called access types in Ada) and memory allocation. In essence, these
-pointers are forbidden, so that no possible aliasing can take place. This high
-restriction allows to translate SPARK programs into WhyML with a simple
+The Ada subset supported by SPARK highly restricts aliasing. It enforces a policy
+to ensure that a mutable object can only be accessed through a single name.
+This restriction allows translating SPARK programs into WhyML with a simple
 \emph{flat} memory model, where all mutable locations are identified as WhyML
-mutable variables. Such a choice made the generation of VCs simple enough to
-obtain a satisfactory level of automation of proofs, and also allowed the
-possibility of generation meaningfull counterexamples~\cite{dailler18jlamp}.
+mutable variables. Such a choice makes the generation of VCs simple enough to
+obtain a satisfactory level of automation of proofs, and also allows generating
+meaningful counterexamples~\cite{dailler18jlamp}.
 
-Yet, disallowing the use of access types in SPARK is highly restrictive. In
-2020, the SPARK developers introduced some support for them. To control aliasing,
+Because they easily introduce aliasing, pointers (called access types in Ada)
+and memory allocation have been disallowed for a long time. In 2020, the
+SPARK tool was extended to support them. To control aliasing,
 a technique inspired by the Rust borrowing policy and the Prusti tool was
 designed and implemented~\cite{dross20cav,jaloyan20icfem}. An essential idea
-being that technique is that each aliasing is statically known by the type
-system, so that programs can continue to be translated into an aliasing-free
+behind that technique is that each alias is statically known by the type
+system so that programs can continue to be translated into an aliasing-free
 WhyML program. Later on, the method implemented was slightly modified to follow
 the idea of \emph{prophetic encoding} introduced originally by Matsushita \emph{et
 al}~\cite{matsushita20esop}.
@@ -458,13 +458,24 @@ with Décysif related to the memory models and the tools support.
 \item[Future Work in SPARK]
 
   \todo[inline]{Rédacteur Souhaité: AdaCore, Claire ?}
+  
+  The main pain points for users of pointers in SPARK currently are the multiple
+  restrictions enforced to ensure statically recognizable aliases. We plan to work on
+  investigating which restrictions can be relaxed to improve the expressivity of
+  the language without losing the simple and efficient encoding of the memory
+  model inside WhyML.
 
-  Increase level of automation ?
+  Increasing the level of automation inside the tool is also an axis of improvement.
+  In particular, pointer-based recursive data-structures are currently encoded in a
+  way which does not always give statisfactory results. We plan to work on improving
+  our translation to WhyML and its underlying solvers.
 
-  Turning counterexamples into true ``exploits'', that is concrete test cases
-  exposed vulnerabilities ?
-
-  Add prophecies in the Specification language of SPARK ?
+  Finally, we would like to investigate relaxing some of the non-aliasing constraints
+  imposed by SPARK in non-executable ghost code. Indeed, such constraints are
+  generally necessary to ensure compatibility between the executable semantics
+  of the Ada code and how it is encoded for verification inside Why3. On code purely
+  meant for analysis, it might be possible to relax some of these constraints without
+  compromising soundness, like is done in Creusot.
 
 \item[J3]
 
