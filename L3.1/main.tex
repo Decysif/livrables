@@ -423,7 +423,7 @@ with Décysif related to the memory models and the tools support.
   \todo[inline]{Premier jet Claude, please amend JCF and Andrei. Andrei: possibly copy the ``perspectives'' document}
   The on-going PhD thesis of Paul Patault is aimed at the design of an
   intermediate language in Why3, as an alternative of WhyML. The goal is to
-  relax the standard approach were function calls act as a mandatory abstraction
+  relax the standard approach where function calls act as a mandatory abstraction
   barrier: classically, when reasoning about a function call, only the contract
   of that function is visible. The new intermediate language under design, now
   called Coma, is based on a continuation passing style. It is intended to use
@@ -448,9 +448,10 @@ with Décysif related to the memory models and the tools support.
   simple alias-free specification would allow us to apply simpler
   Hoare-style reasoning to verify the client code.
   %
-  A typical example would be hash tables, whose implementation uses
-  mutable singly-linked lists for buckets, but whose specification
-  only requires a single mutable variable containing a dictionary.
+  A typical example would be the design of a reusable software component for
+  mutable maps, whose implementation uses hash tables and mutable singly-linked
+  lists for buckets, but whose specification only requires a single mutable
+  variable containing a dictionary.
   %
   This work is part the ongoing PhD thesis of Paul Patault at Inria.
 
