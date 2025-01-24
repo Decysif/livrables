@@ -226,9 +226,6 @@ SPARK in the Décysif project are detailed in Section~\ref{sec:future} below.
 \section{The Memory Model of J3}
 \label{sec:j3}
 
-\todo[inline]{Premier jet par Claude $\to$ rédaction à reprendre par TrustInSoft,
-  Guillaume (qui peut déléguer!)}
-
 Since its creation in 2013, TrustInSoft develops TIS-Analyzer, an environment
 for formal analysis of C and C++ source code. The central method for analyzing
 code is an abstract interpretation engine, that is aimed at detecting undefined
@@ -243,8 +240,8 @@ supported. That includes low-level C code, making use of complex, low-level,
 architecture-dependent, bit-wise manipulation, but also arbitrary use of
 pointers, and conversion (cast) of such pointers. Memory allocation and freeing
 must be supported too, so as any kind of aliasing and memory overlap. To reach
-such an ambiguous goal, but not starting everything from scratch, it was decided
-to reuse some existing memory model, namely it was decided to use CompCert
+such an ambitious goal, but not starting everything from scratch, it was decided
+to reuse some existing memory model, namely it was decided to use the CompCert
 V2~\cite{leroy12rr} memory model, a model already formalized in Coq and the basis of
 the C semantics on which the verified C compiler CompCert operates.
 
@@ -256,11 +253,11 @@ not separation) and other memory-related concepts. A consequence of this design
 is that in its current state, the proofs done using J3 suffer from a poor ratio
 of automation. It is one of the objective in Décysif to increase this ratio.
 
-Another important design choice for J3 was the will to obtain a counterexample
+Another important design requirement for J3 was the ability to obtain a counterexample
 when a proof fails. In its current state, J3 is able to produce such
 counterexamples in some cases, but overall the methodology needs significant
 improvement. Even more, it is a central goal in Décysif to be able to turn such
-a counterexample into an \emph{exploit}, that is an explicit test case that
+a counterexample into an \emph{exploit}, that is, an explicit test case that
 exposes a vulnerability regarding safety or security.
 
 The Décysif objectives for J3 are detailed below in Section~\ref{sec:future}.
@@ -271,7 +268,8 @@ J3 is far from being the only tool for deductive verification of C
 code. Historically, Frama-C/WP~\cite{blanchard2024wp} is a deductive
 verification plugin for Frama-C, the environment from which TIS-Analyzer was
 derived. WP design was guided by different choices than those of J3, in
-particular it does not attempt to support any kind of memory aliasing. On the
+particular it does not attempt to support any kind of memory aliasing.
+It also does not support low-level constructs such as unions or pointer casts. On the
 contrary, it provides a set of variants of memory models where separation is
 partially or even totally assumed. Also, it wasn't designed with the need of
 counterexamples in mind, and only very recently such a feature has been added as
@@ -355,18 +353,18 @@ TODO positioning with AWS \todo{Jacques-Henri}
 \todo[inline]{Premier jet par Claude, relectures souhaitées}
 
 There are other mainstream programming languages for which deductive
-verification tools exists. Historically, even before 2000, Java was one the
+verification tools exist. Historically, even before 2000, Java was among the
 first of these languages, starting with the tool ESC-Java~\cite{escjava98} for
 which the specification language JML~\cite{Burdy04} was invented. At that time
-there were very few techniques for handling conveniently the heap memory. In the
+there were very few techniques for handling the heap memory conveniently. In the
 early 2000s, JML featured a notion of \emph{data groups}~\cite{breunesse03ftfjp}
 for such a purpose, coming with early notions of \emph{ownership}, as it was
 implemented in the Spec\#~\cite{BarnettLS04} tool for C\#, or similar notions of
 \emph{universes}~\cite{Dietl05jot}.
 
 Separation Logic~\cite{reynolds02lics} appeared around the same time in 2002,
-but at first there were hardly any automated tool using it, because of the lack
-of automated reasoning techniques dedicated to this special from of logic.
+but at first there were hardly any automated tools using it, because of the lack
+of automated reasoning techniques dedicated to this special form of logic.
 
 In 2006 was proposed the concept of \emph{dynamic frames}~\cite{kassios2006fm}
 which was seen as an alternative to separation logic more amenable to automated
@@ -377,14 +375,14 @@ Dafny~\cite{Dafny,leino14fide} (2010, featuring its own object-oriented
 programming language).
 
 Separation Logic obtained a more obvious success in the context of interactive
-theorem proving tools. It is exemplified say by the Iris~\cite{iris17} library
+theorem proving tools. It is exemplified by the Iris~\cite{iris17} library
 for Coq. Separation Logic implemented in Coq gave birth to tools like
 Ynot~\cite{nanevski08icfp} and CFML~\cite{chargueraud08icfp}, both dealing with
 their own ML-like language. As already mentioned above in Section~\ref{sec:j3},
 this line of approach is applied to the C programming language nowadays: the
 Verified Software Toolchain (VST) builds upon the CompCert memory model and
 separation logic to allow (interactive) proofs of C programs in Coq, and
-Isabelle/simple provide an infrastructure for reasoning about imperative
+Isabelle/Simpl \todo{Claude: Citation schirmer} provides an infrastructure for reasoning about imperative
 programs in Isabelle/HOL, on top of which is built the
 Isabelle/C~\cite{tuong19fide} environment and the
 AutoCorres~\cite{greenaway14pldi} tool.
@@ -395,19 +393,23 @@ for automated verification using separation logic/dynamic frames. It is used as
 an intermediate language for the Prusti tool for Rust (already mentioned in
 Section~\ref{sec:creusot}) and Vercors~\cite{armborst24cav}.
 
-Tools exists for the deductive verification of OCaml programs, namely the
+
+
+Tools exist for the deductive verification of OCaml programs, namely the
 Gospel~\cite{gospelfm19} environment which combines different techniques
 including separation logic in Coq, and Cameleer~\cite{DBLP:conf/cav/PereiraR20}
 which proceeds by translation into Why3. For the Scala programming language
-there exist the Stainless tool~\cite{chassot24ijcar}.
+there exists the Stainless tool~\cite{chassot24ijcar}.
+
+\todo{À revoir Gospel/Cameller + stainless: Claude}
 
 To conclude with this section of overall positioning, let's emphasize that with
-the tool we develop in Décysif (in Why3, SPARK and Creusot but with the notable
-exception of J3) we adopt a general approach were aliasing and separation is
+the tools we develop in Décysif (in Why3, SPARK, and Creusot but with the notable
+exception of J3), we adopt a general approach where aliasing and separation are
 handled in an early stage of static typing based on ownership-like concepts,
-allowing to produce verification conditions that do not include anymore
-memory-related notions. This make the generated verification conditions more
-amenable to automation. J3 is an exception, since there is a will to support all
+allowing to produce verification conditions that do not include any further
+memory-related notions. This makes the generated verification conditions more
+amenable to automation. J3 is an exception, since there is a requirement to support all
 C features even to most low-level ones. This is why improving the memory model
 of J3 remains an important future work in Décysif.
 
@@ -479,19 +481,19 @@ with Décysif related to the memory models and the tools support.
 
 \item[J3]
 
-  \todo[inline]{Premier jet Claude, please amend Guillaume}
-
   So far, the memory model of J3 does not give satisfactory results regarding
   the ratio of automated proofs (see benchmarks from deliverable 2.1), and
   there are plans to make it better. One important axis is to implement a static
   analysis of separation, similar to the one of the former plugin
   Jessie~\cite{hubert2008these,hubert07hav}, so that the generated verification
-  conditions become simpler, with less need for memory-related predicate.
+  conditions become simpler, with less need for memory-related predicates.
 
   The main axis of work on J3 is towards the generation of exploits. It means
-  that the potential counterexamples that are obtained from Why3 when proof
-  fails (see benchmarks from deliverable 1.1) must be turn into concrete test
+  that the potential counterexamples that are obtained from Why3 when proofs
+  fail (see benchmarks from deliverable 1.1) must be turned into concrete test
   cases for the original C code.
+
+  Another axis of work for J3 is the generation of exploits not only on failed functional verification proofs, but also on alarms reported by the abstract interpretation engine. In that context the program is not fully annotated and the tool must instead constrain the counterexamples based on the values computed through abstract interpretation.
 
 \item[Extensions of Creusot]
 
@@ -506,8 +508,6 @@ with Décysif related to the memory models and the tools support.
   implement them, and evaluate them on concrete Rust code.
 
 \item[From Counterexamples to Exploits]
-
-  \todo[inline]{Premier jet Claude, please amend Guillaume}
 
   As already said above for J3, one major goal in the Décysif project is the
   generation of exploits from alarms obtained in the analyzers. When such an
