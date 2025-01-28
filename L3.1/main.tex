@@ -56,6 +56,7 @@ Claire Dross (AdaCore),
 Jean-Christophe Filliâtre (CNRS \& Université Paris-Saclay),
 Jacques-Henri Jourdan (CNRS \& Université Paris-Saclay),
 Andrei Paskevich (Université Paris-Saclay),
+Raphaël Rieu-Helft (TrustInSoft)
 
 
 \end{center}
@@ -132,9 +133,17 @@ approaches in the international community of deductive verification. From such a
 summary, we derive and expose some future work we want to perform in the context
 of the Décysif project.
 
-TODO: Overview of the document: Section~\ref{sec:why3}, Section~\ref{sec:spark},
-Section~\ref{sec:j3}, Section~\ref{sec:creusot}, Section~\ref{sec:related},
-Section~\ref{sec:future}.
+This document is organized as follows. Section~\ref{sec:why3} presents the
+modeling of memory in the Why3 tool (developed by Inria),
+Section~\ref{sec:spark} presents the memory model of the SPARK environment for
+Ada (developed by AdaCore), Section~\ref{sec:j3} presents the design choices for
+the memory model in the J3 plugin for TIS-Analyzer (developed by TrustInSoft),
+and Section~\ref{sec:creusot} presents the design choice for the memory model of
+the Creusot tool for Rust programs (developed by Inria). The latter sections
+already contains some element of positioning in the current state of the art,
+and Section~\ref{sec:related} expands such positioning. Section~\ref{sec:future}
+concludes by enumerating the different axis of work we planned within Décysif
+concerning memory models.
 
 \section{The Memory Model of Why3}
 \label{sec:why3}
@@ -184,7 +193,7 @@ fail~\cite{dailler18jlamp,becker21fide}. In the context of Décysif,
 the efforts are planned on two directions: the design of an
 alternative to WhyML, and the improvement of counterexamples
 generation to better suit the need of front-ends of the partners. These
-are details in Section~\ref{sec:future} below.
+are detailed in Section~\ref{sec:future} below.
 
 \section{The Memory Model of SPARK}
 \label{sec:spark}
@@ -459,7 +468,7 @@ with Décysif related to the memory models and the tools support.
 
 \item[Future Work in SPARK]
 
-  \todo[inline]{Rédacteur Souhaité: AdaCore, Claire ?}
+%  \todo[inline]{Rédacteur Souhaité: AdaCore, Claire ?}
 
   The main pain points for users of pointers in SPARK currently are the multiple
   restrictions enforced to ensure statically recognizable aliases. We plan to work on
@@ -482,7 +491,7 @@ with Décysif related to the memory models and the tools support.
 \item[J3]
 
   So far, the memory model of J3 does not give satisfactory results regarding
-  the ratio of automated proofs (see benchmarks from deliverable 2.1), and
+  the ratio of automated proofs (see benchmarks from deliverable~2.1), and
   there are plans to make it better. One important axis is to implement a static
   analysis of separation, similar to the one of the former plugin
   Jessie~\cite{hubert2008these,hubert07hav}, so that the generated verification
@@ -490,7 +499,7 @@ with Décysif related to the memory models and the tools support.
 
   The main axis of work on J3 is towards the generation of exploits. It means
   that the potential counterexamples that are obtained from Why3 when proofs
-  fail (see benchmarks from deliverable 1.1) must be turned into concrete test
+  fail (see benchmarks from deliverable~1.1) must be turned into concrete test
   cases for the original C code.
 
   Another axis of work for J3 is the generation of exploits not only on failed functional verification proofs, but also on alarms reported by the abstract interpretation engine. In that context the program is not fully annotated and the tool must instead constrain the counterexamples based on the values computed through abstract interpretation.
@@ -520,7 +529,7 @@ with Décysif related to the memory models and the tools support.
   provers (see benchmarks in deliverable 1.1) and turn them into real test cases
   to be replayed with a concrete execution of the suspicious code.
 
-  This objective is shared between J3 and SPARK
+  This objective is shared between J3 and SPARK.
 
 \item[Counterexamples in Creusot]
 
