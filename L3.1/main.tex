@@ -13,7 +13,7 @@
 
 \lstset{basicstyle={\ttfamily}}
 
-\usepackage{todonotes}
+% \usepackage{todonotes}
 
 \begin{document}
 \sloppy\hbadness=9999
@@ -148,8 +148,6 @@ concerning memory models.
 \section{The Memory Model of Why3}
 \label{sec:why3}
 
-% \todo[inline]{Premier jet par Claude $\to$ relecture souhaitée par Andrei et
-%   Jean-Christophe} % FAIT
 
 The Why3
 environment~\cite{filliatre13esop,bobot14sttt,blazy19fmtea,paskevich20isola} is
@@ -198,8 +196,6 @@ are detailed in Section~\ref{sec:future} below.
 \section{The Memory Model of SPARK}
 \label{sec:spark}
 
-% \todo[inline]{Premier jet par Claude $\to$ rédaction à reprendre par AdaCore,
-%   Claire (qui peut déléguer!)}
 
 During the 1990s, SPARK emerged as a tool used to formally verify a subset of
 the Ada language~\cite{carre90}. In 2014, AdaCore released
@@ -319,9 +315,6 @@ hardly supported by any other tool.
 \section{The Memory Model of Creusot}
 \label{sec:creusot}
 
-\todo[inline]{Premier jet par Claude, rédaction à reprendre par l'équipe
-  Creusot, Jacques-Henri ?}
-
 Creusot is a tool for deductive verification of Rust programs, developed by
 Inria. The Rust programming language has a unique feature: it is equipped with a
 very elaborated static typing system, so that when a program passes this type
@@ -351,15 +344,23 @@ Rust. On the other hand, the generated verification are significantly harder to
 discharge by automated provers, as shown by the benchmarks we
 did~\cite{denis23phd}.
 
-TODO positioning with Aeneas~\cite{ho22icfp} \todo{Jacques-Henri}
-
-TODO positioning with AWS \todo{Jacques-Henri}
+Several other teams develop verification tools for the Rust programming
+language.  Verus~\cite{lattuada23oopsla} is a verification tool for a language
+close to Rust, using SMT solvers as backend, developed jointly at CMU, Microsoft
+Research and MPI-SWS, and mostly targeting system code.  Aeneas~\cite{ho22icfp}
+is a verification tool developed jointly at Microsoft Research and Inria team
+Prosecco, which translates Rust programs into purely functional programs in
+proof assistants (like Lean or Coq), and mostly targeting cryptographic
+code. The Automated Reasoning Group at Amazon Web Service is interested in
+verification of Rust programs, they even proposed a crowd-sourced verification
+effort
+(\url{https://aws.amazon.com/blogs/opensource/verify-the-safety-of-the-rust-standard-library/}). The
+latter web page lists of few other tools for verification of Rust code.
 
 
 \section{Additional Comparison and Positioning}
 \label{sec:related}
 
-\todo[inline]{Premier jet par Claude, relectures souhaitées}
 
 There are other mainstream programming languages for which deductive
 verification tools exist. Historically, even before 2000, Java was among the
@@ -384,15 +385,15 @@ Dafny~\cite{Dafny,leino14fide} (2010, featuring its own object-oriented
 programming language).
 
 Separation Logic obtained a more obvious success in the context of interactive
-theorem proving tools. It is exemplified by the Iris~\cite{iris17} library
-for Coq. Separation Logic implemented in Coq gave birth to tools like
+theorem proving tools. It is exemplified by the Iris~\cite{iris17} library for
+Coq. Separation Logic implemented in Coq gave birth to tools like
 Ynot~\cite{nanevski08icfp} and CFML~\cite{chargueraud08icfp}, both dealing with
 their own ML-like language. As already mentioned above in Section~\ref{sec:j3},
 this line of approach is applied to the C programming language nowadays: the
 Verified Software Toolchain (VST) builds upon the CompCert memory model and
 separation logic to allow (interactive) proofs of C programs in Coq, and
-Isabelle/Simpl \todo{Claude: Citation schirmer} provides an infrastructure for reasoning about imperative
-programs in Isabelle/HOL, on top of which is built the
+Isabelle/Simpl~\cite{Schirmer-PhD} provides an infrastructure for reasoning
+about imperative programs in Isabelle/HOL, on top of which is built the
 Isabelle/C~\cite{tuong19fide} environment and the
 AutoCorres~\cite{greenaway14pldi} tool.
 
@@ -403,14 +404,16 @@ an intermediate language for the Prusti tool for Rust (already mentioned in
 Section~\ref{sec:creusot}) and Vercors~\cite{armborst24cav}.
 
 
-
 Tools exist for the deductive verification of OCaml programs, namely the
 Gospel~\cite{gospelfm19} environment which combines different techniques
 including separation logic in Coq, and Cameleer~\cite{DBLP:conf/cav/PereiraR20}
-which proceeds by translation into Why3. For the Scala programming language
-there exists the Stainless tool~\cite{chassot24ijcar}.
-
-\todo{À revoir Gospel/Cameller + stainless: Claude}
+which proceeds by translation into Why3 (for OCaml programs where an alias-free
+memory model is enough) and Viper (when a more complex memory model is
+required).  The Lab for Automated Reasoning and Analysis
+(http://lara.epfl.ch/w/) at EPFL develops methods and tools for the verification
+of Scala programs. This includes the front-end tool
+Stainless~\cite{chassot24ijcar} and a backend called Inox which implements a
+logic and its translation to SMT solvers, in a way similar to Why3.
 
 To conclude with this section of overall positioning, let's emphasize that with
 the tools we develop in Décysif (in Why3, SPARK, and Creusot but with the notable
@@ -431,7 +434,6 @@ with Décysif related to the memory models and the tools support.
 \begin{description}
 \item[Flexible Abstraction Barriers]
 
-  % \todo[inline]{Premier jet Claude, please amend JCF and Andrei. Andrei: possibly copy the ``perspectives'' document}
   The on-going PhD thesis of Paul Patault is aimed at the design of an
   intermediate language in Why3, as an alternative of WhyML. The goal is to
   relax the standard approach where function calls act as a mandatory abstraction
@@ -467,8 +469,6 @@ with Décysif related to the memory models and the tools support.
   This work is part the ongoing PhD thesis of Paul Patault at Inria.
 
 \item[Future Work in SPARK]
-
-%  \todo[inline]{Rédacteur Souhaité: AdaCore, Claire ?}
 
   The main pain points for users of pointers in SPARK currently are the multiple
   restrictions enforced to ensure statically recognizable aliases. We plan to work on
@@ -506,8 +506,6 @@ with Décysif related to the memory models and the tools support.
 
 \item[Extensions of Creusot]
 
-  \todo[inline]{Premier jet Claude, please amend Jacques-Henri}
-
   The on-going PhD thesis of Arnaud Golfouse is aimed at extending the subset of
   Rust that is supported by Creusot. This include support for concurrent
   programs, support for the so-called ghost aliasing.
@@ -532,8 +530,6 @@ with Décysif related to the memory models and the tools support.
   This objective is shared between J3 and SPARK.
 
 \item[Counterexamples in Creusot]
-
-  \todo[inline]{Premier jet Claude, please comment}
 
   So far Creusot is not designed with the ability to produce counterexamples in
   case of proof failure. This is thus another plan within Décysif to make this
