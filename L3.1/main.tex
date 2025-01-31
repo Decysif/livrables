@@ -83,7 +83,7 @@ Français dans le cadre du Plan France 2030
 \section{Introduction}
 
 The term \emph{Deductive Verification} denotes the methodology for verifying
-that a computer programs is conforming to a specification of its intended
+that a computer program is conforming to a specification of its intended
 behavior, with the use of techniques based of automated theorem proving. In
 this context, the specification is written in some formal mathematical language,
 and the conformity of the code with respect to the specification is
@@ -138,7 +138,7 @@ modeling of memory in the Why3 tool (developed by Inria),
 Section~\ref{sec:spark} presents the memory model of the SPARK environment for
 Ada (developed by AdaCore), Section~\ref{sec:j3} presents the design choices for
 the memory model in the J3 plugin for TIS-Analyzer (developed by TrustInSoft),
-and Section~\ref{sec:creusot} presents the design choice for the memory model of
+and Section~\ref{sec:creusot} presents the design choices for the memory model of
 the Creusot tool for Rust programs (developed by Inria). The latter sections
 already contains some element of positioning in the current state of the art,
 and Section~\ref{sec:related} expands such positioning. Section~\ref{sec:future}
@@ -174,13 +174,13 @@ the generation of VCs, so that the generated formulas do not need to take
 aliasing anymore into account. Roughly speaking, the generated VCs are as simple
 as if they were coming from a purely functional programming language, with no
 memory mutability at all. One must understand in particular that this approach
-differs fundamentally with other approaches well-known in the literature, such
+differs fundamentally with other well-known approaches in the literature, such
 as \emph{separation logic}~\cite{Tuch_KN_07} or \emph{dynamic
   frames}~\cite{Smans09}, where non-aliasing and separation properties are still
 present in the logic formulas to be proved valid, which makes the work of
 provers significantly more difficult. The powerful region-based mechanism of
 Why3 comes at a cost though: the set of programs that one is writing in WhyML
-must pass the static type checking, which means the programmer must think carefully
+must pass the static type checking, which means the programmers must think carefully
 about how the side effects in their program must be expressed.
 
 The research work around Why3 is still active nowadays, e.g. regarding
@@ -322,7 +322,7 @@ checker, it can be considered \emph{safe} in the sense that it is free from
 undefined behavior related to memory access.
 
 Creusot leverages on this property to produce verification conditions for safe
-Rust programs, that are do not need to express anymore any property regarding
+Rust programs, that do not need to express anymore any property regarding
 aliasing and memory separation. To achieve this Creusot uses a memory model
 involving a so-called prophetic encoding of mutable borrows, which roughly
 amounts to represent a borrow by a pair of its current value and its future
@@ -507,8 +507,8 @@ with Décysif related to the memory models and the tools support.
 \item[Extensions of Creusot]
 
   The on-going PhD thesis of Arnaud Golfouse is aimed at extending the subset of
-  Rust that is supported by Creusot. This include support for concurrent
-  programs, support for the so-called ghost aliasing.
+  Rust that is supported by Creusot. This includes support for concurrent
+  programs, and support for the so-called ghost aliasing.
 
   Supporting this extended set of Rust features need to reconsider the
   prophecy-based modeling, providing adequate extensions, show them correct,
